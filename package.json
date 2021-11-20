@@ -8,6 +8,7 @@
     "prettier": "prettier --config ./.prettierrc --write \"./**/*.{js,ts,jsx,vue,scss,css,json}\" "
   },
   "dependencies": {
+    "ant-design-vue": "^2.2.8",
     "axios": "^0.24.0",
     "element-plus": "^1.2.0-beta.3",
     "js-cookie": "^3.0.1",

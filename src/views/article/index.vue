@@ -3,11 +3,11 @@ import { ref } from 'vue'
 
 defineProps<{ msg: string }>()
 
-const count = ref(0)
+const text = ref("article")
 </script>
 
 <template>
-  <h1>article</h1>
+  <h1>{{text}}</h1>
   <h1>vite + vue3 + ts + eslint + prettierrc工程模板</h1>
 </template>
 
