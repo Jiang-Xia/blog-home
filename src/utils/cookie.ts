@@ -1,12 +1,20 @@
+/*
+ * @Author: 酱
+ * @LastEditors: 酱
+ * @Date: 2021-11-17 16:28:36
+ * @LastEditTime: 2021-12-01 15:55:51
+ * @Description:
+ * @FilePath: \blog-home\src\utils\cookie.ts
+ */
 import Cookies from 'js-cookie'
-const TokenKey = 'xia_token'
-const InfoKey = 'xia_info'
+const TokenKey = 'xia_blog_token'
+const InfoKey = 'xia_blog_info'
 let day = 1 // 一天时间
 export function getToken() {
   return Cookies.get(TokenKey)
 }
 
-export function setToken(type: string, token: string, time: number) {
+export function setToken(type: string, token: string, time = 28800000) {
   day = time / (1000 * 60 * 60 * 24) // 一天时间
   return Cookies.set(TokenKey, type + ' ' + token, { expires: day })
 }
@@ -21,8 +29,7 @@ export function getInfo() {
     return JSON.parse(unescape(userInfo))
   }
 }
-interface userData {}
-export function setInfo(userData: userData) {
+export function setInfo(userData = {}) {
   userData = JSON.stringify(userData)
   return Cookies.set(InfoKey, userData, { expires: day })
 }

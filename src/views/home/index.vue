@@ -1,11 +1,13 @@
-<script setup lang='ts'>
-</script>
 
+<script setup lang="ts"></script>
 <template>
-<div>
-    <a-button type="primary">主页</a-button>
-</div>
+  <div>
+     <a-row>
+    <a-col :xs="2" :sm="4" :md="6" :lg="8" :xl="10">Col</a-col>
+    <a-col :xs="20" :sm="16" :md="12" :lg="8" :xl="4">Col</a-col>
+    <a-col :xs="2" :sm="4" :md="6" :lg="8" :xl="10">Col</a-col>
+  </a-row>
+  </div>
 </template>
 
-<style lang='scss' scoped>
-</style>
+<style lang="scss" scoped></style>
