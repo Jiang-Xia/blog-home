@@ -2,15 +2,17 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-24 20:34:46
- * @LastEditTime: 2021-12-01 17:20:01
+ * @LastEditTime: 2021-12-08 17:32:14
  * @Description: 
  * @FilePath: \blog-home\src\layout\nav.vue
 -->
 
 <script setup lang="ts">
 import { ref, computed } from '@vue/reactivity'
-import { getInfo } from '@/utils/cookie'
+import { getInfo, removeToken, removeInfo } from '@/utils/cookie'
+import { message } from 'ant-design-vue'
 import Login from './login.vue'
+import { useStore } from 'vuex'
 const navList = ref([
   {
     path: 'home',
@@ -41,8 +43,17 @@ const reLogin = ref<any>(null)
 const loginHandle = () => {
   reLogin.value.handleOpen()
 }
+const store = useStore()
+// 退出
+const logoutHandle = async () => {
+  await store.dispatch('user/logout')
+}
+// 昵称
 const nickname = computed(() => {
-  let str = getInfo().nickname || ''
+  const info = store.getters.userInfo
+  // console.log(info, 'info')
+  // 或者 const info =  store.state.user.userInfo
+  let str = info.nickname || ''
   str = str.slice(0, 1)
   return str
 })
@@ -67,7 +78,7 @@ const nickname = computed(() => {
         <template #overlay>
           <a-menu>
             <a-menu-item>
-              <a href="javascript:;">退出</a>
+              <a href="javascript:;" @click="logoutHandle">退出</a>
             </a-menu-item>
           </a-menu>
         </template>
@@ -88,13 +99,13 @@ const nickname = computed(() => {
  */
 .nav-container {
   @media (max-width: 768px) {
-    .nav{
+    .nav {
       display: none;
     }
   }
   display: flex;
   justify-content: space-between;
-  transition: all .3s;
+  transition: all 0.3s;
   .logo {
     min-width: 50px;
     @include flex-between();

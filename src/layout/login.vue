@@ -2,17 +2,18 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-30 16:22:00
- * @LastEditTime: 2021-12-01 15:56:47
+ * @LastEditTime: 2021-12-08 17:08:41
  * @Description: 
  * @FilePath: \blog-home\src\layout\login.vue
 -->
 <script setup lang="ts">
 import { ref, computed } from '@vue/reactivity'
 import { watch, watchEffect } from 'vue'
+import { useStore } from 'vuex'
 import { defineProps, defineEmits, defineExpose } from 'vue'
 import { registerUser, userLogin } from '@/api/user'
 import { message } from 'ant-design-vue'
-import { setToken,setInfo } from '@/utils/cookie'
+import { setToken, setInfo } from '@/utils/cookie'
 // 定义props属性
 const props = defineProps({
   type: {
@@ -38,14 +39,11 @@ const handleClose = () => {
   visible.value = false
   type.value = 'login'
 }
+const store = useStore()
 const handleSubmit = async () => {
   console.log(type.value)
   if (type.value === 'login') {
-    const res = await userLogin({ ...form.value })
-    console.log(res)
-    setToken("Bearer",res.info.token)
-    setInfo(res.info.user)
-    message.success('登录成功')
+    await store.dispatch('user/login', { ...form.value })
     handleClose()
   } else if (type.value === 'register') {
     const res = await registerUser({ ...form.value })
@@ -73,10 +71,13 @@ const type = ref('login')
 /* 计算属性 */
 const title = computed(() => (type.value === 'login' ? '登录' : '注册'))
 /* 监听 */
-watch(()=>type.value, (n: string, o: string) => {
-  // console.log('watch', n)
-  form.value = { ...defaultForm }
-})
+watch(
+  () => type.value,
+  (n: string, o: string) => {
+    // console.log('watch', n)
+    form.value = { ...defaultForm }
+  }
+)
 </script>
 <template>
   <a-modal
