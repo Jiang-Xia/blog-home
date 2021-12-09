@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-17 16:28:36
- * @LastEditTime: 2021-12-01 15:55:51
+ * @LastEditTime: 2021-12-09 08:58:30
  * @Description:
  * @FilePath: \blog-home\src\utils\cookie.ts
  */
@@ -46,11 +46,6 @@ export function setNormalToken(
   day = time / (1000 * 60 * 60 * 24) // 一天时间
   return Cookies.set(tokenKey, type + ' ' + token, { expires: day })
 }
-export function setNormalInfo(userData: userData, time: number, infoKey = 'token_info') {
-  day = time / (1000 * 60 * 60 * 24)
-  return Cookies.set(infoKey, userData, { expires: day })
-}
-
 // cookie 过期时间 expires_at
 export function setExpires(expires_at: string, time: number) {
   day = time / (1000 * 60 * 60 * 24)

@@ -2,15 +2,13 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-24 20:34:46
- * @LastEditTime: 2021-12-08 17:32:14
+ * @LastEditTime: 2021-12-09 16:04:21
  * @Description: 
  * @FilePath: \blog-home\src\layout\nav.vue
 -->
 
 <script setup lang="ts">
 import { ref, computed } from '@vue/reactivity'
-import { getInfo, removeToken, removeInfo } from '@/utils/cookie'
-import { message } from 'ant-design-vue'
 import Login from './login.vue'
 import { useStore } from 'vuex'
 const navList = ref([
@@ -113,13 +111,14 @@ const nickname = computed(() => {
   .nav {
     flex: 1;
   }
-  .router-link-active {
-    color: $main-color;
-  }
-  .router-link-item > span {
+  .router-link-item {
     font-size: 16px;
     font-weight: 500;
     padding: 0 12px;
+    color: #fff;
+  }
+  .router-link-active {
+    color: $main-color;
   }
   .router-link-item > span:hover {
     color: $main-color;
@@ -131,6 +130,23 @@ const nickname = computed(() => {
     }
     .ant-avatar {
     }
+  }
+  // &:deep(.ant-input-search),&:deep(.ant-input) {
+  //   background-color: transparent;
+  //   border-color: transparent;
+  // }
+
+  &::v-deep {
+    .ant-input-search,
+    .ant-input,
+    .ant-btn {
+      background-color: transparent;
+      border-color: transparent;
+      color: #fff;
+    }
+  }
+  &::v-deep .ant-input-suffix {
+    color: #fff;
   }
 }
 </style>

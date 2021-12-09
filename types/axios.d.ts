@@ -2,9 +2,9 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-08-06 14:20:46
- * @LastEditTime: 2021-08-09 17:14:11
+ * @LastEditTime: 2021-12-09 08:58:53
  * @Description:
- * @FilePath: \xia-admin\types\axios.d.ts
+ * @FilePath: \blog-home\types\axios.d.ts
  */
 // typings/axios.d.ts
 
@@ -18,6 +18,3 @@ declare module 'axios' {
     message?: string
   }
 }
-
-import Mock from 'mockjs'
-declare module 'Mock' {}
