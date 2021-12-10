@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-24 20:34:46
- * @LastEditTime: 2021-12-09 16:04:21
+ * @LastEditTime: 2021-12-10 08:56:09
  * @Description: 
  * @FilePath: \blog-home\src\layout\nav.vue
 -->
@@ -139,6 +139,7 @@ const nickname = computed(() => {
   &::v-deep {
     .ant-input-search,
     .ant-input,
+    .ant-avatar,
     .ant-btn {
       background-color: transparent;
       border-color: transparent;

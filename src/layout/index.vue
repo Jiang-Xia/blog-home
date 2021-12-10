@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-20 11:28:42
- * @LastEditTime: 2021-12-09 17:58:02
+ * @LastEditTime: 2021-12-10 08:58:01
  * @Description: 
  * @FilePath: \blog-home\src\layout\index.vue
 -->
@@ -32,17 +32,6 @@ onMounted(() => {
 </script>
 <template>
   <div class="app-layout-contaier">
-    <!-- <section class="banner-container">
-      <a-carousel>
-        <div>
-          <img src="@/assets/img/background/abstract.jpg" alt="" />
-        </div>
-        <div>
-          <img src="@/assets/img/background/pacific-rim-uprising.jpg" alt="" />
-        </div>
-      </a-carousel>
-    </section> -->
-
     <a-layout>
       <a-layout-header :class="{ 'ant-layout-header__active': scrollTop > 58 }">
         <Nav />
@@ -79,27 +68,4 @@ onMounted(() => {
 .ant-layout-content {
   height: 1500px;
 }
-// .banner-container {
-//   position: relative;
-//   top: 0;
-//   left: 0;
-//   width: 100%;
-//   height: 100vh;
-//   z-index: 0;
-//   .ant-carousel{
-//     height: 100%;
-//   }
-//   .ant-carousel :deep(.slick-slider) {
-//     text-align: center;
-//     height: 100%;
-//     background-color: #364d79;
-//     overflow: hidden;
-//   }
-
-//   .ant-carousel :deep(.slick-slide img) {
-//     color: #fff;
-//     height: 100%;
-//     width: 100%;
-//   }
-// }
 </style>

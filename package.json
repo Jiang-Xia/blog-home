@@ -10,6 +10,7 @@
   "dependencies": {
     "ant-design-vue": "^2.2.8",
     "axios": "^0.24.0",
+    "dayjs": "^1.10.7",
     "js-cookie": "^3.0.1",
     "vue": "^3.2.16",
     "vue-router": "^4.0.12",
