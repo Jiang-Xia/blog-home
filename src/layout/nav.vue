@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-24 20:34:46
- * @LastEditTime: 2021-12-10 08:56:09
+ * @LastEditTime: 2021-12-13 17:18:05
  * @Description: 
  * @FilePath: \blog-home\src\layout\nav.vue
 -->
@@ -11,6 +11,8 @@
 import { ref, computed } from '@vue/reactivity'
 import Login from './login.vue'
 import { useStore } from 'vuex'
+import { useRoute, useRouter } from 'vue-router'
+import { PlusSquareOutlined } from '@ant-design/icons-vue'
 const navList = ref([
   {
     path: 'home',
@@ -55,6 +57,13 @@ const nickname = computed(() => {
   str = str.slice(0, 1)
   return str
 })
+
+const router = useRouter()
+const route = useRoute()
+// 新建文章
+const newArticleHandle = () =>{
+  router.push('/article/add')
+}
 </script>
 <template>
   <div class="nav-container">
@@ -67,7 +76,8 @@ const nickname = computed(() => {
       </router-link>
     </nav>
     <div class="tool-bar">
-      <a-input-search placeholder="" @search="onSearch" />
+      <a-input-search placeholder="搜索内容" @search="onSearch" />
+      <PlusSquareOutlined v-show="!route.path.includes('add')" @click="newArticleHandle" title="新建文章" style="color: #fff;margin-top: 2px; cursor: pointer;" />
       <a-button @click="loginHandle" v-if="!nickname">登录</a-button>
       <a-dropdown v-else>
         <a class="ant-dropdown-link" @click.prevent>
@@ -124,6 +134,8 @@ const nickname = computed(() => {
     color: $main-color;
   }
   .tool-bar {
+    display: flex;
+    align-items: center;
     .ant-input-search {
       width: 160px;
       margin-right: 16px;

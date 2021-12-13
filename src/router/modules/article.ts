@@ -12,6 +12,20 @@ const router = {
       component: () => import('views/article/index.vue'),
       title: '文章列表',
       meta: {}
+    },
+    {
+      path: 'add',
+      name: 'ArticleAdd',
+      component: () => import('views/article/add.vue'),
+      title: '新建文章',
+      meta: {}
+    },
+    {
+      path: 'info',
+      name: 'ArticleInfo',
+      component: () => import('views/article/info.vue'),
+      title: '文章详情',
+      meta: {}
     }
   ]
 }

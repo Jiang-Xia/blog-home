@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-20 11:28:42
- * @LastEditTime: 2021-12-10 08:58:01
+ * @LastEditTime: 2021-12-13 17:47:00
  * @Description: 
  * @FilePath: \blog-home\src\layout\index.vue
 -->
@@ -26,9 +26,8 @@ onMounted(() => {
     之所以绑定window的滚动事件 是为了元素样式为固定定位（相对于window定位的）时会覆盖document子元素的滚动条
     造成错位不好看。这里的滚动对象是 document.documentElement
   */
-  window.addEventListener('scroll', scrollHandle,true)
+  window.addEventListener('scroll', scrollHandle, true)
 })
-
 </script>
 <template>
   <div class="app-layout-contaier">
@@ -39,7 +38,7 @@ onMounted(() => {
       <a-layout-content>
         <router-view></router-view>
       </a-layout-content>
-      <a-layout-footer>Footer</a-layout-footer>
+      <a-layout-footer></a-layout-footer>
     </a-layout>
   </div>
 </template>
@@ -47,8 +46,12 @@ onMounted(() => {
 <style lang="scss" scoped>
 .app-layout-contaier {
   position: relative;
+  background-image: url(@/assets/img/background/stucco.png);
+  background-repeat: repeat;
 }
-.ant-layout {
+.ant-layout,
+.ant-layout-footer {
+  background: none;
 }
 .ant-layout-header {
   height: 58px;
@@ -58,14 +61,32 @@ onMounted(() => {
   top: 0px;
   left: 0px;
   position: fixed;
-  background-color: transparent;
+  background: rgba($color: #000, $alpha: 0.05);
+  // box-shadow: 0 2px 8px 0 rgba($color: #000, $alpha: 0.2);
+  box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
   transition: all 0.5s;
 }
 .ant-layout-header__active {
-  background-color: #364d79;
-  box-shadow: 0 1px 8px 0 rgba($color: #364d79, $alpha: 0.1);
+  // backdrop-filter: blur(4px);
+  // background-color: #364d79;
+  background-color: rgba($color: #364d79, $alpha: 0.72);
 }
 .ant-layout-content {
   height: 1500px;
+}
+</style>
+<style lang="scss">
+.banner-container {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 40vh;
+  min-height: 260px;
+  z-index: 0;
+  .banner-content {
+    position: relative;
+    height: 100%;
+  }
 }
 </style>
