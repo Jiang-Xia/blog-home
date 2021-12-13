@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-30 16:22:00
- * @LastEditTime: 2021-12-08 17:08:41
+ * @LastEditTime: 2021-12-13 22:49:41
  * @Description: 
  * @FilePath: \blog-home\src\layout\login.vue
 -->
@@ -12,8 +12,6 @@ import { watch, watchEffect } from 'vue'
 import { useStore } from 'vuex'
 import { defineProps, defineEmits, defineExpose } from 'vue'
 import { registerUser, userLogin } from '@/api/user'
-import { message } from 'ant-design-vue'
-import { setToken, setInfo } from '@/utils/cookie'
 // 定义props属性
 const props = defineProps({
   type: {

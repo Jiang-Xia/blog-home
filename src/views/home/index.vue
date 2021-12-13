@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import dayjs from 'dayjs'
 import { ref } from '@vue/reactivity'
+import ArticleList from '../article/list.vue'
 const getTime = () => dayjs().format('YYYY-MM-DD hh:mm:ss')
 const date = ref(getTime())
 const refreshTime = () => {
@@ -20,6 +21,7 @@ refreshTime()
       </div>
     </div>
   </section>
+  <ArticleList />
 </template>
 
 <style lang="scss" scoped>

@@ -1,12 +1,23 @@
 <script setup lang="ts">
 import { RuleObject, ValidateErrorEntity } from 'ant-design-vue/es/form/interface'
-import { defineComponent, reactive, ref, UnwrapRef } from 'vue'
+import { defineComponent, onMounted, reactive, ref, UnwrapRef } from 'vue'
+import '@wangeditor/editor/dist/css/style.css' // 也可以在 <style> 中 import
+import { computed, onBeforeUnmount } from 'vue'
+import { Editor, Toolbar, getEditor, removeEditor } from '@wangeditor/editor-for-vue'
+import { createArticle } from '@/api/article'
+import { message } from 'ant-design-vue'
+import { useRouter } from 'vue-router'
+import {
+  IDomEditor, // 编辑器实例接口
+  IEditorConfig, // 编辑器配置
+  IToolbarConfig // 工具栏配置
+} from '@wangeditor/editor'
 interface FormState {
   title: string
   description: string
-  content: string 
+  content: string
 }
-
+const router =  useRouter()
 const formRef = ref()
 const formState: UnwrapRef<FormState> = reactive({
   title: '',
@@ -14,24 +25,38 @@ const formState: UnwrapRef<FormState> = reactive({
   content: ''
 })
 // 自定义校验
-let checkTitle = async (rule: RuleObject, value: string) => {
+const checkTitle = async (rule: RuleObject, value: string) => {
   if (value === '') {
     return Promise.reject('请输入标题！')
   } else {
     return Promise.resolve()
   }
 }
+const checkDescription = async (rule: RuleObject, value: string) => {
+  if (value === '') {
+    return Promise.reject('请输入描述！')
+  } else {
+    return Promise.resolve()
+  }
+}
 const rules = {
   title: [{ required: true, validator: checkTitle, trigger: 'blur' }],
-  description: [{ required: true, trigger: 'blur' }],
-  content: [{ required: true, trigger: 'blur' }]
+  description: [{ required: true, validator: checkDescription, trigger: 'blur' }],
+  content: [{ required: false, trigger: 'blur' }]
 }
 const layout = {
   labelCol: { span: 4 },
   wrapperCol: { span: 14 }
 }
-const handleFinish = (values: FormState) => {
+const handleFinish = async(values: FormState) => {
   console.log(values, formState)
+  const params = {
+    ...values,
+    content: myEditor.getHtml()
+  }
+  const res  = await createArticle(params)
+  message.success('新建成功！')
+  router.push('/article/list')
 }
 const handleFinishFailed = (errors: ValidateErrorEntity<FormState>) => {
   console.log(errors)
@@ -39,6 +64,86 @@ const handleFinishFailed = (errors: ValidateErrorEntity<FormState>) => {
 const resetForm = () => {
   formRef.value.resetFields()
 }
+
+const editorId = 'wangEditor-1'
+
+// 默认内容
+const defaultContent = [
+  {
+    type: 'paragraph',
+    children: [{ text: '快把你的灵感写下来吧~' }]
+  }
+]
+const defaultContent2 = [
+  {
+    type: 'paragraph',
+    children: [{ text: '快把你的灵感写下来吧~' }]
+  }
+]
+
+// 注意，深度拷贝 content ，否则会报错
+const getDefaultContent = computed(() => defaultContent2)
+
+// 编辑器配置
+const editorConfig: IEditorConfig = {
+  placeholder: '请输入内容...',
+  scroll: true,
+  readOnly: false,
+  autoFocus: false,
+  customAlert: () => '',
+  MENU_CONF: {
+    insertImage: {
+      checkImage(src: string) {
+        console.log('image src', src)
+        if (src.indexOf('http') !== 0) {
+          return '图片网址必须以 http/https 开头'
+        }
+        return true
+      }
+    }
+  }
+}
+let myEditor: IDomEditor
+// 编辑器回调函数
+const handleCreated = (editor: IDomEditor) => {
+  console.log('created', editor)
+  myEditor = editor
+}
+const handleChange = (editor: any) => {
+  console.log('change:', editor.children)
+}
+const handleDestroyed = (editor: any) => {
+  console.log('destroyed', editor)
+}
+const handleFocus = (editor: any) => {
+  console.log('focus', editor)
+}
+const handleBlur = (editor: any) => {
+  console.log('blur', editor)
+}
+const customAlert = (info: string, type: string) => {
+  alert(`【自定义提示】${type} - ${info}`)
+}
+const customPaste = (editor: any, event: any, callback: Function) => {
+  console.log('ClipboardEvent 粘贴事件对象', event)
+
+  // 自定义插入内容
+  // editor.insertText('xxx')
+
+  // 返回值（注意，vue 事件的返回值，不能用 return）
+  // callback(false) // 返回 false ，阻止默认粘贴行为
+  // callback(true) // 返回 true ，继续默认的粘贴行为
+}
+const mode = 'default'
+// 及时销毁编辑器
+onBeforeUnmount(() => {
+  const editor = getEditor(editorId)
+  if (editor == null) return
+
+  // 销毁，并移除 editor
+  editor.destroy()
+  removeEditor(editorId)
+})
 </script>
 <template>
   <section class="banner-container">
@@ -55,18 +160,36 @@ const resetForm = () => {
         @finish="handleFinish"
         @finishFailed="handleFinishFailed"
       >
-        <a-form-item has-feedback label="标题" name="pass">
+        <a-form-item has-feedback label="标题" name="title">
           <a-input v-model:value="formState.title" autocomplete="off" />
         </a-form-item>
-        <a-form-item has-feedback label="描述" name="checkPass">
-          <a-input v-model:value="formState.description" type="password" autocomplete="off" />
+        <a-form-item has-feedback label="描述" name="description">
+          <a-input v-model:value="formState.description" autocomplete="off" />
         </a-form-item>
-        <a-form-item has-feedback label="内容" name="age">
-          <a-input rows="80" type="textarea" v-model:value="formState.content" />
+        <a-form-item has-feedback label="内容" name="content">
+          <div style="border: 1px solid #ccc">
+            <!-- 工具栏 -->
+            <Toolbar :editorId="editorId" :mode="mode" style="border-bottom: 1px solid #ccc" />
+            <!-- 编辑器 -->
+            <Editor
+              :editorId="editorId"
+              :mode="mode"
+              :defaultConfig="editorConfig"
+              :defaultContent="getDefaultContent"
+              @onCreated="handleCreated"
+              @onChange="handleChange"
+              @onDestroyed="handleDestroyed"
+              @onFocus="handleFocus"
+              @onBlur="handleBlur"
+              @customAlert="customAlert"
+              @customPaste="customPaste"
+              style="height: 500px"
+            />
+          </div>
         </a-form-item>
         <a-form-item :wrapper-col="{ span: 14, offset: 4 }">
-          <a-button type="primary" html-type="submit">Submit</a-button>
-          <a-button style="margin-left: 10px" @click="resetForm">Reset</a-button>
+          <a-button type="primary" html-type="submit">提交</a-button>
+          <a-button style="margin-left: 10px" @click="resetForm">重置</a-button>
         </a-form-item>
       </a-form>
     </div>
