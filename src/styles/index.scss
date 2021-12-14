@@ -1,10 +1,5 @@
 @charset "UTF-8";
 
 @import './scss/index';
-
-// 富文本编辑器全局样式
-.editor {
-    .w-e-text-container {
-      background-color: transparent;
-    }
-}
+@import 'app.scss';
+@import 'transition.scss';
