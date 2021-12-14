@@ -26,10 +26,16 @@ const clickCardHandle = (item: FormState) => {
 </script>
 
 <template>
-  <a-card v-for="(item: FormState, index) in articleList" :key="index" :title="item.title">
-    <div @click="clickCardHandle(item)">
-      {{ item.description }}
+  <section class="article-list-container">
+    <div v-for="(item: FormState, index: number) in articleList" :key="index" :title="item.title">
+      <div @click="clickCardHandle(item)">
+        {{ item.description }}
+      </div>
     </div>
-  </a-card>
+  </section>
 </template>
-<style scoped></style>
+
+<style lang="scss" scoped>
+.article-list-container {
+}
+</style>

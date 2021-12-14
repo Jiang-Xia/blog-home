@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { RuleObject, ValidateErrorEntity } from 'ant-design-vue/es/form/interface'
 import { defineComponent, onMounted, reactive, ref, UnwrapRef } from 'vue'
-import '@wangeditor/editor/dist/css/style.css' // 也可以在 <style> 中 import
 import { computed, onBeforeUnmount } from 'vue'
 import { Editor, Toolbar, getEditor, removeEditor } from '@wangeditor/editor-for-vue'
+import { filterXSS,escapeHtml } from 'xss'
 import { createArticle } from '@/api/article'
 import { message } from 'ant-design-vue'
 import { useRouter } from 'vue-router'
@@ -17,12 +17,15 @@ interface FormState {
   description: string
   content: string
 }
-const router =  useRouter()
-const formRef = ref()
-const formState: UnwrapRef<FormState> = reactive({
+const defaultForm = {
   title: '',
   description: '',
   content: ''
+}
+const router = useRouter()
+const formRef = ref()
+const formState: UnwrapRef<FormState> = reactive({
+  ...defaultForm
 })
 // 自定义校验
 const checkTitle = async (rule: RuleObject, value: string) => {
@@ -48,13 +51,14 @@ const layout = {
   labelCol: { span: 4 },
   wrapperCol: { span: 14 }
 }
-const handleFinish = async(values: FormState) => {
-  console.log(values, formState)
+const handleFinish = async (values: FormState) => {
   const params = {
     ...values,
-    content: myEditor.getHtml()
+    content: JSON.stringify(myEditor.children)
   }
-  const res  = await createArticle(params)
+  // console.log('params:', params)
+  // return
+  const res = await createArticle(params)
   message.success('新建成功！')
   router.push('/article/list')
 }
@@ -126,13 +130,13 @@ const customAlert = (info: string, type: string) => {
 }
 const customPaste = (editor: any, event: any, callback: Function) => {
   console.log('ClipboardEvent 粘贴事件对象', event)
-
   // 自定义插入内容
   // editor.insertText('xxx')
 
   // 返回值（注意，vue 事件的返回值，不能用 return）
   // callback(false) // 返回 false ，阻止默认粘贴行为
   // callback(true) // 返回 true ，继续默认的粘贴行为
+  return true
 }
 const mode = 'default'
 // 及时销毁编辑器
@@ -173,6 +177,7 @@ onBeforeUnmount(() => {
             <!-- 编辑器 -->
             <Editor
               :editorId="editorId"
+              class="editor"
               :mode="mode"
               :defaultConfig="editorConfig"
               :defaultContent="getDefaultContent"
@@ -223,6 +228,7 @@ onBeforeUnmount(() => {
   border-radius: 18px;
   box-shadow: $box-shadow;
   background-color: #fff;
+  // background-color: #252d38;
   padding: 40px 20px 20px 20px;
 }
 </style>

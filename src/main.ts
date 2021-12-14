@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-12 17:29:55
- * @LastEditTime: 2021-12-01 10:22:31
+ * @LastEditTime: 2021-12-14 11:47:26
  * @Description:
  * @FilePath: \blog-home\src\main.ts
  */
@@ -13,6 +13,7 @@ import router from './router'
 import Antd from 'ant-design-vue'
 import 'ant-design-vue/dist/antd.less'
 import '@/styles/index.scss'
+import '@wangeditor/editor/dist/css/style.css'
 import axios from '@/utils/request'
 
 const app = createApp(App)
