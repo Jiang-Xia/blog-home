@@ -22,7 +22,9 @@ export default defineConfig({
       },
       less: {
         // 定制ant-design-vue主题
-        modifyVars: {},
+        modifyVars: {
+          '@border-radius-base': '4px'
+        },
         javascriptEnabled: true
       }
     }

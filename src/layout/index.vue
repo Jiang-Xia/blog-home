@@ -2,14 +2,22 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-20 11:28:42
- * @LastEditTime: 2021-12-14 18:07:39
+ * @LastEditTime: 2021-12-14 23:40:04
  * @Description: 
  * @FilePath: \blog-home\src\layout\index.vue
 -->
 <script setup lang="ts">
 import Nav from './nav.vue'
 import { ref } from '@vue/reactivity'
-import { onMounted } from '@vue/runtime-core'
+import { onMounted, watch } from '@vue/runtime-core'
+import { useRouter, useRoute } from 'vue-router'
+const router = useRouter()
+const route = useRoute()
+const animation = ref('slide')
+watch(route, () => {
+  console.log('route', route.name)
+  animation.value = route.meta.index == 1 ? 'slide-right' : 'slide-left'
+})
 const scrollTop = ref(0)
 const scrollHandle = (e: any) => {
   // console.log(e.target)
@@ -36,7 +44,16 @@ onMounted(() => {
         <Nav />
       </a-layout-header>
       <a-layout-content>
-        <router-view></router-view>
+        <!-- <router-view v-slot="{ Component }">
+          <transition :name="animation">
+            <component :is="Component" />
+          </transition>
+        </router-view> -->
+        <router-view v-slot="{ Component }">
+          <transition name="slide"> 
+            <component :is="Component" />
+          </transition>
+        </router-view>
       </a-layout-content>
       <a-layout-footer></a-layout-footer>
     </a-layout>
@@ -48,6 +65,7 @@ onMounted(() => {
   position: relative;
   background-image: url(@/assets/img/background/stucco.png);
   background-repeat: repeat;
+  // background-color: $main-bgc;
 }
 .ant-layout,
 .ant-layout-footer {
@@ -72,7 +90,7 @@ onMounted(() => {
   background-color: rgba($color: #364d79, $alpha: 0.72);
 }
 .ant-layout-content {
-  height: 1500px;
+  min-height: 100vh;
 }
 </style>
 <style lang="scss">

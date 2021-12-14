@@ -13,15 +13,19 @@ const refreshTime = () => {
 refreshTime()
 </script>
 <template>
-  <section class="banner-container">
-    <div class="banner-content">
-      <img src="@/assets/img/background/pacific-rim-uprising.jpg" alt="" />
-      <div class="text-wrap">
-        <h1>{{ date }}</h1>
+  <div>
+    <section class="banner-container">
+      <div class="banner-content">
+        <img src="@/assets/img/background/pacific-rim-uprising.jpg" alt="" />
+        <div class="text-wrap">
+          <h1>{{ date }}</h1>
+        </div>
       </div>
-    </div>
-  </section>
-  <ArticleList />
+    </section>
+    <section class="home-content">
+      <ArticleList />
+    </section>
+  </div>
 </template>
 
 <style lang="scss" scoped>
@@ -30,9 +34,9 @@ refreshTime()
   top: 0;
   left: 0;
   width: 100%;
-  height: 100vh;
+  height: calc(100vh + 100px);
   z-index: 0;
-  @media screen and (max-width:768px){
+  @media screen and (max-width: 768px) {
     height: 60vh;
   }
 
@@ -58,5 +62,37 @@ refreshTime()
       }
     }
   }
+}
+// .home-content {
+//   position: relative;
+//   margin: -40px auto 0;
+//   min-height: 150vh;
+//   min-width: 40%;
+//    @media screen and (max-width: 768px) {
+//     width: 90%;
+//   }
+//   width: 70%;
+//   z-index: 0;
+//   border-radius: 18px 18px;
+//   box-shadow: $box-shadow;
+//   background-color: #fff;
+//   // background-color: #252d38;
+//   padding: 40px 20px 20px;
+// }
+
+.home-content {
+  position: relative;
+  margin: 40px auto 0;
+  width: 70vw;
+  min-height: 150vh;
+  min-width: 40%;
+  overflow: hidden;
+  @media screen and (max-width: 768px) {
+    width: 90%;
+  }
+  z-index: 0;
+  // background-color: #f4f4f4;
+  // background-color: #252d38;
+  padding: 0 0 20px 0;
 }
 </style>

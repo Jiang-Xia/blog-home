@@ -51,6 +51,7 @@ const layout = {
   labelCol: { span: 4 },
   wrapperCol: { span: 14 }
 }
+// 提交成功
 const handleFinish = async (values: FormState) => {
   const params = {
     ...values,
@@ -60,8 +61,9 @@ const handleFinish = async (values: FormState) => {
   // return
   const res = await createArticle(params)
   message.success('新建成功！')
-  router.push('/article/list')
+  router.push('/home')
 }
+// 提交失败
 const handleFinishFailed = (errors: ValidateErrorEntity<FormState>) => {
   console.log(errors)
 }
@@ -78,15 +80,8 @@ const defaultContent = [
     children: [{ text: '快把你的灵感写下来吧~' }]
   }
 ]
-const defaultContent2 = [
-  {
-    type: 'paragraph',
-    children: [{ text: '快把你的灵感写下来吧~' }]
-  }
-]
-
 // 注意，深度拷贝 content ，否则会报错
-const getDefaultContent = computed(() => defaultContent2)
+const getDefaultContent = computed(() => defaultContent)
 
 // 编辑器配置
 const editorConfig: IEditorConfig = {
@@ -132,7 +127,6 @@ const customPaste = (editor: any, event: any, callback: Function) => {
   console.log('ClipboardEvent 粘贴事件对象', event)
   // 自定义插入内容
   // editor.insertText('xxx')
-
   // 返回值（注意，vue 事件的返回值，不能用 return）
   // callback(false) // 返回 false ，阻止默认粘贴行为
   // callback(true) // 返回 true ，继续默认的粘贴行为
@@ -141,11 +135,9 @@ const customPaste = (editor: any, event: any, callback: Function) => {
 const mode = 'default'
 // 及时销毁编辑器
 onBeforeUnmount(() => {
-  const editor = getEditor(editorId)
-  if (editor == null) return
-
+  if (myEditor == null) return
   // 销毁，并移除 editor
-  editor.destroy()
+  myEditor.destroy()
   removeEditor(editorId)
 })
 </script>
@@ -188,7 +180,7 @@ onBeforeUnmount(() => {
               @onBlur="handleBlur"
               @customAlert="customAlert"
               @customPaste="customPaste"
-              style="height: 500px"
+              style="height: 600px"
             />
           </div>
         </a-form-item>
@@ -226,7 +218,7 @@ onBeforeUnmount(() => {
   width: 70%;
   z-index: 0;
   border-radius: 18px;
-  box-shadow: $box-shadow;
+  // box-shadow: $box-shadow;
   background-color: #fff;
   // background-color: #252d38;
   padding: 40px 20px 20px 20px;

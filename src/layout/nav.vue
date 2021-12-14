@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-24 20:34:46
- * @LastEditTime: 2021-12-13 23:15:38
+ * @LastEditTime: 2021-12-14 22:47:37
  * @Description: 
  * @FilePath: \blog-home\src\layout\nav.vue
 -->
@@ -15,7 +15,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { PlusSquareOutlined } from '@ant-design/icons-vue'
 const navList = ref([
   {
-    path: '/home',
+    path: '/',
     title: '首页',
     icon: ''
   },
