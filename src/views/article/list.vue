@@ -19,7 +19,7 @@ onMounted(async () => {
 <template>
   <div class="article-list-container">
     <section class="article-item">
-      <div class="card-wrap" v-for="(item, index: number) in articleList" :key="index">
+      <div class="card-wrap" v-for="(item, index) in articleList" :key="index">
         <router-link class="line-1" :to="'/article/info?id=' + item.id">
           {{ item.title }}
         </router-link>

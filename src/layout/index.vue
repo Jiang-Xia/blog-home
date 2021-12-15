@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-20 11:28:42
- * @LastEditTime: 2021-12-14 23:40:04
+ * @LastEditTime: 2021-12-15 17:00:46
  * @Description: 
  * @FilePath: \blog-home\src\layout\index.vue
 -->
@@ -10,14 +10,6 @@
 import Nav from './nav.vue'
 import { ref } from '@vue/reactivity'
 import { onMounted, watch } from '@vue/runtime-core'
-import { useRouter, useRoute } from 'vue-router'
-const router = useRouter()
-const route = useRoute()
-const animation = ref('slide')
-watch(route, () => {
-  console.log('route', route.name)
-  animation.value = route.meta.index == 1 ? 'slide-right' : 'slide-left'
-})
 const scrollTop = ref(0)
 const scrollHandle = (e: any) => {
   // console.log(e.target)
@@ -44,13 +36,8 @@ onMounted(() => {
         <Nav />
       </a-layout-header>
       <a-layout-content>
-        <!-- <router-view v-slot="{ Component }">
-          <transition :name="animation">
-            <component :is="Component" />
-          </transition>
-        </router-view> -->
         <router-view v-slot="{ Component }">
-          <transition name="slide"> 
+          <transition name="slide">
             <component :is="Component" />
           </transition>
         </router-view>
@@ -90,7 +77,7 @@ onMounted(() => {
   background-color: rgba($color: #364d79, $alpha: 0.72);
 }
 .ant-layout-content {
-  min-height: 100vh;
+  min-height: calc(100vh - 48px);
 }
 </style>
 <style lang="scss">

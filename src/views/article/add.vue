@@ -3,7 +3,7 @@ import { RuleObject, ValidateErrorEntity } from 'ant-design-vue/es/form/interfac
 import { defineComponent, onMounted, reactive, ref, UnwrapRef } from 'vue'
 import { computed, onBeforeUnmount } from 'vue'
 import { Editor, Toolbar, getEditor, removeEditor } from '@wangeditor/editor-for-vue'
-import { filterXSS,escapeHtml } from 'xss'
+import { filterXSS, escapeHtml } from 'xss'
 import { createArticle } from '@/api/article'
 import { message } from 'ant-design-vue'
 import { useRouter } from 'vue-router'
@@ -142,55 +142,57 @@ onBeforeUnmount(() => {
 })
 </script>
 <template>
-  <section class="banner-container">
-    <div class="banner-content">新建文章</div>
-  </section>
-  <section class="add-container">
-    <div class="add-content">
-      <a-form
-        name="custom-validation"
-        ref="formRef"
-        :model="formState"
-        :rules="rules"
-        v-bind="layout"
-        @finish="handleFinish"
-        @finishFailed="handleFinishFailed"
-      >
-        <a-form-item has-feedback label="标题" name="title">
-          <a-input v-model:value="formState.title" autocomplete="off" />
-        </a-form-item>
-        <a-form-item has-feedback label="描述" name="description">
-          <a-input v-model:value="formState.description" autocomplete="off" />
-        </a-form-item>
-        <a-form-item has-feedback label="内容" name="content">
-          <div style="border: 1px solid #ccc">
-            <!-- 工具栏 -->
-            <Toolbar :editorId="editorId" :mode="mode" style="border-bottom: 1px solid #ccc" />
-            <!-- 编辑器 -->
-            <Editor
-              :editorId="editorId"
-              class="editor"
-              :mode="mode"
-              :defaultConfig="editorConfig"
-              :defaultContent="getDefaultContent"
-              @onCreated="handleCreated"
-              @onChange="handleChange"
-              @onDestroyed="handleDestroyed"
-              @onFocus="handleFocus"
-              @onBlur="handleBlur"
-              @customAlert="customAlert"
-              @customPaste="customPaste"
-              style="height: 600px"
-            />
-          </div>
-        </a-form-item>
-        <a-form-item :wrapper-col="{ span: 14, offset: 4 }">
-          <a-button type="primary" html-type="submit">提交</a-button>
-          <a-button style="margin-left: 10px" @click="resetForm">重置</a-button>
-        </a-form-item>
-      </a-form>
-    </div>
-  </section>
+  <div>
+    <section class="banner-container">
+      <div class="banner-content">新建文章</div>
+    </section>
+    <section class="add-container">
+      <div class="add-content">
+        <a-form
+          name="custom-validation"
+          ref="formRef"
+          :model="formState"
+          :rules="rules"
+          v-bind="layout"
+          @finish="handleFinish"
+          @finishFailed="handleFinishFailed"
+        >
+          <a-form-item has-feedback label="标题" name="title">
+            <a-input v-model:value="formState.title" autocomplete="off" />
+          </a-form-item>
+          <a-form-item has-feedback label="描述" name="description">
+            <a-input v-model:value="formState.description" autocomplete="off" />
+          </a-form-item>
+          <a-form-item has-feedback label="内容" name="content">
+            <div style="border: 1px solid #ccc">
+              <!-- 工具栏 -->
+              <Toolbar :editorId="editorId" :mode="mode" style="border-bottom: 1px solid #ccc" />
+              <!-- 编辑器 -->
+              <Editor
+                :editorId="editorId"
+                class="editor"
+                :mode="mode"
+                :defaultConfig="editorConfig"
+                :defaultContent="getDefaultContent"
+                @onCreated="handleCreated"
+                @onChange="handleChange"
+                @onDestroyed="handleDestroyed"
+                @onFocus="handleFocus"
+                @onBlur="handleBlur"
+                @customAlert="customAlert"
+                @customPaste="customPaste"
+                style="height: 600px"
+              />
+            </div>
+          </a-form-item>
+          <a-form-item :wrapper-col="{ span: 14, offset: 4 }">
+            <a-button type="primary" html-type="submit">提交</a-button>
+            <a-button style="margin-left: 10px" @click="resetForm">重置</a-button>
+          </a-form-item>
+        </a-form>
+      </div>
+    </section>
+  </div>
 </template>
 
 <style scoped lang="scss">

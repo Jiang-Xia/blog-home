@@ -16,7 +16,7 @@ refreshTime()
   <div>
     <section class="banner-container">
       <div class="banner-content">
-        <img src="@/assets/img/background/pacific-rim-uprising.jpg" alt="" />
+        <img src="@/assets/img/background/girl.jpg" alt="" />
         <div class="text-wrap">
           <h1>{{ date }}</h1>
         </div>

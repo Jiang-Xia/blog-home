@@ -52,20 +52,22 @@ onBeforeUnmount(() => {
 })
 </script>
 <template>
-  <section class="banner-container">
-    <div class="banner-content">文章详情</div>
-  </section>
-  <section class="article-info">
-    <Editor
-      v-if="ArticleInfo.content"
-      class="editor"
-      editorId="editorInfo"
-      @onCreated="handleCreated"
-      mode="default"
-      :defaultContent="getDefaultContent"
-      :defaultConfig="{ readOnly: true }"
-    />
-  </section>
+  <div>
+    <section class="banner-container">
+      <div class="banner-content">文章详情</div>
+    </section>
+    <section class="article-info">
+      <Editor
+        v-if="ArticleInfo.content"
+        class="editor"
+        editorId="editorInfo"
+        @onCreated="handleCreated"
+        mode="default"
+        :defaultContent="getDefaultContent"
+        :defaultConfig="{ readOnly: true }"
+      />
+    </section>
+  </div>
 </template>
 <style lang="scss" scoped>
 .banner-container {
@@ -84,7 +86,7 @@ onBeforeUnmount(() => {
     letter-spacing: 25px;
   }
 }
-.article-info{
+.article-info {
   position: relative;
   margin: -40px auto 0;
   min-height: 100vh;
