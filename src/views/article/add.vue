@@ -6,6 +6,7 @@ import { Editor, Toolbar, getEditor, removeEditor } from '@wangeditor/editor-for
 import { filterXSS, escapeHtml } from 'xss'
 import { createArticle } from '@/api/article'
 import { message } from 'ant-design-vue'
+import { PlusOutlined } from '@ant-design/icons-vue'
 import { useRouter } from 'vue-router'
 import {
   IDomEditor, // 编辑器实例接口
@@ -20,7 +21,9 @@ interface FormState {
 const defaultForm = {
   title: '',
   description: '',
-  content: ''
+  content: '',
+  category: '',
+  tags: [1]
 }
 const router = useRouter()
 const formRef = ref()
@@ -48,16 +51,22 @@ const rules = {
   content: [{ required: false, trigger: 'blur' }]
 }
 const layout = {
-  labelCol: { span: 4 },
-  wrapperCol: { span: 14 }
+  labelCol: { span: 3 },
+  wrapperCol: { span: 19 }
 }
+
+// 分类
+const categoryOptions = ref([])
+
+// 标签
+const tagsOptions = ref([])
 // 提交成功
 const handleFinish = async (values: FormState) => {
   const params = {
     ...values,
     content: JSON.stringify(myEditor.children)
   }
-  // console.log('params:', params)
+  console.log('params:', params)
   // return
   const res = await createArticle(params)
   message.success('新建成功！')
@@ -158,10 +167,39 @@ onBeforeUnmount(() => {
           @finishFailed="handleFinishFailed"
         >
           <a-form-item has-feedback label="标题" name="title">
-            <a-input v-model:value="formState.title" autocomplete="off" />
+            <a-input v-model:value="formState.title" autocomplete="off" placeholder="标题" />
           </a-form-item>
           <a-form-item has-feedback label="描述" name="description">
-            <a-input v-model:value="formState.description" autocomplete="off" />
+            <a-textarea
+              v-model:value="formState.description"
+              placeholder="描述"
+              :auto-size="{ minRows: 2, maxRows: 10 }"
+            />
+          </a-form-item>
+
+          <a-form-item has-feedback label="分类" name="category">
+            <a-select
+              style="width: 50%; margin-right: 10px"
+              v-model:value="formState.category"
+              :options="categoryOptions"
+            >
+            </a-select>
+            <a-button type="dashed" danger>
+              <template #icon>+</template>
+            </a-button>
+          </a-form-item>
+
+          <a-form-item has-feedback label="标签" name="tags">
+            <a-select
+              style="width: 50%; margin-right: 10px"
+              v-model:value="formState.tags"
+              :options="tagsOptions"
+              mode="multiple"
+            >
+            </a-select>
+            <a-button type="dashed" danger>
+              <template #icon>+</template>
+            </a-button>
           </a-form-item>
           <a-form-item has-feedback label="内容" name="content">
             <div style="border: 1px solid #ccc">
@@ -188,6 +226,9 @@ onBeforeUnmount(() => {
           <a-form-item :wrapper-col="{ span: 14, offset: 4 }">
             <a-button type="primary" html-type="submit">提交</a-button>
             <a-button style="margin-left: 10px" @click="resetForm">重置</a-button>
+          </a-form-item>
+          <a-form-item :wrapper-col="{ span: 14, offset: 4 }">
+            <a-button type="primary" @click="handleFinish">提交2</a-button>
           </a-form-item>
         </a-form>
       </div>

@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-24 20:34:46
- * @LastEditTime: 2021-12-15 16:08:12
+ * @LastEditTime: 2021-12-16 09:49:43
  * @Description: 
  * @FilePath: \blog-home\src\layout\nav.vue
 -->
@@ -15,7 +15,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { PlusSquareOutlined } from '@ant-design/icons-vue'
 const navList = ref([
   {
-    path: '/home',
+    path: '/',
     title: '首页',
     icon: ''
   },
@@ -61,7 +61,7 @@ const nickname = computed(() => {
 const router = useRouter()
 const route = useRoute()
 // 新建文章
-const newArticleHandle = () =>{
+const newArticleHandle = () => {
   router.push('/article/add')
 }
 </script>
@@ -71,13 +71,23 @@ const newArticleHandle = () =>{
       <img src="@/assets/img/logo/favicon-32x32.png" alt="logo" />
     </div>
     <nav class="nav">
-      <router-link class="router-link-item" v-for="(item, index) in navList" :key="index" :to="item.path">
+      <router-link
+        class="router-link-item"
+        v-for="(item, index) in navList"
+        :key="index"
+        :to="item.path"
+      >
         <span>{{ item.title }}</span>
       </router-link>
     </nav>
     <div class="tool-bar">
       <a-input-search placeholder="搜索内容" @search="onSearch" />
-      <PlusSquareOutlined v-show="!route.path.includes('add')" @click="newArticleHandle" title="新建文章" style="color: #fff;margin-top: 2px; cursor: pointer;" />
+      <PlusSquareOutlined
+        v-show="!route.path.includes('add')"
+        @click="newArticleHandle"
+        title="新建文章"
+        style="color: #fff; margin-top: 2px; cursor: pointer"
+      />
       <a-button @click="loginHandle" v-if="!nickname">登录</a-button>
       <a-dropdown v-else>
         <a class="ant-dropdown-link" @click.prevent>
@@ -97,7 +107,7 @@ const newArticleHandle = () =>{
 </template>
 
 <style lang="scss" scoped>
-/* 
+/*
   xs: '480px',
   sm: '576px',
   md: '768px',
@@ -143,22 +153,16 @@ const newArticleHandle = () =>{
     .ant-avatar {
     }
   }
-  // &:deep(.ant-input-search),&:deep(.ant-input) {
-  //   background-color: transparent;
-  //   border-color: transparent;
-  // }
-
-  &::v-deep {
-    .ant-input-search,
-    .ant-input,
-    .ant-avatar,
-    .ant-btn {
-      background-color: transparent;
-      border-color: transparent;
-      color: #fff;
-    }
+  // 深度选择器两种写法
+  :deep(.ant-input-search),
+  :deep(.ant-input),
+  :deep(.ant-avatar),
+  :deep(.ant-btn) {
+    background-color: transparent;
+    border-color: transparent;
+    color: #fff;
   }
-  &::v-deep .ant-input-suffix {
+  ::v-deep(.ant-input-suffix) {
     color: #fff;
   }
 }

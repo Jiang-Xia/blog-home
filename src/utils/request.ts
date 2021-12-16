@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-17 16:26:53
- * @LastEditTime: 2021-12-01 11:40:45
+ * @LastEditTime: 2021-12-16 15:04:19
  * @Description:
  * @FilePath: \blog-home\src\utils\request.ts
  */
@@ -32,7 +32,7 @@ $axios.interceptors.request.use(
     // openLoading()
     const token = getToken()
     config.headers = {}
-    config.baseURL = 'http://localhost:3000'
+    config.baseURL = 'http://localhost:5000'
     // if (config.method === 'get') {
     //   // 解决get请求axios不能设置Content-Type
     //   config.data = true

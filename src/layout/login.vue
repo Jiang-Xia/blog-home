@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-30 16:22:00
- * @LastEditTime: 2021-12-13 22:49:41
+ * @LastEditTime: 2021-12-16 16:48:39
  * @Description: 
  * @FilePath: \blog-home\src\layout\login.vue
 -->
@@ -11,7 +11,8 @@ import { ref, computed } from '@vue/reactivity'
 import { watch, watchEffect } from 'vue'
 import { useStore } from 'vuex'
 import { defineProps, defineEmits, defineExpose } from 'vue'
-import { registerUser, userLogin } from '@/api/user'
+import { registerUser } from '@/api/user'
+import { message } from 'ant-design-vue'
 // 定义props属性
 const props = defineProps({
   type: {
@@ -45,6 +46,9 @@ const handleSubmit = async () => {
     handleClose()
   } else if (type.value === 'register') {
     const res = await registerUser({ ...form.value })
+    type.value = 'login'
+    form.value = { ...defaultForm }
+    message.success('注册成功，快来登录吧~')
   }
 }
 // 暴露一些方法和变量给父组件使用
