@@ -27,7 +27,7 @@ export const createArticle = async (data: any) => {
 
 export const addArticle = async (params: any) => {
   const res = await request({
-    url: '/article/add',
+    url: '/article/create',
     method: 'get',
     params
   })

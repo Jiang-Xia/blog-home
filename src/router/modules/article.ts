@@ -14,9 +14,9 @@ const router = {
       meta: {}
     },
     {
-      path: 'add',
+      path: 'create',
       name: 'ArticleAdd',
-      component: () => import('views/article/add.vue'),
+      component: () => import('views/article/create.vue'),
       title: '新建文章',
       meta: {}
     },

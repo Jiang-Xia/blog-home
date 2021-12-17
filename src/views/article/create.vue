@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { RuleObject, ValidateErrorEntity } from 'ant-design-vue/es/form/interface'
-import { defineComponent, onMounted, reactive, ref, UnwrapRef } from 'vue'
+import { defineComponent,createVNode, onMounted, reactive, ref, UnwrapRef } from 'vue'
 import { computed, onBeforeUnmount } from 'vue'
 import { Editor, Toolbar, getEditor, removeEditor } from '@wangeditor/editor-for-vue'
 import { filterXSS, escapeHtml } from 'xss'
 import { createArticle } from '@/api/article'
-import { message } from 'ant-design-vue'
-import { PlusOutlined } from '@ant-design/icons-vue'
+import api from '@/api/index'
+import { Modal,Input,message } from 'ant-design-vue'
+
+import { PlusSquareOutlined } from '@ant-design/icons-vue'
 import { useRouter } from 'vue-router'
 import {
   IDomEditor, // 编辑器实例接口
@@ -17,6 +19,8 @@ interface FormState {
   title: string
   description: string
   content: string
+  category: ''
+  tags: [1]
 }
 const defaultForm = {
   title: '',
@@ -57,7 +61,20 @@ const layout = {
 
 // 分类
 const categoryOptions = ref([])
-
+const showConfirm = () => {
+      Modal.confirm({
+        title: () => 'Do you want to delete these items?',
+        icon: () => createVNode(Input),
+        content: () => 'When clicked the OK button, this dialog will be closed after 1 second',
+        onOk() {
+          return new Promise((resolve, reject) => {
+            setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);
+          }).catch(() => console.log('Oops errors!'));
+        },
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        onCancel() {},
+      });
+    };
 // 标签
 const tagsOptions = ref([])
 // 提交成功
@@ -155,8 +172,8 @@ onBeforeUnmount(() => {
     <section class="banner-container">
       <div class="banner-content">新建文章</div>
     </section>
-    <section class="add-container">
-      <div class="add-content">
+    <section class="create-container">
+      <div class="create-content">
         <a-form
           name="custom-validation"
           ref="formRef"
@@ -179,26 +196,30 @@ onBeforeUnmount(() => {
 
           <a-form-item has-feedback label="分类" name="category">
             <a-select
-              style="width: 50%; margin-right: 10px"
+              style="width: 50%;"
               v-model:value="formState.category"
               :options="categoryOptions"
             >
             </a-select>
-            <a-button type="dashed" danger>
-              <template #icon>+</template>
+            <a-button type="text" @click="showConfirm">
+              <template #icon>
+                <PlusSquareOutlined />
+              </template>
             </a-button>
           </a-form-item>
 
           <a-form-item has-feedback label="标签" name="tags">
             <a-select
-              style="width: 50%; margin-right: 10px"
+              style="width: 50%;"
               v-model:value="formState.tags"
               :options="tagsOptions"
               mode="multiple"
             >
             </a-select>
-            <a-button type="dashed" danger>
-              <template #icon>+</template>
+            <a-button type="text">
+              <template #icon>
+                <PlusSquareOutlined />
+              </template>
             </a-button>
           </a-form-item>
           <a-form-item has-feedback label="内容" name="content">
@@ -227,9 +248,6 @@ onBeforeUnmount(() => {
             <a-button type="primary" html-type="submit">提交</a-button>
             <a-button style="margin-left: 10px" @click="resetForm">重置</a-button>
           </a-form-item>
-          <a-form-item :wrapper-col="{ span: 14, offset: 4 }">
-            <a-button type="primary" @click="handleFinish">提交2</a-button>
-          </a-form-item>
         </a-form>
       </div>
     </section>
@@ -240,7 +258,7 @@ onBeforeUnmount(() => {
 .banner-container {
   height: 40vh;
   .banner-content {
-    background-image: url(./img/add.webp);
+    background-image: url(./img/create.webp);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     display: flex;
@@ -253,7 +271,7 @@ onBeforeUnmount(() => {
     letter-spacing: 25px;
   }
 }
-.add-container {
+.create-container {
   position: relative;
   margin: -40px auto 0;
   min-height: 100vh;

@@ -73,7 +73,7 @@ onBeforeUnmount(() => {
 .banner-container {
   height: 40vh;
   .banner-content {
-    background-image: url(./img/add.webp);
+    background-image: url(./img/create.webp);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     display: flex;

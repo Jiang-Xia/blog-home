@@ -62,7 +62,7 @@ const router = useRouter()
 const route = useRoute()
 // 新建文章
 const newArticleHandle = () => {
-  router.push('/article/add')
+  router.push('/article/create')
 }
 </script>
 <template>
@@ -83,7 +83,7 @@ const newArticleHandle = () => {
     <div class="tool-bar">
       <a-input-search placeholder="搜索内容" @search="onSearch" />
       <PlusSquareOutlined
-        v-show="!route.path.includes('add')"
+        v-show="!route.path.includes('create')"
         @click="newArticleHandle"
         title="新建文章"
         style="color: #fff; margin-top: 2px; cursor: pointer"

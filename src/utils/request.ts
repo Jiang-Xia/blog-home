@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-17 16:26:53
- * @LastEditTime: 2021-12-16 15:04:19
+ * @LastEditTime: 2021-12-17 09:45:56
  * @Description:
  * @FilePath: \blog-home\src\utils\request.ts
  */
@@ -17,10 +17,10 @@ import { message } from 'ant-design-vue'
 
 interface MessageConfig {
   message: string
-  duration: number
-  type: string
+  duration?: number
+  type?: string
 }
-function errorMsg(msg: any) {
+function errorMsg(msg: string) {
   message.error(msg)
 }
 const $axios = axios.create({
@@ -71,18 +71,14 @@ $axios.interceptors.response.use(
     }
   },
   (error) => {
-    console.log(error.response)
+    console.log('error: ', error.response)
     if (error.response) {
       const data = error.response && error.response.data
       switch (error.response.status) {
         case 401:
-          if (/10$/.test(data.code) || /11$/.test(data.code)) {
-            errorMsg(data.msg)
-            removeToken()
-            removeInfo()
-          } else {
-            errorMsg(data.msg)
-          }
+          errorMsg('权限不足')
+          removeToken()
+          removeInfo()
           break
         case 404:
           errorMsg(data.message || '网络请求不存在')
