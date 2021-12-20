@@ -2,13 +2,13 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-20 11:28:42
- * @LastEditTime: 2021-12-15 17:00:46
+ * @LastEditTime: 2021-12-20 22:53:12
  * @Description: 
  * @FilePath: \blog-home\src\layout\index.vue
 -->
 <script setup lang="ts">
 import Nav from './nav.vue'
-import { ref } from '@vue/reactivity'
+import { ref } from 'vue'
 import { onMounted, watch } from '@vue/runtime-core'
 const scrollTop = ref(0)
 const scrollHandle = (e: any) => {

@@ -60,14 +60,52 @@ const layout = {
 }
 
 const visibale = ref(false)
+const visibale2 = ref(false)
 // 分类
 const categoryOptions = ref([])
-const showConfirm = () => {
-  visibale.value = !visibale.value
-  // console.log(visibale.value)
-}
 // 标签
 const tagsOptions = ref([])
+const showConfirm = (type: string) => {
+  if (type === '分类') {
+    visibale.value = !visibale.value
+  } else {
+    visibale2.value = !visibale2.value
+  }
+}
+/*
+函数参数解构
+type C = { name: string; type: string }
+{ name, type }: C
+ */
+type C = { name: string; type: string }
+const ceateOkHandle = async ({ name, type }: C) => {
+  const obj = {
+    label: name,
+    value: name
+  }
+  if (type === '分类') {
+    const res = await api.createCategory(obj)
+    message.success('添加成功！')
+    getOptions(type)
+  } else {
+    const res = await api.createTag(obj)
+    getOptions(type)
+    message.success('添加成功！')
+  }
+}
+const getOptions = async (type: string) => {
+  if (type === '分类') {
+    const res = await api.getAllCategory()
+    categoryOptions.value = res
+    console.log(res)
+  } else {
+    const res = await api.getAllTag()
+    tagsOptions.value = res
+  }
+}
+getOptions('标签')
+getOptions('分类')
+
 // 提交成功
 const handleFinish = async (values: FormState) => {
   const params = {
@@ -192,7 +230,7 @@ onBeforeUnmount(() => {
               :options="categoryOptions"
             >
             </a-select>
-            <a-button type="text" @click="showConfirm">
+            <a-button type="text" @click="showConfirm('分类')">
               <template #icon>
                 <PlusSquareOutlined />
               </template>
@@ -207,7 +245,7 @@ onBeforeUnmount(() => {
               mode="multiple"
             >
             </a-select>
-            <a-button type="text">
+            <a-button type="text" @click="showConfirm('标签')">
               <template #icon>
                 <PlusSquareOutlined />
               </template>
@@ -242,7 +280,8 @@ onBeforeUnmount(() => {
         </a-form>
       </div>
       <!-- vue3 v-model使用方法 -->
-      <CreateModal v-model:value="visibale"/>
+      <CreateModal v-model:value="visibale" type="分类" @ok="ceateOkHandle" />
+      <CreateModal v-model:value="visibale2" type="标签" @ok="ceateOkHandle" />
     </section>
   </div>
 </template>

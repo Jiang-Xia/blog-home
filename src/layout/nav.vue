@@ -2,13 +2,13 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-24 20:34:46
- * @LastEditTime: 2021-12-16 09:49:43
+ * @LastEditTime: 2021-12-20 22:53:24
  * @Description: 
  * @FilePath: \blog-home\src\layout\nav.vue
 -->
 
 <script setup lang="ts">
-import { ref, computed } from '@vue/reactivity'
+import { ref, computed } from 'vue'
 import Login from './login.vue'
 import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'

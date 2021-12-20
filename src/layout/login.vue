@@ -2,12 +2,12 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-30 16:22:00
- * @LastEditTime: 2021-12-16 16:48:39
+ * @LastEditTime: 2021-12-20 22:52:59
  * @Description: 
  * @FilePath: \blog-home\src\layout\login.vue
 -->
 <script setup lang="ts">
-import { ref, computed } from '@vue/reactivity'
+import { ref, computed } from 'vue'
 import { watch, watchEffect } from 'vue'
 import { useStore } from 'vuex'
 import { defineProps, defineEmits, defineExpose } from 'vue'
@@ -33,6 +33,7 @@ const handleOk = () => {
 const handleOpen = () => {
   visible.value = true
   form.value = { ...defaultForm }
+  console.log('handleOpen',visible.value)
 }
 const handleClose = () => {
   visible.value = false
