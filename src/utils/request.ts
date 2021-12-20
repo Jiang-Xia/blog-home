@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-17 16:26:53
- * @LastEditTime: 2021-12-17 09:45:56
+ * @LastEditTime: 2021-12-20 15:52:58
  * @Description:
  * @FilePath: \blog-home\src\utils\request.ts
  */
@@ -21,7 +21,7 @@ interface MessageConfig {
   type?: string
 }
 function errorMsg(msg: string) {
-  message.error(msg)
+  msg && message.error(msg)
 }
 const $axios = axios.create({
   timeout: 4290000,
@@ -63,7 +63,7 @@ $axios.interceptors.response.use(
         // 全部json数据
         return Promise.resolve(response.data)
       } else {
-        errorMsg(response.message)
+        response.message && errorMsg(response.message)
         return Promise.reject(new Error(response.data || 'Error'))
       }
     } else {

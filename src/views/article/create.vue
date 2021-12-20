@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { RuleObject, ValidateErrorEntity } from 'ant-design-vue/es/form/interface'
-import { defineComponent,createVNode, onMounted, reactive, ref, UnwrapRef } from 'vue'
+import { defineComponent, createVNode, onMounted, reactive, ref, UnwrapRef } from 'vue'
 import { computed, onBeforeUnmount } from 'vue'
 import { Editor, Toolbar, getEditor, removeEditor } from '@wangeditor/editor-for-vue'
 import { filterXSS, escapeHtml } from 'xss'
 import { createArticle } from '@/api/article'
 import api from '@/api/index'
-import { Modal,Input,message } from 'ant-design-vue'
+import { Modal, Input, message } from 'ant-design-vue'
+import CreateModal from './components/create-modal.vue'
 
 import { PlusSquareOutlined } from '@ant-design/icons-vue'
 import { useRouter } from 'vue-router'
@@ -19,8 +20,8 @@ interface FormState {
   title: string
   description: string
   content: string
-  category: ''
-  tags: [1]
+  category: string
+  tags: number[]
 }
 const defaultForm = {
   title: '',
@@ -29,11 +30,10 @@ const defaultForm = {
   category: '',
   tags: [1]
 }
+
 const router = useRouter()
 const formRef = ref()
-const formState: UnwrapRef<FormState> = reactive({
-  ...defaultForm
-})
+const formState: FormState = reactive({ ...defaultForm })
 // 自定义校验
 const checkTitle = async (rule: RuleObject, value: string) => {
   if (value === '') {
@@ -59,22 +59,13 @@ const layout = {
   wrapperCol: { span: 19 }
 }
 
+const visibale = ref(false)
 // 分类
 const categoryOptions = ref([])
 const showConfirm = () => {
-      Modal.confirm({
-        title: () => 'Do you want to delete these items?',
-        icon: () => createVNode(Input),
-        content: () => 'When clicked the OK button, this dialog will be closed after 1 second',
-        onOk() {
-          return new Promise((resolve, reject) => {
-            setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);
-          }).catch(() => console.log('Oops errors!'));
-        },
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
-        onCancel() {},
-      });
-    };
+  visibale.value = !visibale.value
+  // console.log(visibale.value)
+}
 // 标签
 const tagsOptions = ref([])
 // 提交成功
@@ -196,7 +187,7 @@ onBeforeUnmount(() => {
 
           <a-form-item has-feedback label="分类" name="category">
             <a-select
-              style="width: 50%;"
+              style="width: 50%"
               v-model:value="formState.category"
               :options="categoryOptions"
             >
@@ -210,7 +201,7 @@ onBeforeUnmount(() => {
 
           <a-form-item has-feedback label="标签" name="tags">
             <a-select
-              style="width: 50%;"
+              style="width: 50%"
               v-model:value="formState.tags"
               :options="tagsOptions"
               mode="multiple"
@@ -250,6 +241,8 @@ onBeforeUnmount(() => {
           </a-form-item>
         </a-form>
       </div>
+      <!-- vue3 v-model使用方法 -->
+      <CreateModal v-model:value="visibale"/>
     </section>
   </div>
 </template>
