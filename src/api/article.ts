@@ -1,9 +1,9 @@
 import request from '@/utils/request'
-export const getArticleList = async (params: any) => {
+export const getArticleList = async (data: any) => {
   const res = await request({
     url: '/article/list',
-    method: 'get',
-    params
+    method: 'post',
+    data
   })
   return res.data
 }

@@ -12,7 +12,9 @@ const articleList = ref([])
 onMounted(async () => {
   const obj = {
     page: 1,
-    category: 'e41a5d6a-a605-4183-bd17-7081eae9f0db',
+    // category: 'fc3ab409-d0fe-4340-9660-403966aff500',
+    tags:['fa702031-eadb-4abb-a79f-c81926935b31'],
+    // tags:['8dc3e679-2334-4d73-a395-bbb6493f4511'],
     pageSize: 20
   }
   const res = await getArticleList(obj)
