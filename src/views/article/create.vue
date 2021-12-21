@@ -28,7 +28,7 @@ const defaultForm = {
   description: '',
   content: '',
   category: '',
-  tags: [1]
+  tags: []
 }
 
 const router = useRouter()
@@ -96,11 +96,17 @@ const ceateOkHandle = async ({ name, type }: C) => {
 const getOptions = async (type: string) => {
   if (type === '分类') {
     const res = await api.getAllCategory()
-    categoryOptions.value = res
+    categoryOptions.value = res.map((v: any) => {
+      v.value = v.id
+      return v
+    })
     console.log(res)
   } else {
     const res = await api.getAllTag()
-    tagsOptions.value = res
+    tagsOptions.value = res.map((v: any) => {
+      v.value = v.id
+      return v
+    })
   }
 }
 getOptions('标签')

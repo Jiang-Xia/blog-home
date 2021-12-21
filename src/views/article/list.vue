@@ -10,7 +10,11 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 const articleList = ref([])
 onMounted(async () => {
-  const obj = { page: 1, pageSize: 20 }
+  const obj = {
+    page: 1,
+    category: 'e41a5d6a-a605-4183-bd17-7081eae9f0db',
+    pageSize: 20
+  }
   const res = await getArticleList(obj)
   articleList.value = res.list
 })
@@ -24,7 +28,7 @@ onMounted(async () => {
           {{ item['title'] }}
         </router-link>
         <div class="line-2">
-          {{ item['updateTime']  }}
+          {{ item['updateTime'] }}
         </div>
         <div class="line-3"></div>
         <div>
