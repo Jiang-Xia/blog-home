@@ -1,14 +1,13 @@
 <script setup lang="ts">
 import { RuleObject, ValidateErrorEntity } from 'ant-design-vue/es/form/interface'
-import { defineComponent, createVNode, onMounted, reactive, ref, UnwrapRef } from 'vue'
+import { reactive, ref } from 'vue'
 import { computed, onBeforeUnmount } from 'vue'
 import { Editor, Toolbar, getEditor, removeEditor } from '@wangeditor/editor-for-vue'
-import { filterXSS, escapeHtml } from 'xss'
 import { createArticle } from '@/api/article'
 import api from '@/api/index'
-import { Modal, Input, message } from 'ant-design-vue'
+import { message } from 'ant-design-vue'
 import CreateModal from './components/create-modal.vue'
-
+import { categoryOptions, tagsOptions, getOptions } from './common'
 import { PlusSquareOutlined } from '@ant-design/icons-vue'
 import { useRouter } from 'vue-router'
 import {
@@ -61,10 +60,7 @@ const layout = {
 
 const visibale = ref(false)
 const visibale2 = ref(false)
-// 分类
-const categoryOptions = ref([])
-// 标签
-const tagsOptions = ref([])
+// 分类 标签
 const showConfirm = (type: string) => {
   if (type === '分类') {
     visibale.value = !visibale.value
@@ -91,22 +87,6 @@ const ceateOkHandle = async ({ name, type }: C) => {
     const res = await api.createTag(obj)
     getOptions(type)
     message.success('添加成功！')
-  }
-}
-const getOptions = async (type: string) => {
-  if (type === '分类') {
-    const res = await api.getAllCategory()
-    categoryOptions.value = res.map((v: any) => {
-      v.value = v.id
-      return v
-    })
-    console.log(res)
-  } else {
-    const res = await api.getAllTag()
-    tagsOptions.value = res.map((v: any) => {
-      v.value = v.id
-      return v
-    })
   }
 }
 getOptions('标签')

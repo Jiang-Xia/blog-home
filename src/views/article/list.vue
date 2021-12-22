@@ -1,25 +1,52 @@
 <script setup lang="ts">
 import { getArticleInfo, getArticleList } from '@/api/article'
-import { onMounted, ref } from 'vue'
+import { categoryOptions, tagsOptions, getOptions, getRandomClor } from './common'
+import { onMounted, ref, reactive } from 'vue'
 interface FormState {
   id: number
   title: string
   description: string
 }
-import { useRouter } from 'vue-router'
-const router = useRouter()
+interface queryPrams {
+  page: number
+  category: string
+  tags: string[]
+  pageSize: number
+}
+interface itemState {
+  id: string
+  [x: string]: string
+}
 const articleList = ref([])
+getOptions('标签')
+getOptions('分类')
 onMounted(async () => {
-  const obj = {
-    page: 1,
-    // category: 'fc3ab409-d0fe-4340-9660-403966aff500',
-    tags:['fa702031-eadb-4abb-a79f-c81926935b31'],
-    // tags:['8dc3e679-2334-4d73-a395-bbb6493f4511'],
-    pageSize: 20
-  }
-  const res = await getArticleList(obj)
-  articleList.value = res.list
+  getArticleListHandle()
 })
+const queryPrams = reactive({
+  page: 1,
+  category: '',
+  tags: [],
+  pageSize: 20
+})
+const getArticleListHandle = async () => {
+  const res = await getArticleList(queryPrams)
+  articleList.value = res.list
+}
+// 点击tag
+const clickTagHandle = (item: itemState, type: string) => {
+  if (type === '分类') {
+    queryPrams.category = item.id
+  } else {
+    const list:any = [...queryPrams.tags]
+    if (!list.includes(item.id)) {
+      list.push(item.id)
+    }
+    queryPrams.tags = list
+    console.log(queryPrams.tags )
+  }
+  getArticleListHandle()
+}
 </script>
 
 <template>
@@ -39,9 +66,27 @@ onMounted(async () => {
       </div>
     </section>
     <section class="info-tool">
-      <div class="card-wrap auth-info">right</div>
-      <div class="card-wrap category-wrap">right</div>
-      <div class="card-wrap tag-wrap">right</div>
+      <div class="card-wrap auth-info"></div>
+      <div class="card-wrap category-wrap">
+        <h4>分类</h4>
+        <a-tag
+          v-for="(item, index) of categoryOptions"
+          :key="index"
+          :color="item['color'] || getRandomClor()"
+          @click="clickTagHandle(item, '分类')"
+          >{{ item['label'] }}</a-tag
+        >
+      </div>
+      <div class="card-wrap tag-wrap">
+        <h4>标签</h4>
+        <a-tag
+          v-for="(item, index) of tagsOptions"
+          :key="index"
+          :color="item['color'] || getRandomClor()"
+          @click="clickTagHandle(item, '标签')"
+          >{{ item['label'] }}</a-tag
+        >
+      </div>
     </section>
   </div>
 </template>
