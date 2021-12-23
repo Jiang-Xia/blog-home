@@ -18,13 +18,21 @@ const props = defineProps({
 const emit = defineEmits(['update:value', 'ok'])
 watch(
   () => props.value,
-  (n: boolean, o: boolean) => {}
+  (n: boolean, o: boolean) => {
+    if (n) {
+      name.value = ''
+    }
+  }
 )
 const name = ref('')
 // console.log('props', props)
 const handleOk = () => {
-  if(!name.value){
+  if (!name.value) {
     message.warning('请输入名称')
+    return
+  }
+  if (name.value && name.value.length <= 2) {
+    message.warning('字数要两个以上哦！')
     return
   }
   emit('update:value', false)

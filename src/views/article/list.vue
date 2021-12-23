@@ -2,6 +2,7 @@
 import { getArticleInfo, getArticleList } from '@/api/article'
 import { categoryOptions, tagsOptions, getOptions, getRandomClor } from './common'
 import { onMounted, ref, reactive } from 'vue'
+import { AppstoreOutlined, TagOutlined } from '@ant-design/icons-vue'
 interface FormState {
   id: number
   title: string
@@ -15,7 +16,8 @@ interface queryPrams {
 }
 interface itemState {
   id: string
-  [x: string]: string
+  checked: boolean
+  [x: string]: string | boolean
 }
 const articleList = ref([])
 getOptions('标签')
@@ -36,14 +38,26 @@ const getArticleListHandle = async () => {
 // 点击tag
 const clickTagHandle = (item: itemState, type: string) => {
   if (type === '分类') {
-    queryPrams.category = item.id
+    if (queryPrams.category === item.id) {
+      // 清空选中
+      queryPrams.category = ''
+    } else {
+      queryPrams.category = item.id
+    }
   } else {
-    const list:any = [...queryPrams.tags]
-    if (!list.includes(item.id)) {
-      list.push(item.id)
+    // 标签
+    item.checked = !item.checked
+
+    const list: any = [...queryPrams.tags]
+    if (!item.checked) {
+      list.splice(list.indexOf(item.id), 1)
+    } else {
+      if (!list.includes(item.id)) {
+        list.push(item.id)
+      }
     }
     queryPrams.tags = list
-    console.log(queryPrams.tags )
+    console.log(queryPrams.tags)
   }
   getArticleListHandle()
 }
@@ -61,30 +75,37 @@ const clickTagHandle = (item: itemState, type: string) => {
         </div>
         <div class="line-3"></div>
         <div>
-          <a-tag color="#87d068">默认</a-tag>
+          <a-tag :color="item['category']['color']">{{ item['category']['label'] }}</a-tag>
         </div>
       </div>
     </section>
     <section class="info-tool">
       <div class="card-wrap auth-info"></div>
       <div class="card-wrap category-wrap">
-        <h4>分类</h4>
+        <h4>
+          <AppstoreOutlined />
+          分类
+        </h4>
         <a-tag
+          class="custom-tag"
           v-for="(item, index) of categoryOptions"
           :key="index"
-          :color="item['color'] || getRandomClor()"
+          :color="item['color']"
+          :class="item['id'] === queryPrams.category ? 'active' : ''"
           @click="clickTagHandle(item, '分类')"
           >{{ item['label'] }}</a-tag
         >
       </div>
       <div class="card-wrap tag-wrap">
-        <h4>标签</h4>
+        <h4><TagOutlined /> 标签</h4>
         <a-tag
+          class="custom-tag"
           v-for="(item, index) of tagsOptions"
           :key="index"
-          :color="item['color'] || getRandomClor()"
+          :color="item['color']"
+          :class="item['checked'] ? 'active' : ''"
           @click="clickTagHandle(item, '标签')"
-          >{{ item['label'] }}</a-tag
+          >{{ item['label'] }}({{item['articleCount']}})</a-tag
         >
       </div>
     </section>
@@ -136,6 +157,14 @@ const clickTagHandle = (item: itemState, type: string) => {
       // box-shadow: $box-shadow;
       border-radius: 8px;
       min-height: 310px;
+      & > h4 {
+        line-height: 32px;
+        font-size: 15px;
+        font-weight: 600;
+      }
+    }
+    .auth-info {
+      min-height: 50px;
     }
     // 分类
     .category-wrap {

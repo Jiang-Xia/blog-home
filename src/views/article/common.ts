@@ -12,11 +12,12 @@ const getOptions = async (type: string) => {
       v.value = v.id
       return v
     })
-    console.log(res)
+    // console.log(res)
   } else {
     const res = await api.getAllTag()
     tagsOptions.value = res.map((v: any) => {
       v.value = v.id
+      v.checked = false
       return v
     })
   }
