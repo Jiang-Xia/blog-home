@@ -2,7 +2,12 @@
 import { getArticleInfo, getArticleList } from '@/api/article'
 import { categoryOptions, tagsOptions, getOptions, getRandomClor } from './common'
 import { onMounted, ref, reactive } from 'vue'
-import { AppstoreOutlined, TagOutlined } from '@ant-design/icons-vue'
+import {
+  AppstoreOutlined,
+  TagOutlined,
+  SearchOutlined,
+  FilterOutlined
+} from '@ant-design/icons-vue'
 interface FormState {
   id: number
   title: string
@@ -13,6 +18,10 @@ interface queryPrams {
   category: string
   tags: string[]
   pageSize: number
+  total: number
+  title?: ''
+  description?: ''
+  content?: ''
 }
 interface itemState {
   id: string
@@ -29,11 +38,17 @@ const queryPrams = reactive({
   page: 1,
   category: '',
   tags: [],
-  pageSize: 20
+  pageSize: 20,
+  total: 0,
+  title: '',
+  description: '',
+  content: ''
 })
-const getArticleListHandle = async () => {
+const getArticleListHandle = async (val: number = 1) => {
+  queryPrams.page = val
   const res = await getArticleList(queryPrams)
   articleList.value = res.list
+  queryPrams.total = res.pagination.total
 }
 // 点击tag
 const clickTagHandle = (item: itemState, type: string) => {
@@ -59,42 +74,95 @@ const clickTagHandle = (item: itemState, type: string) => {
     queryPrams.tags = list
     console.log(queryPrams.tags)
   }
-  getArticleListHandle()
+  getArticleListHandle(1)
+}
+// 分页
+const current = ref(1)
+const currentChangeHandle = (val: number) => {
+  getArticleListHandle(val)
+}
+
+// 模糊搜索
+const searchText = ref('')
+const onSearchHandle = () => {
+  queryPrams.page = 1
+  // queryPrams.category = ''
+  // queryPrams.tags = []
+  queryPrams.title = searchText.value
+  queryPrams.description = searchText.value
+  // queryPrams.content = searchText.value
+  getArticleListHandle(1)
 }
 </script>
 
 <template>
   <div class="article-list-container">
     <section class="article-item">
-      <div class="card-wrap" v-for="(item, index) in articleList" :key="index">
-        <router-link class="line-1" :to="'/article/info?id=' + item['id']">
-          {{ item['title'] }}
-        </router-link>
-        <div class="line-2">
-          {{ item['updateTime'] }}
+      <transition-group name="list" tag="div">
+        <div class="card-wrap" v-for="(item, index) in articleList" :key="index">
+          <router-link class="line-1" :to="'/article/info?id=' + item['id']">
+            {{ item['title'] }}
+          </router-link>
+          <div class="line-2 ellipsis">
+            {{ item['description'] }}
+          </div>
+          <div class="line-3">
+            {{ item['updateTime'] }}
+          </div>
+          <div>
+            <a-tag :color="item['category']['color']">{{ item['category']['label'] }}</a-tag>
+          </div>
         </div>
-        <div class="line-3"></div>
-        <div>
-          <a-tag :color="item['category']['color']">{{ item['category']['label'] }}</a-tag>
-        </div>
-      </div>
+      </transition-group>
+
+      <a-empty :style="{transform:!articleList.length?'scale(1,1)':''}"  description="找不到文章..." />
+      <!-- 分页 -->
+      <a-pagination
+        v-model:current="current"
+        :pageSize="queryPrams.pageSize"
+        :total="queryPrams.total"
+        @change="currentChangeHandle"
+      />
     </section>
     <section class="info-tool">
-      <div class="card-wrap auth-info"></div>
+      <div class="card-wrap auth-info">
+        <h4>
+          <FilterOutlined />
+          关键字
+        </h4>
+        <a-input-search
+          v-model:value="searchText"
+          placeholder="输入标签或者摘要"
+          @search="onSearchHandle"
+        >
+          <template #enterButton>
+            <a-button><SearchOutlined /></a-button>
+          </template>
+        </a-input-search>
+      </div>
       <div class="card-wrap category-wrap">
         <h4>
           <AppstoreOutlined />
           分类
         </h4>
-        <a-tag
-          class="custom-tag"
+        <div
+          class="category-item"
           v-for="(item, index) of categoryOptions"
           :key="index"
           :color="item['color']"
           :class="item['id'] === queryPrams.category ? 'active' : ''"
           @click="clickTagHandle(item, '分类')"
-          >{{ item['label'] }}</a-tag
         >
+          <div
+            class="category__inner"
+            :style="{
+              borderColor: item['id'] === queryPrams.category ? item['color'] : ''
+            }"
+          >
+            <span class="category__text">{{ item['label'] }}</span>
+            <a-tag class="category__tag" :color="item['color']">{{ item['articleCount'] }}</a-tag>
+          </div>
+        </div>
       </div>
       <div class="card-wrap tag-wrap">
         <h4><TagOutlined /> 标签</h4>
@@ -105,7 +173,7 @@ const clickTagHandle = (item: itemState, type: string) => {
           :color="item['color']"
           :class="item['checked'] ? 'active' : ''"
           @click="clickTagHandle(item, '标签')"
-          >{{ item['label'] }}({{item['articleCount']}})</a-tag
+          >{{ item['label'] }}({{ item['articleCount'] }})</a-tag
         >
       </div>
     </section>
@@ -115,13 +183,20 @@ const clickTagHandle = (item: itemState, type: string) => {
 <style lang="scss" scoped>
 .article-list-container {
   position: relative;
+  :deep(.ant-empty) {
+    margin-bottom: 10vh;
+    transition: all 1s ;
+    transform: scale(0,0)
+  }
+  .ant-pagination {
+    margin-top: 8vh;
+  }
   .article-item {
     margin-right: 340px;
     transition: all 0.5s;
     // 文章列表
     .card-wrap {
-      height: 110px;
-      margin-left: 20px;
+      min-height: 110px;
       margin-bottom: 20px;
       padding: 18px 20px;
       background-color: #fff;
@@ -130,13 +205,16 @@ const clickTagHandle = (item: itemState, type: string) => {
       .line-1 {
         font-size: 18px;
         line-height: 1.5;
-        font-weight: 600;
+        font-weight: 500;
       }
-      .line-2 {
+      .line-2,
+      .line-3 {
         font-size: 14px;
+        line-height: 1.7;
         color: rgba(0, 0, 0, 0.6);
       }
-      .line-2 {
+      .line-3 {
+        margin-bottom: 2px;
       }
     }
   }
@@ -169,6 +247,28 @@ const clickTagHandle = (item: itemState, type: string) => {
     // 分类
     .category-wrap {
       min-height: 270px;
+      max-height: 60vh;
+    }
+    .category-item {
+      padding: 5px 0;
+    }
+    .category__tag {
+      border-radius: 11px;
+      line-height: 1;
+      margin: 0;
+    }
+    .category__inner {
+      @include flex-between();
+      cursor: pointer;
+      border-bottom: 2px solid #eee;
+      transition: all 0.5s;
+    }
+    .category-item:hover {
+      background-color: #f9f9f9;
+    }
+    .category__text {
+      line-height: 1.8;
+      flex: 1;
     }
     // 标签
     .tag-wrap {
