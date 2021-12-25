@@ -2,17 +2,18 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-24 20:34:46
- * @LastEditTime: 2021-12-20 22:53:24
+ * @LastEditTime: 2021-12-24 23:25:21
  * @Description: 
  * @FilePath: \blog-home\src\layout\nav.vue
 -->
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, reactive } from 'vue'
 import Login from './login.vue'
 import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
 import { PlusSquareOutlined } from '@ant-design/icons-vue'
+import { getArticleList } from '@/api/article'
 const navList = ref([
   {
     path: '/',
@@ -64,10 +65,40 @@ const route = useRoute()
 const newArticleHandle = () => {
   router.push('/article/create')
 }
+
+// 搜索文章
+const queryPrams = reactive({
+  page: 1,
+  pageSize: 20,
+  title: '',
+  description: '',
+  content: ''
+})
+const searchText = ref('')
+const articleList = ref([])
+const getArticleListHandle = async () => {
+  const res = await getArticleList(queryPrams)
+  articleList.value = res.list.map((v: any) => {
+    return {
+      value: String(v.id),
+      label: v.title
+    }
+  })
+}
+const onSearchHandle = () => {
+  queryPrams.page = 1
+  queryPrams.title = searchText.value
+  queryPrams.description = searchText.value
+  queryPrams.content = searchText.value
+  getArticleListHandle()
+}
+const onSelect = (v: number) => {
+  router.replace('/article/info?id=' + v)
+}
 </script>
 <template>
   <div class="nav-container">
-    <div class="logo">
+    <div class="logo" @click="$router.push('/')">
       <img src="@/assets/img/logo/favicon-32x32.png" alt="logo" />
     </div>
     <nav class="nav">
@@ -81,7 +112,14 @@ const newArticleHandle = () => {
       </router-link>
     </nav>
     <div class="tool-bar">
-      <a-input-search placeholder="搜索内容" @search="onSearch" />
+      <!-- <a-input-search placeholder="搜索内容" @search="onSearch" /> -->
+      <a-auto-complete
+        v-model:value="searchText"
+        :options="articleList"
+        placeholder="搜索内容"
+        @select="onSelect"
+        @search="onSearchHandle"
+      />
       <PlusSquareOutlined
         v-show="!route.path.includes('create')"
         @click="newArticleHandle"
@@ -146,7 +184,8 @@ const newArticleHandle = () => {
   .tool-bar {
     display: flex;
     align-items: center;
-    .ant-input-search {
+    .ant-input-search,
+    .ant-auto-complete {
       width: 160px;
       margin-right: 16px;
     }
@@ -155,6 +194,7 @@ const newArticleHandle = () => {
   }
   // 深度选择器两种写法
   :deep(.ant-input-search),
+  :deep(.ant-auto-complete),
   :deep(.ant-input),
   :deep(.ant-avatar),
   :deep(.ant-btn) {

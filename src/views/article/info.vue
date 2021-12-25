@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { getArticleInfo } from '@/api/article'
-import { onMounted, ref, reactive, UnwrapRef } from 'vue'
+import { onMounted, ref, reactive, UnwrapRef, watch } from 'vue'
 import { computed, onBeforeUnmount } from 'vue'
 import { Editor, Toolbar, getEditor, removeEditor } from '@wangeditor/editor-for-vue'
+import { useRoute, onBeforeRouteUpdate } from 'vue-router'
 import {
   IDomEditor, // 编辑器实例接口
   IEditorConfig, // 编辑器配置
@@ -18,21 +19,22 @@ const defaultForm = {
   description: '',
   content: ''
 }
-import { useRoute } from 'vue-router'
-const route = useRoute()
+const route = reactive(useRoute())
 // 获取到的html内容
 const html = ref('')
+const isEditorShow = ref(false)
 let ArticleInfo = reactive({ ...defaultForm })
 let myEditor: any = null
-onMounted(async () => {
-  const query = route.query
+const getArticleInfoHandle = async (to?: any) => {
+  let query = route.query
+  if (to) {
+    query = to.query
+  }
+  isEditorShow.value = false
   const res = await getArticleInfo(query)
+  ArticleInfo.title = res.info.title
   ArticleInfo.content = res.info.content
-})
-// 编辑器已创建回调
-const handleCreated = (editor: IDomEditor) => {
-  myEditor = editor
-  html.value = myEditor.getHtml()
+  isEditorShow.value = true
 }
 // 编辑器默认内容
 const getDefaultContent = computed(() => {
@@ -42,30 +44,49 @@ const getDefaultContent = computed(() => {
     return []
   }
 })
+onMounted(() => {
+  getArticleInfoHandle()
+})
+// 路由变化钩子
+onBeforeRouteUpdate((to) => {
+  getArticleInfoHandle(to)
+})
 
-onBeforeUnmount(() => {
+// 编辑器已创建回调
+const handleCreated = (editor: IDomEditor) => {
+  myEditor = editor
+  html.value = myEditor.getHtml()
+}
+const destroy = () => {
   if (myEditor == null) return
   // 销毁，并移除 editor
   myEditor.destroy()
   removeEditor('editorInfo')
   ArticleInfo = reactive({ ...defaultForm })
+}
+onBeforeUnmount(() => {
+  destroy()
 })
 </script>
 <template>
   <div>
     <section class="banner-container">
-      <div class="banner-content">文章详情</div>
+      <div class="banner-content">
+        <!-- <div>文章详情</div> -->
+        <p>{{ArticleInfo.title}}</p>
+      </div>
     </section>
     <section class="article-info">
-      <Editor
-        v-if="ArticleInfo.content"
-        class="editor"
-        editorId="editorInfo"
-        @onCreated="handleCreated"
-        mode="default"
-        :defaultContent="getDefaultContent"
-        :defaultConfig="{ readOnly: true }"
-      />
+      <div v-if="isEditorShow">
+        <Editor
+          class="editor"
+          editorId="editorInfo"
+          @onCreated="handleCreated"
+          mode="default"
+          :defaultContent="getDefaultContent"
+          :defaultConfig="{ readOnly: true }"
+        />
+      </div>
     </section>
   </div>
 </template>
@@ -84,6 +105,12 @@ onBeforeUnmount(() => {
     font-size: 32px;
     text-shadow: 3px 3px steelblue;
     letter-spacing: 25px;
+    text-align: center;
+    line-height: 1.1;
+    flex-wrap: wrap;
+    &>div{
+      width: 100%;
+    }
   }
 }
 .article-info {
@@ -98,5 +125,8 @@ onBeforeUnmount(() => {
   background-color: #fff;
   // background-color: #252d38;
   padding: 40px 20px 20px 20px;
+  @media screen and (max-width: 768px) {
+    width: 95%;
+  }
 }
 </style>

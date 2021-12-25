@@ -301,5 +301,8 @@ onBeforeUnmount(() => {
   background-color: #fff;
   // background-color: #252d38;
   padding: 40px 20px 20px 20px;
+  @media screen and (max-width: 768px) {
+    width: 95%;
+  }
 }
 </style>
