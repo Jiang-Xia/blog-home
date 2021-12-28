@@ -107,7 +107,7 @@ const onSearchHandle = () => {
             {{ item['description'] }}
           </div>
           <div class="line-3">
-            {{ item['updateTime'] }}
+             更新于 {{ item['updateTime'] }}
           </div>
           <div>
             <a-tag :color="item['category']['color']">{{ item['category']['label'] }}</a-tag>
@@ -215,6 +215,7 @@ const onSearchHandle = () => {
       }
       .line-3 {
         margin-bottom: 2px;
+        font-size: 12px;
       }
     }
   }

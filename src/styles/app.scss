@@ -12,14 +12,15 @@
   transition: all 0.3s;
   margin-bottom: 8px;
 }
-.custom-tag.active {
-  background-color: rgba($color: $main-color, $alpha: 0.12) !important;
-  border-color: rgba($color: $main-color, $alpha: 0.36) !important;
-  color: $main-color !important;
-  box-shadow: 1px 1px 4px rgba($color: $main-color, $alpha: 0.6);
-}
 // .custom-tag.active {
-//   background-color: $main-color !important;
-//   border-color: $main-color !important;
-//   color: #fff !important;
+//   background-color: rgba($color: $main-color, $alpha: 0.12) !important;
+//   border-color: rgba($color: $main-color, $alpha: 0.36) !important;
+//   color: $main-color !important;
+//   box-shadow: 1px 1px 4px rgba($color: $main-color, $alpha: 0.6);
 // }
+.custom-tag.active {
+  background-color: $main-color !important;
+  border-color: $main-color !important;
+  color: #fff !important;
+  transform: scale(1.1);
+}

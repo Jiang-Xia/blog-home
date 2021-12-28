@@ -1,8 +1,27 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import themePreprocessorPlugin from '@zougt/vite-plugin-theme-preprocessor'
+import path from 'path'
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [
+    vue(),
+    themePreprocessorPlugin({
+      less: {
+        // 各个主题文件的位置
+        multipleScopeVars: [
+          {
+            scopeName: 'theme-default',
+            path: path.resolve('src/styles/theme/default.less')
+          },
+          {
+            scopeName: 'theme-green',
+            path: path.resolve('src/styles/theme/green.less')
+          }
+        ]
+      }
+    })
+  ],
   resolve: {
     alias: [
       {
@@ -22,9 +41,13 @@ export default defineConfig({
       },
       less: {
         // 定制ant-design-vue主题
-        modifyVars: {
-          '@border-radius-base': '4px'
-        },
+        // modifyVars: {
+        //   '@primary-color': '#0aa679',
+        //   '@border-radius-base': '4px'
+        // },
+        // modifyVars: getThemeVariables({
+        //   dark: true // 开启暗黑模式
+        // }),
         javascriptEnabled: true
       }
     }

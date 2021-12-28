@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-24 20:34:46
- * @LastEditTime: 2021-12-24 23:25:21
+ * @LastEditTime: 2021-12-28 22:51:43
  * @Description: 
  * @FilePath: \blog-home\src\layout\nav.vue
 -->
@@ -14,6 +14,8 @@ import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
 import { PlusSquareOutlined } from '@ant-design/icons-vue'
 import { getArticleList } from '@/api/article'
+import { toggleTheme } from '@zougt/vite-plugin-theme-preprocessor/dist/browser-utils.js'
+
 const navList = ref([
   {
     path: '/',
@@ -95,6 +97,24 @@ const onSearchHandle = () => {
 const onSelect = (v: number) => {
   router.replace('/article/info?id=' + v)
 }
+
+// 主题
+const checked = ref<boolean>(false)
+// 切换主题回调
+const changeTheme = (value: boolean) => {
+  // 如果开关打开，就切换为绿色主题，否则默认黄色主题
+  if (value) {
+    toggleTheme({
+      scopeName: 'theme-green'
+    })
+    console.log('已切换为绿色主题')
+  } else {
+    toggleTheme({
+      scopeName: 'theme-default'
+    })
+    console.log('已切换为默认主题')
+  }
+}
 </script>
 <template>
   <div class="nav-container">
@@ -125,6 +145,12 @@ const onSelect = (v: number) => {
         @click="newArticleHandle"
         title="新建文章"
         style="color: #fff; margin-top: 2px; cursor: pointer"
+      />
+      <a-switch
+        v-model:checked="checked"
+        checked-children="绿"
+        un-checked-children="黄"
+        @change="changeTheme"
       />
       <a-button @click="loginHandle" v-if="!nickname">登录</a-button>
       <a-dropdown v-else>
