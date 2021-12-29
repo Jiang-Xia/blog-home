@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-20 11:28:42
- * @LastEditTime: 2021-12-20 22:53:12
+ * @LastEditTime: 2021-12-29 17:07:57
  * @Description: 
  * @FilePath: \blog-home\src\layout\index.vue
 -->
@@ -66,10 +66,13 @@ onMounted(() => {
   top: 0px;
   left: 0px;
   position: fixed;
-  background: rgba($color: #000, $alpha: 0.05);
+  // background: rgba($color: #000, $alpha: 0.05);
   // box-shadow: 0 2px 8px 0 rgba($color: #000, $alpha: 0.2);
   box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
   transition: all 0.5s;
+  // @include themeify() {
+  //   background: themed('$main-color');
+  // }
 }
 .ant-layout-header__active {
   // backdrop-filter: blur(4px);

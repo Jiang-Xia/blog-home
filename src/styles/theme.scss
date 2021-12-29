@@ -1,0 +1,19 @@
+@import './themes.scss';
+// @each $theme-name, $theme-map in $themes {
+//   .#{$theme-name}{
+//     color: #1cce42;
+//   }
+// }
+
+// @mixin themeify {
+//   @each $theme-name, $theme-map in $themes {
+//     $theme-map: $theme-map !global;
+//     body[data-theme=#{$theme-name}] & {
+//       @content;
+//     }
+//   }
+// }
+
+// @function themed($key) {
+//   @return map-get($theme-map, $key);
+// }

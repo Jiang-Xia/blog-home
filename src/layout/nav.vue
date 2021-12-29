@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-24 20:34:46
- * @LastEditTime: 2021-12-28 22:51:43
+ * @LastEditTime: 2021-12-29 16:35:22
  * @Description: 
  * @FilePath: \blog-home\src\layout\nav.vue
 -->
@@ -107,11 +107,15 @@ const changeTheme = (value: boolean) => {
     toggleTheme({
       scopeName: 'theme-green'
     })
+    document.body.classList.remove('theme2-default')
+    document.body.classList.add('theme2-green')
     console.log('已切换为绿色主题')
   } else {
     toggleTheme({
       scopeName: 'theme-default'
     })
+    document.body.classList.remove('theme2-green')
+    document.body.classList.add('theme2-default')
     console.log('已切换为默认主题')
   }
 }

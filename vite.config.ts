@@ -12,11 +12,11 @@ export default defineConfig({
         multipleScopeVars: [
           {
             scopeName: 'theme-default',
-            path: path.resolve('src/styles/theme/default.less')
+            path: path.resolve('src/styles/theme-less/default.less')
           },
           {
             scopeName: 'theme-green',
-            path: path.resolve('src/styles/theme/green.less')
+            path: path.resolve('src/styles/theme-less/green.less')
           }
         ]
       }
@@ -37,7 +37,7 @@ export default defineConfig({
     preprocessorOptions: {
       // 天坑！！！element-plus scss文件变量命名有旧版本启用的，和设置全局scss变量有冲突
       scss: {
-        additionalData: '@import "@/styles/scss/_mixins";'
+        additionalData: '@import "@/styles/theme.scss";'
       },
       less: {
         // 定制ant-design-vue主题

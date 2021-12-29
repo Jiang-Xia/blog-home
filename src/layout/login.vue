@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-30 16:22:00
- * @LastEditTime: 2021-12-20 22:52:59
+ * @LastEditTime: 2021-12-29 11:45:11
  * @Description: 
  * @FilePath: \blog-home\src\layout\login.vue
 -->
@@ -10,7 +10,6 @@
 import { ref, computed } from 'vue'
 import { watch, watchEffect } from 'vue'
 import { useStore } from 'vuex'
-import { defineProps, defineEmits, defineExpose } from 'vue'
 import { registerUser } from '@/api/user'
 import { message } from 'ant-design-vue'
 // 定义props属性
