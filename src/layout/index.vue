@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-20 11:28:42
- * @LastEditTime: 2021-12-30 10:20:57
+ * @LastEditTime: 2021-12-30 15:47:12
  * @Description: 
  * @FilePath: \blog-home\src\layout\index.vue
 -->
@@ -10,6 +10,7 @@
 import Nav from './nav.vue'
 import { ref } from 'vue'
 import { onMounted, watch } from '@vue/runtime-core'
+import { throttle } from '@/utils'
 const scrollTop = ref(0)
 const scrollHandle = (e: any) => {
   // console.log(e.target)
@@ -26,34 +27,41 @@ onMounted(() => {
     之所以绑定window的滚动事件 是为了元素样式为固定定位（相对于window定位的）时会覆盖document子元素的滚动条
     造成错位不好看。这里的滚动对象是 document.documentElement
   */
-  window.addEventListener('scroll', scrollHandle, true)
-  document.body.setAttribute('data-theme','theme-default')
+  window.addEventListener('scroll', throttle(scrollHandle, 100), true)
+  document.body.setAttribute('data-theme', 'theme-default')
 })
 </script>
 <template>
   <div class="app-layout-contaier">
-    <a-layout>
-      <a-layout-header :class="{ 'ant-layout-header__active': scrollTop > 58 }">
-        <Nav />
-      </a-layout-header>
-      <a-layout-content>
-        <router-view v-slot="{ Component }">
-          <transition name="slide">
-            <component :is="Component" />
-          </transition>
-        </router-view>
-      </a-layout-content>
-      <a-layout-footer></a-layout-footer>
-    </a-layout>
+    <a-layout-header :class="{ 'ant-layout-header__active': scrollTop > 58 }">
+      <Nav />
+    </a-layout-header>
+    <a-layout-content>
+      <router-view v-slot="{ Component }">
+        <transition name="slide">
+          <component :is="Component" />
+        </transition>
+      </router-view>
+    </a-layout-content>
+    <a-layout-footer></a-layout-footer>
   </div>
 </template>
 
 <style lang="scss" scoped>
 .app-layout-contaier {
   position: relative;
-  background-image: url(@/assets/img/background/stucco.png);
-  background-repeat: repeat;
-  // background-color: $main-bgc;
+  // noise 遮罩层
+  &::after {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    content: '';
+    pointer-events: none;
+    z-index: 3;
+    background-image: url(@/assets/img/background/noise.png);
+  }
 }
 .ant-layout,
 .ant-layout-footer {
@@ -67,15 +75,15 @@ onMounted(() => {
   top: 0px;
   left: 0px;
   position: fixed;
-  background: rgba($color: #000, $alpha: 0.05);
-  // box-shadow: 0 2px 8px 0 rgba($color: #000, $alpha: 0.2);
   box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
   transition: all 0.5s;
+  background: transparent !important;
 }
 .ant-layout-header__active {
-  // backdrop-filter: blur(4px);
-  // background-color: #364d79;
-  background-color: rgba($color: #364d79, $alpha: 0.72);
+  @include themeify {
+    background-color: themed('nav-color') !important;
+    border-color: themed('nav-color') !important;
+  }
 }
 .ant-layout-content {
   min-height: calc(100vh - 48px);

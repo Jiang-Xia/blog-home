@@ -7,17 +7,27 @@
 @import './scss/mixins';
 $default: (
   main-color: #ff0088,
+  nav-color: rgba($color: #314254, $alpha: 0.72),
   box-shadow: $box-shadow,
-  main-bgc: $box-shadow,
-  mian-text-color: $box-shadow
+  main-bgc: $main-bgc,
+  main-text-color: $main-text-color,
 );
 $green: (
   main-color: #1cce42,
+  nav-color: #314254,
   box-shadow: $box-shadow,
-  main-bgc: $box-shadow,
-  mian-text-color: $box-shadow
+  main-bgc: $main-bgc,
+  main-text-color: $main-text-color
+);
+$dark: (
+  main-color: #1cce42,
+  nav-color: #314254,
+  box-shadow: $box-shadow,
+  main-bgc: $main-bgc,
+  main-text-color: rgba($color: #fff, $alpha: 0.9),
 );
 $themes: (
   theme-default: $default,
-  theme-green: $green
+  theme-green: $green,
+  theme-dark: $dark,
 );

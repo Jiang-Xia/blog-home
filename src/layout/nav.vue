@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-24 20:34:46
- * @LastEditTime: 2021-12-30 11:43:25
+ * @LastEditTime: 2021-12-30 17:25:50
  * @Description: 
  * @FilePath: \blog-home\src\layout\nav.vue
 -->
@@ -12,7 +12,7 @@ import { ref, computed, reactive } from 'vue'
 import Login from './login.vue'
 import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
-import { PlusSquareOutlined } from '@ant-design/icons-vue'
+import { PlusSquareOutlined, BulbOutlined, FireOutlined, SyncOutlined } from '@ant-design/icons-vue'
 import { getArticleList } from '@/api/article'
 const navList = ref([
   {
@@ -97,18 +97,20 @@ const onSelect = (v: number) => {
 }
 
 // 主题
-const checked = ref<boolean>(false)
+const theme = ref<string>('default')
 // 切换主题回调
-const changeTheme = (value: boolean) => {
-  // 如果开关打开，就切换为绿色主题，否则默认黄色主题
-  if (value) {
-    document.documentElement.classList.replace('theme-default', 'theme-green')
-    document.body.setAttribute('data-theme', 'theme-green')
-    console.log('已切换为绿色主题')
-  } else {
+const changeTheme = (type: string) => {
+  const cb = (type: string) => {
+    document.documentElement.setAttribute('class', `theme-${type}`)
+    document.body.setAttribute('data-theme', `theme-${type}`)
+  }
+  if (type === 'default') {
+    cb(type)
+  } else if (type === 'dark') {
+    cb(type)
+  } else if (type === 'auto') {
     document.documentElement.classList.replace('theme-green', 'theme-default')
     document.body.setAttribute('data-theme', 'theme-default')
-    console.log('已切换为默认主题')
   }
 }
 </script>
@@ -142,14 +144,28 @@ const changeTheme = (value: boolean) => {
         title="新建文章"
         style="color: #fff; margin-right: 5px; margin-top: 2px; cursor: pointer"
       />
-      <a-switch
-        v-model:checked="checked"
-        checked-children="绿"
-        un-checked-children="粉"
-        class="mg-l-10"
-        size="small"
-        @change="changeTheme"
-      />
+      <!-- 主题模式 开始 -->
+      <a-dropdown size="small" class="mg-l-10">
+        <span>
+          <BulbOutlined style="color: #fff;" v-if="theme === 'default'" />
+          <FireOutlined style="color: #fff;" v-else="theme === 'dark'" />
+          <SyncOutlined  style="color: #fff;" v-else />
+        </span>
+        <template #overlay>
+          <a-menu>
+            <a-menu-item>
+              <span @click="changeTheme('default')">亮色模式</span>
+            </a-menu-item>
+            <a-menu-item>
+              <span @click="changeTheme('dark')">暗黑模式</span>
+            </a-menu-item>
+            <a-menu-item>
+              <span @click="changeTheme('auto')">跟随系统</span>
+            </a-menu-item>
+          </a-menu>
+        </template>
+      </a-dropdown>
+      <!--主题模式 结束  -->
       <a-button @click="loginHandle" v-if="!nickname">登录</a-button>
       <a-dropdown v-else>
         <a class="ant-dropdown-link" @click.prevent>
