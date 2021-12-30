@@ -1,19 +1,45 @@
 @import './themes.scss';
-// @each $theme-name, $theme-map in $themes {
-//   .#{$theme-name}{
-//     color: #1cce42;
-//   }
-// }
 
-// @mixin themeify {
-//   @each $theme-name, $theme-map in $themes {
-//     $theme-map: $theme-map !global;
-//     body[data-theme=#{$theme-name}] & {
-//       @content;
-//     }
-//   }
-// }
+//遍历主题map
+@mixin themeify {
+  @each $theme-name, $theme-map in $themes {
+    //!global 把局部变量强升为全局变量
+    $theme-map: $theme-map !global;
+    //判断html的data-theme的属性值  #{}是sass的插值表达式
+    //& sass嵌套里的父容器标识   @content是混合器插槽，像vue的slot
+    body[data-theme='#{$theme-name}'] & {
+      @content;
+    }
+  }
+}
+// 直接插入属性和属性值，返回属性和属性值
+@mixin styles($style, $type) {
+  @include themeify {
+    #{$style}: isStyle($type);
+  }
+}
+@mixin main-color($style) {
+  @include themeify {
+    #{$style}: isStyle('main-color');
+  }
+}
+//返回属性值
+@function themed($key) {
+  @return map-get($theme-map, $key);
+  // 判断是否存在key
+  // @return map-has-key($theme-map, $key);
+}
 
-// @function themed($key) {
-//   @return map-get($theme-map, $key);
-// }
+//获取主颜色
+@function main-color() {
+  @return themed('main-color');
+}
+
+//获取对应主题对应属性下相关状态的属性值
+@function isStyle($type) {
+  //map-get 根据对应的key值返回map中对应的值
+  //map-get($map, $key)
+  @if map-has-key($theme-map, $type) {
+    @return map-get($theme-map, $type);
+  }
+}

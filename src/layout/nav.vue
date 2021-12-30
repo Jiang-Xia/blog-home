@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-24 20:34:46
- * @LastEditTime: 2021-12-29 16:35:22
+ * @LastEditTime: 2021-12-30 11:43:25
  * @Description: 
  * @FilePath: \blog-home\src\layout\nav.vue
 -->
@@ -14,8 +14,6 @@ import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
 import { PlusSquareOutlined } from '@ant-design/icons-vue'
 import { getArticleList } from '@/api/article'
-import { toggleTheme } from '@zougt/vite-plugin-theme-preprocessor/dist/browser-utils.js'
-
 const navList = ref([
   {
     path: '/',
@@ -104,18 +102,12 @@ const checked = ref<boolean>(false)
 const changeTheme = (value: boolean) => {
   // 如果开关打开，就切换为绿色主题，否则默认黄色主题
   if (value) {
-    toggleTheme({
-      scopeName: 'theme-green'
-    })
-    document.body.classList.remove('theme2-default')
-    document.body.classList.add('theme2-green')
+    document.documentElement.classList.replace('theme-default', 'theme-green')
+    document.body.setAttribute('data-theme', 'theme-green')
     console.log('已切换为绿色主题')
   } else {
-    toggleTheme({
-      scopeName: 'theme-default'
-    })
-    document.body.classList.remove('theme2-green')
-    document.body.classList.add('theme2-default')
+    document.documentElement.classList.replace('theme-green', 'theme-default')
+    document.body.setAttribute('data-theme', 'theme-default')
     console.log('已切换为默认主题')
   }
 }
@@ -148,12 +140,14 @@ const changeTheme = (value: boolean) => {
         v-show="!route.path.includes('create')"
         @click="newArticleHandle"
         title="新建文章"
-        style="color: #fff; margin-top: 2px; cursor: pointer"
+        style="color: #fff; margin-right: 5px; margin-top: 2px; cursor: pointer"
       />
       <a-switch
         v-model:checked="checked"
         checked-children="绿"
-        un-checked-children="黄"
+        un-checked-children="粉"
+        class="mg-l-10"
+        size="small"
         @change="changeTheme"
       />
       <a-button @click="loginHandle" v-if="!nickname">登录</a-button>
@@ -206,10 +200,10 @@ const changeTheme = (value: boolean) => {
     color: #fff;
   }
   .router-link-active {
-    color: $main-color;
+    @include styles('color', 'main-color');
   }
   .router-link-item > span:hover {
-    color: $main-color;
+    @include styles('color', 'main-color');
   }
   .tool-bar {
     display: flex;

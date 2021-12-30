@@ -2,20 +2,22 @@
 //data-theme为其他值时，就采用组件库的默认样式
 //这里我只定义了两套主题方案，想要再多只需在`$themes`里加就行了
 //注意一点是，每套配色方案里的key可以自定义但必须一致，不然就会混乱
+
+// 定义mapkey不能使用$开头，那是变量声明
 @import './scss/mixins';
 $default: (
-  $main-color: #ff0088
+  main-color: #ff0088,
+  box-shadow: $box-shadow,
+  main-bgc: $box-shadow,
+  mian-text-color: $box-shadow
 );
 $green: (
-  $main-color: #1cce42
+  main-color: #1cce42,
+  box-shadow: $box-shadow,
+  main-bgc: $box-shadow,
+  mian-text-color: $box-shadow
 );
 $themes: (
-  theme2-default: $default,
-  theme2-green: $green
+  theme-default: $default,
+  theme-green: $green
 );
-@each $theme-name, $theme-map in $themes {
-  .#{$theme-name}{
-    color: #1cce42;
-    background: #000;
-  }
-}
