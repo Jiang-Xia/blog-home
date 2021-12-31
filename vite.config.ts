@@ -17,6 +17,10 @@ export default defineConfig({
           {
             scopeName: 'theme-green',
             path: path.resolve('src/styles/theme-less/green.less')
+          },
+          {
+            scopeName: 'theme-dark',
+            path: path.resolve('src/styles/theme-less/dark.less')
           }
         ]
       }

@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-20 11:28:42
- * @LastEditTime: 2021-12-30 15:47:12
+ * @LastEditTime: 2021-12-31 09:59:28
  * @Description: 
  * @FilePath: \blog-home\src\layout\index.vue
 -->
@@ -59,7 +59,7 @@ onMounted(() => {
     height: 100%;
     content: '';
     pointer-events: none;
-    z-index: 3;
+    z-index: 0;
     background-image: url(@/assets/img/background/noise.png);
   }
 }
@@ -71,7 +71,7 @@ onMounted(() => {
   height: 58px;
   line-height: 58px;
   width: 100%;
-  z-index: 1;
+  z-index: 2;
   top: 0px;
   left: 0px;
   position: fixed;

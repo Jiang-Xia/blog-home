@@ -6,7 +6,7 @@
 // 定义mapkey不能使用$开头，那是变量声明
 @import './scss/mixins';
 $default: (
-  main-color: #ff0088,
+  main-color: #1890ff,
   nav-color: rgba($color: #314254, $alpha: 0.72),
   box-shadow: $box-shadow,
   main-bgc: $main-bgc,
@@ -20,7 +20,7 @@ $green: (
   main-text-color: $main-text-color
 );
 $dark: (
-  main-color: #1cce42,
+  main-color: #1890ff,
   nav-color: #314254,
   box-shadow: $box-shadow,
   main-bgc: $main-bgc,

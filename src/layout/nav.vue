@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-24 20:34:46
- * @LastEditTime: 2021-12-30 17:25:50
+ * @LastEditTime: 2021-12-31 10:10:16
  * @Description: 
  * @FilePath: \blog-home\src\layout\nav.vue
 -->
@@ -113,6 +113,7 @@ const changeTheme = (type: string) => {
     document.body.setAttribute('data-theme', 'theme-default')
   }
 }
+changeTheme('default')
 </script>
 <template>
   <div class="nav-container">
