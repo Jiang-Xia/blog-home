@@ -106,16 +106,17 @@ const onSearchHandle = () => {
           <div class="line-2 ellipsis">
             {{ item['description'] }}
           </div>
-          <div class="line-3">
-             更新于 {{ item['updateTime'] }}
-          </div>
+          <div class="line-3">更新于 {{ item['updateTime'] }}</div>
           <div>
             <a-tag :color="item['category']['color']">{{ item['category']['label'] }}</a-tag>
           </div>
         </div>
       </transition-group>
 
-      <a-empty :style="{transform:!articleList.length?'scale(1,1)':''}"  description="找不到文章..." />
+      <a-empty
+        :style="{ transform: !articleList.length ? 'scale(1,1)' : '' }"
+        description="找不到文章..."
+      />
       <!-- 分页 -->
       <a-pagination
         v-model:current="current"
@@ -185,8 +186,8 @@ const onSearchHandle = () => {
   position: relative;
   :deep(.ant-empty) {
     margin-bottom: 10vh;
-    transition: all 1s ;
-    transform: scale(0,0)
+    transition: all 1s;
+    transform: scale(0, 0);
   }
   .ant-pagination {
     margin-top: 8vh;
@@ -199,19 +200,18 @@ const onSearchHandle = () => {
       min-height: 110px;
       margin-bottom: 20px;
       padding: 18px 20px;
-      background-color: #fff;
+      @include styles('background-color', 'minor-bgc');
       // box-shadow: 0 2px 6px rgba($color: #000000, $alpha: 0.26);
       border-radius: 8px;
       .line-1 {
-        font-size: 18px;
-        line-height: 1.5;
-        font-weight: 500;
+        font-size: 20px;
+        line-height: 1.2;
       }
       .line-2,
       .line-3 {
         font-size: 14px;
         line-height: 1.7;
-        color: rgba(0, 0, 0, 0.6);
+        @include styles('color', 'text-color2');
       }
       .line-3 {
         margin-bottom: 2px;
@@ -232,7 +232,7 @@ const onSearchHandle = () => {
       margin-right: 20px;
       margin-left: 20px;
       padding: 18px 20px;
-      background-color: #fff;
+      @include styles('background-color', 'minor-bgc');
       // box-shadow: $box-shadow;
       border-radius: 8px;
       min-height: 310px;
@@ -240,6 +240,7 @@ const onSearchHandle = () => {
         line-height: 32px;
         font-size: 15px;
         font-weight: 600;
+        @include styles('color', 'text-color');
       }
     }
     .auth-info {
@@ -265,7 +266,8 @@ const onSearchHandle = () => {
       transition: all 0.5s;
     }
     .category-item:hover {
-      background-color: #f9f9f9;
+      // background-color: #f9f9f9;
+      @include styles('background-color', 'hover-color');
     }
     .category__text {
       line-height: 1.8;

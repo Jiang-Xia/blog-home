@@ -1,3 +1,4 @@
+@import '../theme.scss';
 html,
 body,
 div,
@@ -95,7 +96,6 @@ video {
 
   border: none;
   outline: none;
-
   -webkit-tap-highlight-color: transparent; // 去掉点击对象时默认的灰色半透明覆盖层(iOS)或者虚框(Android)
   // -webkit-user-select: none; // 禁止选择文字
 }

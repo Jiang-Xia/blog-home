@@ -73,7 +73,7 @@ onBeforeUnmount(() => {
     <section class="banner-container">
       <div class="banner-content">
         <!-- <div>文章详情</div> -->
-        <p>{{ArticleInfo.title}}</p>
+        <p>{{ ArticleInfo.title }}</p>
       </div>
     </section>
     <section class="article-info">
@@ -108,7 +108,7 @@ onBeforeUnmount(() => {
     text-align: center;
     line-height: 1.1;
     flex-wrap: wrap;
-    &>div{
+    & > div {
       width: 100%;
     }
   }
@@ -121,12 +121,14 @@ onBeforeUnmount(() => {
   width: 70%;
   z-index: 0;
   border-radius: 18px;
-  // box-shadow: $box-shadow;
-  background-color: #fff;
-  // background-color: #252d38;
+  @include styles('background-color', 'minor-bgc');
   padding: 40px 20px 20px 20px;
   @media screen and (max-width: 768px) {
     width: 95%;
+  }
+  :deep(.w-e-text-container){
+    // @include styles('background-color', 'main-bgc');
+    @include styles('color', 'text-color');
   }
 }
 </style>

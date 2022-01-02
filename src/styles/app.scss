@@ -20,3 +20,32 @@
   color: #fff !important;
   transform: scale(1.1);
 }
+
+.ant-layout-content {
+  .ant-input,
+  .ant-select-selector {
+    @include styles('background-color', 'main-bgc');
+    @include styles('border-color', 'main-bgc');
+    @include styles('color', 'text-color');
+  }
+  .tag-select .ant-select-selection-item {
+    @include styles('background-color', 'minor-bgc');
+    @include styles('border-color', 'main-bgc');
+    @include styles('color', 'text-color');
+  }
+  .ant-form-item-label {
+    & > label {
+      @include styles('color', 'text-color');
+    }
+  }
+  #custom-validation_content {
+    border-color: transparent !important;
+    border-radius: 4px;
+    .w-e-text-container,
+    .w-e-bar {
+      @include styles('background-color', 'main-bgc');
+      @include styles('color', 'text-color');
+      border-radius: 4px;
+    }
+  }
+}

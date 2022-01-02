@@ -1,30 +1,26 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import themePreprocessorPlugin from '@zougt/vite-plugin-theme-preprocessor'
-import path from 'path'
+// import themePreprocessorPlugin from '@zougt/vite-plugin-theme-preprocessor'
+// import path from 'path'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    vue(),
-    themePreprocessorPlugin({
-      less: {
-        // 各个主题文件的位置
-        multipleScopeVars: [
-          {
-            scopeName: 'theme-default',
-            path: path.resolve('src/styles/theme-less/default.less')
-          },
-          {
-            scopeName: 'theme-green',
-            path: path.resolve('src/styles/theme-less/green.less')
-          },
-          {
-            scopeName: 'theme-dark',
-            path: path.resolve('src/styles/theme-less/dark.less')
-          }
-        ]
-      }
-    })
+    vue()
+    // themePreprocessorPlugin({
+    //   less: {
+    //     // 各个主题文件的位置
+    //     multipleScopeVars: [
+    //       {
+    //         scopeName: 'theme-default',
+    //         path: path.resolve('src/styles/theme-less/default.less')
+    //       },
+    //       {
+    //         scopeName: 'theme-dark',
+    //         path: path.resolve('src/styles/theme-less/dark.less')
+    //       }
+    //     ]
+    //   }
+    // })
   ],
   resolve: {
     alias: [
@@ -45,13 +41,10 @@ export default defineConfig({
       },
       less: {
         // 定制ant-design-vue主题
-        // modifyVars: {
-        //   '@primary-color': '#0aa679',
-        //   '@border-radius-base': '4px'
-        // },
-        // modifyVars: getThemeVariables({
-        //   dark: true // 开启暗黑模式
-        // }),
+        modifyVars: {
+          '@primary-color': '#00ADB5',
+          '@border-radius-base': '4px'
+        },
         javascriptEnabled: true
       }
     }

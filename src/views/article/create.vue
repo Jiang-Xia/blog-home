@@ -229,6 +229,7 @@ onBeforeUnmount(() => {
               v-model:value="formState.tags"
               :options="tagsOptions"
               mode="multiple"
+              class="tag-select"
             >
             </a-select>
             <a-button type="text" @click="showConfirm('标签')">
@@ -299,10 +300,36 @@ onBeforeUnmount(() => {
   border-radius: 18px;
   // box-shadow: $box-shadow;
   background-color: #fff;
-  // background-color: #252d38;
+  @include styles('background-color', 'minor-bgc');
   padding: 40px 20px 20px 20px;
   @media screen and (max-width: 768px) {
     width: 95%;
   }
+  // :deep(.ant-input),
+  // :deep(.ant-select-selector) {
+  //   @include styles('background-color', 'main-bgc');
+  //   @include styles('border-color', 'main-bgc');
+  //   @include styles('color', 'text-color');
+  // }
+  // :deep(.tag-select .ant-select-selection-item) {
+  //   @include styles('background-color', 'minor-bgc');
+  //   @include styles('border-color', 'main-bgc');
+  //   @include styles('color', 'text-color');
+  // }
+  // :deep(.ant-form-item-label) {
+  //   & > label {
+  //     @include styles('color', 'text-color');
+  //   }
+  // }
+  // #custom-validation_content {
+  //   border-color: transparent !important;
+  //   border-radius: 4px;
+  //   :deep(.w-e-text-container),
+  //   :deep(.w-e-bar) {
+  //     @include styles('background-color', 'main-bgc');
+  //     @include styles('color', 'text-color');
+  //     border-radius: 4px;
+  //   }
+  // }
 }
 </style>

@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-24 20:34:46
- * @LastEditTime: 2021-12-31 10:10:16
+ * @LastEditTime: 2022-01-02 20:06:18
  * @Description: 
  * @FilePath: \blog-home\src\layout\nav.vue
 -->
@@ -100,6 +100,7 @@ const onSelect = (v: number) => {
 const theme = ref<string>('default')
 // 切换主题回调
 const changeTheme = (type: string) => {
+  console.log('切换主题回调')
   const cb = (type: string) => {
     document.documentElement.setAttribute('class', `theme-${type}`)
     document.body.setAttribute('data-theme', `theme-${type}`)
@@ -113,7 +114,6 @@ const changeTheme = (type: string) => {
     document.body.setAttribute('data-theme', 'theme-default')
   }
 }
-changeTheme('default')
 </script>
 <template>
   <div class="nav-container">
@@ -146,7 +146,7 @@ changeTheme('default')
         style="color: #fff; margin-right: 5px; margin-top: 2px; cursor: pointer"
       />
       <!-- 主题模式 开始 -->
-      <a-dropdown size="small" class="mg-l-10">
+      <a-dropdown size="small" class="mg-l-10" >
         <span>
           <BulbOutlined style="color: #fff;" v-if="theme === 'default'" />
           <FireOutlined style="color: #fff;" v-else="theme === 'dark'" />
@@ -167,7 +167,7 @@ changeTheme('default')
         </template>
       </a-dropdown>
       <!--主题模式 结束  -->
-      <a-button @click="loginHandle" v-if="!nickname">登录</a-button>
+      <a-button type="link" @click="loginHandle" v-if="!nickname">登录</a-button>
       <a-dropdown v-else>
         <a class="ant-dropdown-link" @click.prevent>
           <a-avatar>{{ nickname }}</a-avatar>
@@ -235,12 +235,13 @@ changeTheme('default')
   }
   // 深度选择器两种写法
   :deep(.ant-input-search),
+  :deep(.ant-select-selector),
   :deep(.ant-auto-complete),
   :deep(.ant-input),
   :deep(.ant-avatar),
   :deep(.ant-btn) {
-    background-color: transparent;
-    border-color: transparent;
+    background-color: transparent !important;
+    border-color: transparent !important;
     color: #fff;
   }
   ::v-deep(.ant-input-suffix) {

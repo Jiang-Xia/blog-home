@@ -1,4 +1,4 @@
-//当HTML的data-theme为dark时，样式引用dark
+//当html的data-theme为dark时，样式引用dark
 //data-theme为其他值时，就采用组件库的默认样式
 //这里我只定义了两套主题方案，想要再多只需在`$themes`里加就行了
 //注意一点是，每套配色方案里的key可以自定义但必须一致，不然就会混乱
@@ -6,28 +6,28 @@
 // 定义mapkey不能使用$开头，那是变量声明
 @import './scss/mixins';
 $default: (
-  main-color: #1890ff,
+  main-color: #00adb5,
   nav-color: rgba($color: #314254, $alpha: 0.72),
   box-shadow: $box-shadow,
-  main-bgc: $main-bgc,
-  main-text-color: $main-text-color,
-);
-$green: (
-  main-color: #1cce42,
-  nav-color: #314254,
-  box-shadow: $box-shadow,
-  main-bgc: $main-bgc,
-  main-text-color: $main-text-color
+  main-bgc: #eeeeee,
+  minor-bgc: #ffffff,
+  text-color: #364f6b,
+  text-color2: rgba($color: #364f6b, $alpha: 0.65),
+  hover-color: #f9f9f9
+  // #364f6b #3fc1c9 #f5f5f5 #fc5185
 );
 $dark: (
-  main-color: #1890ff,
+  // #222831 #393e46  #00adb5  #eeeeee
+  main-color: #00adb5,
   nav-color: #314254,
   box-shadow: $box-shadow,
-  main-bgc: $main-bgc,
-  main-text-color: rgba($color: #fff, $alpha: 0.9),
+  main-bgc: #222831,
+  minor-bgc: #393e46,
+  text-color: rgba($color: #fff, $alpha: 0.85),
+  text-color2: rgba($color: #fff, $alpha: 0.65),
+  hover-color: rgba(255, 255, 255, 0.08)
 );
 $themes: (
   theme-default: $default,
-  theme-green: $green,
   theme-dark: $dark,
 );

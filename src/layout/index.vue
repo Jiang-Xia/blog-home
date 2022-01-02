@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-20 11:28:42
- * @LastEditTime: 2021-12-31 09:59:28
+ * @LastEditTime: 2022-01-02 18:20:40
  * @Description: 
  * @FilePath: \blog-home\src\layout\index.vue
 -->
@@ -28,7 +28,6 @@ onMounted(() => {
     造成错位不好看。这里的滚动对象是 document.documentElement
   */
   window.addEventListener('scroll', throttle(scrollHandle, 100), true)
-  document.body.setAttribute('data-theme', 'theme-default')
 })
 </script>
 <template>
@@ -61,6 +60,12 @@ onMounted(() => {
     pointer-events: none;
     z-index: 0;
     background-image: url(@/assets/img/background/noise.png);
+  }
+  @include themeify {
+    background-color: themed('main-bgc') !important;
+    color: themed('text-color') !important;
+
+    // #181c27 c4c6c9
   }
 }
 .ant-layout,
