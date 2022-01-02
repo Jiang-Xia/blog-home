@@ -2,18 +2,20 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-24 20:34:46
- * @LastEditTime: 2022-01-02 20:06:18
+ * @LastEditTime: 2022-01-02 21:50:23
  * @Description: 
  * @FilePath: \blog-home\src\layout\nav.vue
 -->
 
 <script setup lang="ts">
-import { ref, computed, reactive } from 'vue'
+import { ref, computed, reactive, onMounted } from 'vue'
 import Login from './login.vue'
 import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
-import { PlusSquareOutlined, BulbOutlined, FireOutlined, SyncOutlined } from '@ant-design/icons-vue'
+import { PlusSquareOutlined } from '@ant-design/icons-vue'
 import { getArticleList } from '@/api/article'
+import XIcon from '@/components/icons/index'
+import dayjs from 'dayjs'
 const navList = ref([
   {
     path: '/',
@@ -96,24 +98,55 @@ const onSelect = (v: number) => {
   router.replace('/article/info?id=' + v)
 }
 
-// 主题
-const theme = ref<string>('default')
-// 切换主题回调
-const changeTheme = (type: string) => {
-  console.log('切换主题回调')
-  const cb = (type: string) => {
-    document.documentElement.setAttribute('class', `theme-${type}`)
-    document.body.setAttribute('data-theme', `theme-${type}`)
+onMounted(() => {
+  const themeType = localStorage.getItem('theme')
+  // console.log(themeType)
+  if (themeType) {
+    if (themeType === 'auto') {
+      getHour()
+    } else {
+      setTheme(themeType)
+    }
+    // 都有设置icon和选中
+    theme.value = themeType
+    iconClass.value = 'blog-' + themeType
+  } else {
+    getHour()
   }
-  if (type === 'default') {
-    cb(type)
-  } else if (type === 'dark') {
-    cb(type)
-  } else if (type === 'auto') {
-    document.documentElement.classList.replace('theme-green', 'theme-default')
-    document.body.setAttribute('data-theme', 'theme-default')
+})
+
+/* 切换主题 开始 */
+const theme = ref<string>('light')
+const iconClass = ref('blog-light')
+const setTheme = (type: string) => {
+  document.documentElement.setAttribute('class', `theme-${type}`)
+  document.body.setAttribute('data-theme', `theme-${type}`)
+}
+// 是否自动设置
+const getHour = () => {
+  const time = dayjs().hour()
+  // 白天
+  if (6 < time && time < 18) {
+    setTheme('light')
+  } else {
+    setTheme('dark')
   }
 }
+// 回调
+const changeTheme = (type: string) => {
+  // console.log('切换主题回调')
+  theme.value = type
+  iconClass.value = 'blog-' + type
+  localStorage.setItem('theme', type)
+  if (type === 'light') {
+    setTheme(type)
+  } else if (type === 'dark') {
+    setTheme(type)
+  } else if (type === 'auto') {
+    getHour()
+  }
+}
+/* 切换主题 结束 */
 </script>
 <template>
   <div class="nav-container">
@@ -146,22 +179,20 @@ const changeTheme = (type: string) => {
         style="color: #fff; margin-right: 5px; margin-top: 2px; cursor: pointer"
       />
       <!-- 主题模式 开始 -->
-      <a-dropdown size="small" class="mg-l-10" >
+      <a-dropdown size="small" class="mg-l-10" :trigger="['click']">
         <span>
-          <BulbOutlined style="color: #fff;" v-if="theme === 'default'" />
-          <FireOutlined style="color: #fff;" v-else="theme === 'dark'" />
-          <SyncOutlined  style="color: #fff;" v-else />
+          <x-icon style="color: #fff" :icon="iconClass" />
         </span>
         <template #overlay>
           <a-menu>
-            <a-menu-item>
-              <span @click="changeTheme('default')">亮色模式</span>
+            <a-menu-item :class="theme === 'light' ? 'active' : ''" @click="changeTheme('light')">
+              <span>light</span>
             </a-menu-item>
-            <a-menu-item>
-              <span @click="changeTheme('dark')">暗黑模式</span>
+            <a-menu-item :class="theme === 'dark' ? 'active' : ''" @click="changeTheme('dark')">
+              <span>dark</span>
             </a-menu-item>
-            <a-menu-item>
-              <span @click="changeTheme('auto')">跟随系统</span>
+            <a-menu-item :class="theme === 'auto' ? 'active' : ''" @click="changeTheme('auto')">
+              <span>auto</span>
             </a-menu-item>
           </a-menu>
         </template>
@@ -247,5 +278,11 @@ const changeTheme = (type: string) => {
   ::v-deep(.ant-input-suffix) {
     color: #fff;
   }
+}
+
+// #app 容器外样式
+:deep(.ant-dropdown-menu-item.active) {
+  background-color: themed('main-color');
+  color: #fff;
 }
 </style>

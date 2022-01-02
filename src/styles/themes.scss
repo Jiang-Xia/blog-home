@@ -28,6 +28,7 @@ $dark: (
   hover-color: rgba(255, 255, 255, 0.08)
 );
 $themes: (
-  theme-default: $default,
+  // theme-default: $default,
+  theme-light: $default,
   theme-dark: $dark,
 );
