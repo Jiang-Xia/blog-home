@@ -38,13 +38,12 @@
       @include styles('color', 'text-color');
     }
   }
-  #custom-validation_content {
-    border-color: transparent !important;
+  .editor-wrap {
     border-radius: 4px;
     .w-e-text-container,
     .w-e-bar {
       @include styles('background-color', 'main-bgc');
-      @include styles('color', 'text-color');
+      // @include styles('color', 'text-color');
       border-radius: 4px;
     }
   }

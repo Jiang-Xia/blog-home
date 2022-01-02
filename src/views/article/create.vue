@@ -239,7 +239,7 @@ onBeforeUnmount(() => {
             </a-button>
           </a-form-item>
           <a-form-item has-feedback label="内容" name="content">
-            <div style="border: 1px solid #ccc">
+            <div class="editor-wrap">
               <!-- 工具栏 -->
               <Toolbar :editorId="editorId" :mode="mode" style="border-bottom: 1px solid #ccc" />
               <!-- 编辑器 -->

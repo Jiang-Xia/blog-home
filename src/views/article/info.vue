@@ -56,6 +56,7 @@ onBeforeRouteUpdate((to) => {
 const handleCreated = (editor: IDomEditor) => {
   myEditor = editor
   html.value = myEditor.getHtml()
+  // console.log('html',html.value)
 }
 const destroy = () => {
   if (myEditor == null) return
@@ -87,6 +88,7 @@ onBeforeUnmount(() => {
           :defaultConfig="{ readOnly: true }"
         />
       </div>
+      <!-- <div v-if="isEditorShow" v-html="html"></div> -->
     </section>
   </div>
 </template>
@@ -128,7 +130,7 @@ onBeforeUnmount(() => {
   }
   :deep(.w-e-text-container){
     // @include styles('background-color', 'main-bgc');
-    @include styles('color', 'text-color');
+    // @include styles('color', 'text-color');
   }
 }
 </style>
