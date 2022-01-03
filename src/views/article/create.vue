@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { RuleObject, ValidateErrorEntity } from 'ant-design-vue/es/form/interface'
 import { reactive, ref } from 'vue'
-import { computed, onBeforeUnmount } from 'vue'
-import { Editor, Toolbar, getEditor, removeEditor } from '@wangeditor/editor-for-vue'
+import { computed, onBeforeUnmount, onMounted } from 'vue'
 import { createArticle } from '@/api/article'
 import api from '@/api/index'
 import { message } from 'ant-design-vue'
@@ -10,15 +9,13 @@ import CreateModal from './components/create-modal.vue'
 import { categoryOptions, tagsOptions, getOptions } from './common'
 import { PlusSquareOutlined } from '@ant-design/icons-vue'
 import { useRouter } from 'vue-router'
-import {
-  IDomEditor, // 编辑器实例接口
-  IEditorConfig, // 编辑器配置
-  IToolbarConfig // 工具栏配置
-} from '@wangeditor/editor'
+import XEditor from '@/components/x-editor/index'
+
 interface FormState {
   title: string
   description: string
   content: string
+  contentHtml?: string
   category: string
   tags: number[]
 }
@@ -26,6 +23,7 @@ const defaultForm = {
   title: '',
   description: '',
   content: '',
+  contentHtml: '',
   category: '',
   tags: []
 }
@@ -51,7 +49,7 @@ const checkDescription = async (rule: RuleObject, value: string) => {
 const rules = {
   title: [{ required: true, validator: checkTitle, trigger: 'blur' }],
   description: [{ required: true, validator: checkDescription, trigger: 'blur' }],
-  content: [{ required: false, trigger: 'blur' }]
+  content: [{ required: true, trigger: 'change' }]
 }
 const layout = {
   labelCol: { span: 3 },
@@ -96,7 +94,8 @@ getOptions('分类')
 const handleFinish = async (values: FormState) => {
   const params = {
     ...values,
-    content: JSON.stringify(myEditor.children)
+    content: formState.content,
+    contentHtml: formState.contentHtml
   }
   console.log('params:', params)
   // return
@@ -112,75 +111,13 @@ const resetForm = () => {
   formRef.value.resetFields()
 }
 
-const editorId = 'wangEditor-1'
-
-// 默认内容
-const defaultContent = [
-  {
-    type: 'paragraph',
-    children: [{ text: '快把你的灵感写下来吧~' }]
-  }
-]
-// 注意，深度拷贝 content ，否则会报错
-const getDefaultContent = computed(() => defaultContent)
-
-// 编辑器配置
-const editorConfig: IEditorConfig = {
-  placeholder: '请输入内容...',
-  scroll: true,
-  readOnly: false,
-  autoFocus: false,
-  customAlert: () => '',
-  MENU_CONF: {
-    insertImage: {
-      checkImage(src: string) {
-        console.log('image src', src)
-        if (src.indexOf('http') !== 0) {
-          return '图片网址必须以 http/https 开头'
-        }
-        return true
-      }
-    }
-  }
+// 编辑器修改
+const editorChange = (params: any) => {
+  const { html, json, editor } = params
+  formState.contentHtml = html
+  formState.content = JSON.stringify(json)
+  // console.log('change 之后最新的 html', html)
 }
-let myEditor: IDomEditor
-// 编辑器回调函数
-const handleCreated = (editor: IDomEditor) => {
-  console.log('created', editor)
-  myEditor = editor
-}
-const handleChange = (editor: any) => {
-  console.log('change:', editor.children)
-}
-const handleDestroyed = (editor: any) => {
-  console.log('destroyed', editor)
-}
-const handleFocus = (editor: any) => {
-  console.log('focus', editor)
-}
-const handleBlur = (editor: any) => {
-  console.log('blur', editor)
-}
-const customAlert = (info: string, type: string) => {
-  alert(`【自定义提示】${type} - ${info}`)
-}
-const customPaste = (editor: any, event: any, callback: Function) => {
-  console.log('ClipboardEvent 粘贴事件对象', event)
-  // 自定义插入内容
-  // editor.insertText('xxx')
-  // 返回值（注意，vue 事件的返回值，不能用 return）
-  // callback(false) // 返回 false ，阻止默认粘贴行为
-  // callback(true) // 返回 true ，继续默认的粘贴行为
-  return true
-}
-const mode = 'default'
-// 及时销毁编辑器
-onBeforeUnmount(() => {
-  if (myEditor == null) return
-  // 销毁，并移除 editor
-  myEditor.destroy()
-  removeEditor(editorId)
-})
 </script>
 <template>
   <div>
@@ -238,28 +175,8 @@ onBeforeUnmount(() => {
               </template>
             </a-button>
           </a-form-item>
-          <a-form-item has-feedback label="内容" name="content">
-            <div class="editor-wrap">
-              <!-- 工具栏 -->
-              <Toolbar :editorId="editorId" :mode="mode" style="border-bottom: 1px solid #ccc" />
-              <!-- 编辑器 -->
-              <Editor
-                :editorId="editorId"
-                class="editor"
-                :mode="mode"
-                :defaultConfig="editorConfig"
-                :defaultContent="getDefaultContent"
-                @onCreated="handleCreated"
-                @onChange="handleChange"
-                @onDestroyed="handleDestroyed"
-                @onFocus="handleFocus"
-                @onBlur="handleBlur"
-                @customAlert="customAlert"
-                @customPaste="customPaste"
-                style="height: 600px"
-              />
-            </div>
-          </a-form-item>
+          <a-form-item has-feedback label="内容" name="content"> </a-form-item>
+          <x-editor custom-class="x-editor" @change="editorChange" />
           <a-form-item :wrapper-col="{ span: 14, offset: 4 }">
             <a-button type="primary" html-type="submit">提交</a-button>
             <a-button style="margin-left: 10px" @click="resetForm">重置</a-button>
@@ -305,31 +222,27 @@ onBeforeUnmount(() => {
   @media screen and (max-width: 768px) {
     width: 95%;
   }
-  // :deep(.ant-input),
-  // :deep(.ant-select-selector) {
-  //   @include styles('background-color', 'main-bgc');
-  //   @include styles('border-color', 'main-bgc');
-  //   @include styles('color', 'text-color');
-  // }
-  // :deep(.tag-select .ant-select-selection-item) {
-  //   @include styles('background-color', 'minor-bgc');
-  //   @include styles('border-color', 'main-bgc');
-  //   @include styles('color', 'text-color');
-  // }
-  // :deep(.ant-form-item-label) {
-  //   & > label {
-  //     @include styles('color', 'text-color');
-  //   }
-  // }
-  // #custom-validation_content {
-  //   border-color: transparent !important;
-  //   border-radius: 4px;
-  //   :deep(.w-e-text-container),
-  //   :deep(.w-e-bar) {
-  //     @include styles('background-color', 'main-bgc');
-  //     @include styles('color', 'text-color');
-  //     border-radius: 4px;
-  //   }
-  // }
+  .x-editor {
+    margin-left: 12.5%;
+    margin-top: -56px;
+    margin-bottom: 24px;
+    width: 79.1%;
+
+    border-color: transparent !important;
+    border-radius: 4px;
+    :deep(.w-e-toolbar),
+    :deep(.w-e-text-container) {
+      @include themeify {
+        background-color: themed('main-bgc') !important;
+        border-color: themed('main-bgc') !important;
+        color: themed('text-color2');
+      }
+    }
+    :deep(.w-e-text code) {
+      @include themeify {
+        background-color: themed('minor-bgc') !important;
+      }
+    }
+  }
 }
 </style>

@@ -2,13 +2,7 @@
 import { getArticleInfo } from '@/api/article'
 import { onMounted, ref, reactive, UnwrapRef, watch } from 'vue'
 import { computed, onBeforeUnmount } from 'vue'
-import { Editor, Toolbar, getEditor, removeEditor } from '@wangeditor/editor-for-vue'
 import { useRoute, onBeforeRouteUpdate } from 'vue-router'
-import {
-  IDomEditor, // 编辑器实例接口
-  IEditorConfig, // 编辑器配置
-  IToolbarConfig // 工具栏配置
-} from '@wangeditor/editor'
 interface FormState {
   title?: string
   description?: string
@@ -17,14 +11,14 @@ interface FormState {
 const defaultForm = {
   title: '',
   description: '',
-  content: ''
+  content: '',
+  contentHtml:''
 }
 const route = reactive(useRoute())
 // 获取到的html内容
 const html = ref('')
 const isEditorShow = ref(false)
 let ArticleInfo = reactive({ ...defaultForm })
-let myEditor: any = null
 const getArticleInfoHandle = async (to?: any) => {
   let query = route.query
   if (to) {
@@ -34,16 +28,9 @@ const getArticleInfoHandle = async (to?: any) => {
   const res = await getArticleInfo(query)
   ArticleInfo.title = res.info.title
   ArticleInfo.content = res.info.content
+  ArticleInfo.contentHtml = res.info.contentHtml
   isEditorShow.value = true
 }
-// 编辑器默认内容
-const getDefaultContent = computed(() => {
-  if (ArticleInfo.content) {
-    return JSON.parse(ArticleInfo.content)
-  } else {
-    return []
-  }
-})
 onMounted(() => {
   getArticleInfoHandle()
 })
@@ -52,22 +39,6 @@ onBeforeRouteUpdate((to) => {
   getArticleInfoHandle(to)
 })
 
-// 编辑器已创建回调
-const handleCreated = (editor: IDomEditor) => {
-  myEditor = editor
-  html.value = myEditor.getHtml()
-  // console.log('html',html.value)
-}
-const destroy = () => {
-  if (myEditor == null) return
-  // 销毁，并移除 editor
-  myEditor.destroy()
-  removeEditor('editorInfo')
-  ArticleInfo = reactive({ ...defaultForm })
-}
-onBeforeUnmount(() => {
-  destroy()
-})
 </script>
 <template>
   <div>
@@ -78,17 +49,7 @@ onBeforeUnmount(() => {
       </div>
     </section>
     <section class="article-info">
-      <div v-if="isEditorShow">
-        <Editor
-          class="editor"
-          editorId="editorInfo"
-          @onCreated="handleCreated"
-          mode="default"
-          :defaultContent="getDefaultContent"
-          :defaultConfig="{ readOnly: true }"
-        />
-      </div>
-      <!-- <div v-if="isEditorShow" v-html="html"></div> -->
+      <div v-if="isEditorShow" v-html="ArticleInfo.contentHtml"></div>
     </section>
   </div>
 </template>

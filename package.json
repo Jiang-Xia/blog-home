@@ -8,15 +8,15 @@
     "prettier": "prettier --config ./.prettierrc --write \"./**/*.{js,ts,jsx,vue,scss,css,json}\" "
   },
   "dependencies": {
-    "@wangeditor/editor": "^0.13.1",
-    "@wangeditor/editor-for-vue": "^5.1.8-3",
     "ant-design-vue": "^2.2.8",
     "axios": "^0.24.0",
     "dayjs": "^1.10.7",
+    "highlight.js": "^11.3.1",
     "js-cookie": "^3.0.1",
     "vue": "^3.2.26",
     "vue-router": "^4.0.12",
     "vuex": "^4.0.2",
+    "wangeditor": "^4.7.11",
     "xss": "^1.0.10"
   },
   "devDependencies": {

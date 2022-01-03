@@ -106,7 +106,7 @@ const onSearchHandle = () => {
           <div class="line-2 ellipsis">
             {{ item['description'] }}
           </div>
-          <div class="line-3">更新于 {{ item['updateTime'] }}</div>
+          <div class="line-3">更新于 {{ item['uTime'] }}</div>
           <div>
             <a-tag :color="item['category']['color']">{{ item['category']['label'] }}</a-tag>
           </div>
