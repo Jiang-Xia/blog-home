@@ -1,5 +1,6 @@
 import { ref } from 'vue'
 import api from '@/api/index'
+import { LocationQueryValue } from 'vue-router'
 
 // 分类
 const categoryOptions = ref([])
@@ -47,3 +48,10 @@ const getRandomClor = () => {
   return colors[index]
 }
 export { categoryOptions, tagsOptions, getOptions, colors, getRandomClor }
+
+export const updateViews = async (id: LocationQueryValue | LocationQueryValue[]) => {
+  await api.updateViews({ id })
+}
+export const updateLikes = async (id: string) => {
+  await api.updateLikes({ id, type: 'like' })
+}

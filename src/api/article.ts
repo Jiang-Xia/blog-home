@@ -41,3 +41,23 @@ export const delArticle = async (params: any) => {
   })
   return res.data
 }
+
+// 更新阅读量
+export const updateViews = async (data: any) => {
+  const res = await request({
+    url: '/article/views',
+    method: 'post',
+    data
+  })
+  return res.data
+}
+
+// 更新点赞数
+export const updateLikes = async (data: any) => {
+  const res = await request({
+    url: '/article/likes',
+    method: 'post',
+    data
+  })
+  return res.data
+}

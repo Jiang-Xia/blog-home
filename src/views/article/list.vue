@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { getArticleInfo, getArticleList } from '@/api/article'
-import { categoryOptions, tagsOptions, getOptions, getRandomClor } from './common'
-import { onMounted, ref, reactive } from 'vue'
+import { categoryOptions, tagsOptions, getOptions, updateLikes } from './common'
+import { onMounted, ref, reactive, unref, UnwrapRef, toRefs } from 'vue'
 import {
   AppstoreOutlined,
   TagOutlined,
@@ -50,6 +50,14 @@ const getArticleListHandle = async (val: number = 1) => {
   articleList.value = res.list
   queryPrams.total = res.pagination.total
 }
+// 获取标签名(暂时没有用)
+const getTagLabel = (arr: []): string => {
+  // 如果是js的话，这个方法会写得很简单
+  //  ts的话，它会提前对各种值进行类型推导，避免了一些取值的错误（比如在undefined和null取属性值）
+  let text = arr.map((v: any) => v.label).join()
+  return text
+}
+
 // 点击tag
 const clickTagHandle = (item: itemState, type: string) => {
   if (type === '分类') {
@@ -107,8 +115,25 @@ const onSearchHandle = () => {
             {{ item['description'] }}
           </div>
           <div class="line-3">更新于 {{ item['uTime'] }}</div>
-          <div>
-            <a-tag :color="item['category']['color']">{{ item['category']['label'] }}</a-tag>
+          <div class="line-4">
+            <!-- 分类 -->
+            <span class="mg-r-10" :style="{ color: item['category']['color'] }">
+              <x-icon icon="blog-category"></x-icon>
+              {{ item['category']['label'] }}
+            </span>
+            <!-- 标签 -->
+            <span class="mg-r-10" :style="{ color: item['tags'][0]['color'] }">
+              <x-icon icon="blog-tag"></x-icon>
+              {{ getTagLabel(item['tags']) }}
+            </span>
+            <!-- 阅读量 -->
+            <span class="mg-r-10 pointer"
+              ><x-icon icon="blog-view"></x-icon>{{ item['views'] }}</span
+            >
+            <!-- 点赞数 -->
+            <span class="mg-r-10 pointer blog-like" @click="updateLikes(item['id'])"
+              ><x-icon icon="blog-like"></x-icon>{{ item['likes'] }}</span
+            >
           </div>
         </div>
       </transition-group>
@@ -216,6 +241,16 @@ const onSearchHandle = () => {
       .line-3 {
         margin-bottom: 2px;
         font-size: 12px;
+      }
+      .line-4 {
+        font-size: 12px;
+        .x-icon {
+          font-size: 14px;
+          margin-right: 3px;
+        }
+        .blog-like:hover {
+          color: $main-color;
+        }
       }
     }
   }

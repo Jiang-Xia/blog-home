@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { getArticleInfo } from '@/api/article'
 import { onMounted, ref, reactive, UnwrapRef, watch } from 'vue'
+import { updateViews } from './common'
 import { computed, onBeforeUnmount } from 'vue'
 import { useRoute, onBeforeRouteUpdate } from 'vue-router'
 interface FormState {
@@ -12,7 +13,7 @@ const defaultForm = {
   title: '',
   description: '',
   content: '',
-  contentHtml:''
+  contentHtml: ''
 }
 const route = reactive(useRoute())
 // 获取到的html内容
@@ -30,6 +31,7 @@ const getArticleInfoHandle = async (to?: any) => {
   ArticleInfo.content = res.info.content
   ArticleInfo.contentHtml = res.info.contentHtml
   isEditorShow.value = true
+  updateViews(route.query.id)
 }
 onMounted(() => {
   getArticleInfoHandle()
@@ -38,7 +40,6 @@ onMounted(() => {
 onBeforeRouteUpdate((to) => {
   getArticleInfoHandle(to)
 })
-
 </script>
 <template>
   <div>
@@ -89,7 +90,7 @@ onBeforeRouteUpdate((to) => {
   @media screen and (max-width: 768px) {
     width: 95%;
   }
-  :deep(.w-e-text-container){
+  :deep(.w-e-text-container) {
     // @include styles('background-color', 'main-bgc');
     // @include styles('color', 'text-color');
   }
