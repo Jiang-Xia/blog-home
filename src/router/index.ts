@@ -31,7 +31,17 @@ export const constantRoutes = [
     title: '关于',
     meta: {}
   },
-  Article,
+  ...Article,
+  {
+    path: '/login',
+    // components: {
+    //   gView: () => import('@/views/login/index.vue')
+    // },
+    component: () => import('@/views/login/index.vue'),
+    name: 'Login',
+    title: '登录',
+    meta: {}
+  },
   { path: '/:pathMatch(.*)', redirect: '/' }
 ]
 // 异步路由根据权限配置

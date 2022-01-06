@@ -2,15 +2,16 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-20 11:28:42
- * @LastEditTime: 2022-01-02 18:20:40
+ * @LastEditTime: 2022-01-06 23:22:11
  * @Description: 
  * @FilePath: \blog-home\src\layout\index.vue
 -->
 <script setup lang="ts">
 import Nav from './nav.vue'
 import { ref } from 'vue'
-import { onMounted, watch } from '@vue/runtime-core'
+import { onMounted, computed } from '@vue/runtime-core'
 import { throttle } from '@/utils'
+import { useRoute } from 'vue-router'
 const scrollTop = ref(0)
 const scrollHandle = (e: any) => {
   // console.log(e.target)
@@ -29,20 +30,25 @@ onMounted(() => {
   */
   window.addEventListener('scroll', throttle(scrollHandle, 100), true)
 })
+const showFooter = computed(() => {
+  const route = useRoute()
+  return !route.path.includes('login')
+})
+const minHeight = computed(() => (showFooter.value ? 'calc(100vh - 48px)' : '100vh'))
 </script>
 <template>
   <div class="app-layout-contaier">
     <a-layout-header :class="{ 'ant-layout-header__active': scrollTop > 58 }">
       <Nav />
     </a-layout-header>
-    <a-layout-content>
+    <a-layout-content :style="{ minHeight: minHeight }">
       <router-view v-slot="{ Component }">
-        <transition name="slide">
-          <component :is="Component" />
-        </transition>
+        <!-- <transition name="slide"> -->
+        <component :is="Component" />
+        <!-- </transition> -->
       </router-view>
     </a-layout-content>
-    <a-layout-footer></a-layout-footer>
+    <a-layout-footer v-if="showFooter"></a-layout-footer>
   </div>
 </template>
 

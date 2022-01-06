@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "esnext",
     "useDefineForClassFields": true,
+    "allowJs": true, // 允许js
     "module": "esnext",
     "moduleResolution": "node",
     "strict": true,

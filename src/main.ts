@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-12 17:29:55
- * @LastEditTime: 2022-01-04 21:13:51
+ * @LastEditTime: 2022-01-07 00:12:58
  * @Description:
  * @FilePath: \blog-home\src\main.ts
  */
@@ -17,7 +17,6 @@ import '@/styles/index.scss'
 import '@/assets/css/atom-one-dark.css'
 import axios from '@/utils/request'
 import XIcon from '@/components/icons'
-
 const app = createApp(App)
 app.component(XIcon.name, XIcon)
 app.use(store).use(router).use(Antd).mount('#app')
