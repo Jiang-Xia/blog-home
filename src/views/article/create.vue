@@ -17,6 +17,7 @@ interface FormState {
   content: string
   contentHtml?: string
   category: string
+  cover:string
   tags: number[]
 }
 const defaultForm = {
@@ -25,6 +26,7 @@ const defaultForm = {
   content: '',
   contentHtml: '',
   category: '',
+  cover:"",
   tags: []
 }
 
@@ -95,7 +97,8 @@ const handleFinish = async (values: FormState) => {
   const params = {
     ...values,
     content: formState.content,
-    contentHtml: formState.contentHtml
+    contentHtml: formState.contentHtml,
+    // cover: formState.cover
   }
   console.log('params:', params)
   // return

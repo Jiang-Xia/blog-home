@@ -31,7 +31,7 @@ const handleOk = () => {
     message.warning('请输入名称')
     return
   }
-  if (name.value && name.value.length <= 2) {
+  if (name.value && name.value.length < 2) {
     message.warning('字数要两个以上哦！')
     return
   }

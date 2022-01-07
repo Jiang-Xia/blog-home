@@ -8,6 +8,6 @@ const getters = {
       return getInfo()
     }
   },
-  toekn: (state: any) => state.user.toekn || getToken()
+  token: (state: any) => state.user.token || getToken()
 }
 export default getters

@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-24 20:34:46
- * @LastEditTime: 2022-01-02 21:50:23
+ * @LastEditTime: 2022-01-07 09:41:24
  * @Description: 
  * @FilePath: \blog-home\src\layout\nav.vue
 -->
@@ -65,7 +65,11 @@ const router = useRouter()
 const route = useRoute()
 // 新建文章
 const newArticleHandle = () => {
-  router.push('/article/create')
+  if (store.getters.token) {
+    router.push('/article/create')
+  } else {
+    loginHandle()
+  }
 }
 
 // 搜索文章
