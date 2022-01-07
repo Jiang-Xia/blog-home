@@ -127,17 +127,17 @@ textarea {
 //   font-size: 100%;
 //   font-weight: normal;
 // }
-// address,
-// caption,
-// cite,
-// code,
-// dfn,
-// th,
-// var,
-// i,
-// em {
-//   font-style: normal;
-// }
+address,
+caption,
+cite,
+code,
+dfn,
+th,
+var,
+i,
+em {
+  font-style: normal;
+}
 abbr,
 acronym {
   // 去掉firefox下此元素的边框

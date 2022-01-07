@@ -1,3 +1,5 @@
+import _copy from 'copy-to-clipboard'
+import { message } from 'ant-design-vue'
 // 节流
 export function throttle(fn: { apply: (arg0: any, arg1: any[]) => void }, t: number) {
   let flag = true
@@ -29,4 +31,9 @@ export function debounce(fn: { apply: (arg0: any, arg1: any) => void }, t: numbe
       fn.apply(this, args)
     }, delay)
   }
+}
+
+export function copy(text: string) {
+  message.success('copy!')
+  return _copy(text)
 }

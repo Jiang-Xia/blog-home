@@ -100,7 +100,7 @@ const handleFinish = async (values: FormState) => {
     contentHtml: formState.contentHtml,
     // cover: formState.cover
   }
-  console.log('params:', params)
+  // console.log('params:', params)
   // return
   const res = await createArticle(params)
   message.success('新建成功！')
@@ -115,6 +115,10 @@ const resetForm = () => {
 }
 
 // 编辑器修改
+const editorConfig = {
+  placeholder:'哈喽！有什么灵感的话赶紧写下来吧~',
+  pasteFilterStyle: true,
+}
 const editorChange = (params: any) => {
   const { html, json, editor } = params
   formState.contentHtml = html
@@ -179,7 +183,7 @@ const editorChange = (params: any) => {
             </a-button>
           </a-form-item>
           <a-form-item has-feedback label="内容" name="content"> </a-form-item>
-          <x-editor custom-class="x-editor" @change="editorChange" />
+          <x-editor custom-class="x-editor" @change="editorChange" :config="editorConfig"/>
           <a-form-item :wrapper-col="{ span: 14, offset: 4 }">
             <a-button type="primary" html-type="submit">提交</a-button>
             <a-button style="margin-left: 10px" @click="resetForm">重置</a-button>

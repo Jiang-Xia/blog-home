@@ -10,6 +10,7 @@
   "dependencies": {
     "ant-design-vue": "^2.2.8",
     "axios": "^0.24.0",
+    "copy-to-clipboard": "^3.3.1",
     "dayjs": "^1.10.7",
     "highlight.js": "^11.3.1",
     "js-cookie": "^3.0.1",

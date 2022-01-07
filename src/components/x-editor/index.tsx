@@ -20,8 +20,8 @@ export default defineComponent({
     let myEditor: any
     const languageType = [
       'JavaScript',
-      'JSON',
       'TypeScript',
+      'JSON',
       'Markdown',
       'Python',
       'Html',
@@ -57,7 +57,7 @@ export default defineComponent({
         height: 500,
         pasteFilterStyle: false,
         languageType,
-        colors,
+        // colors,
         ...props.config,
         // 事件回调
         onchange(newHtml: string) {

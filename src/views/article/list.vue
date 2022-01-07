@@ -8,6 +8,7 @@ import {
   SearchOutlined,
   FilterOutlined
 } from '@ant-design/icons-vue'
+import { log } from 'console'
 interface FormState {
   id: number
   title: string
@@ -32,6 +33,7 @@ const articleList = ref([])
 getOptions('标签')
 getOptions('分类')
 onMounted(async () => {
+  console.log('========',)
   getArticleListHandle()
 })
 const queryPrams = reactive({

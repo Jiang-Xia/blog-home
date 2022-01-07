@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-20 11:28:42
- * @LastEditTime: 2022-01-06 23:22:11
+ * @LastEditTime: 2022-01-07 19:57:36
  * @Description: 
  * @FilePath: \blog-home\src\layout\index.vue
 -->
@@ -43,9 +43,11 @@ const minHeight = computed(() => (showFooter.value ? 'calc(100vh - 48px)' : '100
     </a-layout-header>
     <a-layout-content :style="{ minHeight: minHeight }">
       <router-view v-slot="{ Component }">
-        <!-- <transition name="slide"> -->
-        <component :is="Component" />
-        <!-- </transition> -->
+        <keep-alive>
+          <transition name="fade">
+            <component :is="Component" />
+          </transition>
+        </keep-alive>
       </router-view>
     </a-layout-content>
     <a-layout-footer v-if="showFooter"></a-layout-footer>

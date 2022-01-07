@@ -4,6 +4,7 @@ import { onMounted, ref, reactive, UnwrapRef, watch } from 'vue'
 import { updateViews } from './common'
 import { computed, onBeforeUnmount } from 'vue'
 import { useRoute, onBeforeRouteUpdate } from 'vue-router'
+import XMarkdownReader from '@/components/x-markdown-reader'
 interface FormState {
   title?: string
   description?: string
@@ -50,7 +51,8 @@ onBeforeRouteUpdate((to) => {
       </div>
     </section>
     <section class="article-info">
-      <div v-if="isEditorShow" v-html="ArticleInfo.contentHtml"></div>
+      <!-- <div v-if="isEditorShow" v-html="ArticleInfo.contentHtml"></div> -->
+      <x-markdown-reader v-if="isEditorShow" :content="ArticleInfo.contentHtml" />
     </section>
   </div>
 </template>
