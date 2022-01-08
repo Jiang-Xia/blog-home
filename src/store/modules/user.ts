@@ -1,7 +1,7 @@
 import { Module } from 'vuex'
 import { userLogin } from '@/api/user'
 import { setToken, setInfo, removeToken, removeInfo } from '@/utils/cookie'
-import { message } from 'ant-design-vue'
+import { Message } from '@arco-design/web-vue'
 interface State {
   token: string
   userInfo: object
@@ -34,7 +34,7 @@ const store: Module<State, unknown> = {
       setInfo(user)
       commit('SET_TOKEN', token)
       commit('SET_USER_INFO', user)
-      message.success('登录成功')
+      Message.success('登录成功')
       return res
     },
     // 用户退出
@@ -44,7 +44,7 @@ const store: Module<State, unknown> = {
         commit('SET_USER_INFO', {})
         removeToken()
         removeInfo()
-        message.success('退出成功')
+        Message.success('退出成功')
       }, 500)
       return true
     }

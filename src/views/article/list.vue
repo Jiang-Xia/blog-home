@@ -211,12 +211,12 @@ const onSearchHandle = () => {
 <style lang="scss" scoped>
 .article-list-container {
   position: relative;
-  :deep(.ant-empty) {
+  :deep(.arco-empty) {
     margin-bottom: 10vh;
     transition: all 1s;
     transform: scale(0, 0);
   }
-  .ant-pagination {
+  .arco-pagination {
     margin-top: 8vh;
   }
   .article-item {

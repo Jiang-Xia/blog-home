@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-17 16:26:53
- * @LastEditTime: 2021-12-21 11:09:44
+ * @LastEditTime: 2022-01-08 14:28:40
  * @Description:
  * @FilePath: \blog-home\src\utils\request.ts
  */
@@ -13,15 +13,14 @@ import { getToken, removeToken, removeInfo } from '@/utils/cookie'
 // import { getCode } from '@/utils/common'
 // import showXiaLogin from '@/components/xia-login/main'
 
-import { message } from 'ant-design-vue'
-
+import { Message } from '@arco-design/web-vue'
 interface MessageConfig {
   message: string
   duration?: number
   type?: string
 }
 function errorMsg(msg: string) {
-  msg && message.error(msg)
+  msg && Message.error(msg)
 }
 const $axios = axios.create({
   timeout: 4290000,

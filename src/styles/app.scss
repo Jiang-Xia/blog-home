@@ -19,19 +19,19 @@
   transform: scale(1.1);
 }
 
-.ant-layout-content {
-  .ant-input,
-  .ant-select-selector {
+.arco-layout-content {
+  .arco-input,
+  .arco-select-selector {
     background-color: var(--main-bgc);
     border-color: var(--main-bgc);
     color: var(--text-color);
   }
-  .tag-select .ant-select-selection-item {
+  .tag-select .arco-select-selection-item {
     background-color: var(--minor-bgc);
     border-color: var(--main-bgc);
     color: var(--text-color);
   }
-  .ant-form-item-label {
+  .arco-form-item-label {
     & > label {
       color: var(--text-color);
     }

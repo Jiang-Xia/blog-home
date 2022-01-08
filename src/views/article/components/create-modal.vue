@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { message } from 'ant-design-vue'
+import { Message } from '@arco-design/web-vue'
 import { ref } from 'vue'
 import { watch } from 'vue'
 // defineProps之类不用自己导入
@@ -28,11 +28,11 @@ const name = ref('')
 // console.log('props', props)
 const handleOk = () => {
   if (!name.value) {
-    message.warning('请输入名称')
+    Message.warning('请输入名称')
     return
   }
   if (name.value && name.value.length < 2) {
-    message.warning('字数要两个以上哦！')
+    Message.warning('字数要两个以上哦！')
     return
   }
   emit('update:value', false)

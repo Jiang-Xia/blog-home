@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-20 11:28:42
- * @LastEditTime: 2022-01-08 10:48:46
+ * @LastEditTime: 2022-01-08 16:00:02
  * @Description: 
  * @FilePath: \blog-home\src\layout\index.vue
 -->
@@ -38,10 +38,10 @@ const minHeight = computed(() => (showFooter.value ? 'calc(100vh - 48px)' : '100
 </script>
 <template>
   <div class="app-layout-contaier">
-    <a-layout-header :class="{ 'ant-layout-header__active': scrollTop > 58 }">
+    <a-layout-header :class="{ 'arco-layout-header__active': scrollTop > 58 }">
       <Nav />
     </a-layout-header>
-    <a-layout-content :style="{ minHeight: minHeight }">
+    <a-layout-content>
       <router-view v-slot="{ Component }">
         <keep-alive>
           <transition name="fade">
@@ -72,11 +72,11 @@ const minHeight = computed(() => (showFooter.value ? 'calc(100vh - 48px)' : '100
   background-color: var(--main-bgc) !important;
   color: var(--text-color) !important;
 }
-.ant-layout,
-.ant-layout-footer {
+.arco-layout,
+.arco-layout-footer {
   background: none;
 }
-.ant-layout-header {
+.arco-layout-header {
   height: 58px;
   line-height: 58px;
   width: 100%;
@@ -87,13 +87,17 @@ const minHeight = computed(() => (showFooter.value ? 'calc(100vh - 48px)' : '100
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
   transition: all 1s;
   background: transparent !important;
+  padding: 0 1.5vw;
 }
-.ant-layout-header__active {
+.arco-layout-header__active {
     background-color: var(--nav-color) !important;
     border-color: var(--nav-color) !important;
 }
-.ant-layout-content {
+.arco-layout-content {
   min-height: calc(100vh - 48px);
+}
+.arco-layout-footer{
+  padding: 24px 1.5vw;
 }
 </style>
 <style lang="scss">

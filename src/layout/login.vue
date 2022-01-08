@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-30 16:22:00
- * @LastEditTime: 2022-01-08 10:36:39
+ * @LastEditTime: 2022-01-08 16:25:47
  * @Description: 
  * @FilePath: \blog-home\src\layout\login.vue
 -->
@@ -11,7 +11,7 @@ import { ref, computed } from 'vue'
 import { watch, watchEffect } from 'vue'
 import { useStore } from 'vuex'
 import { registerUser } from '@/api/user'
-import { message } from 'ant-design-vue'
+import { Message } from '@arco-design/web-vue'
 // 定义props属性
 const props = defineProps({
   type: {
@@ -19,7 +19,7 @@ const props = defineProps({
     default: 'login'
   }
 })
-console.log(props, 'props')
+// console.log(props, 'props')
 // 定义emit事件
 const emit = defineEmits({
   onSubmit: null
@@ -48,7 +48,7 @@ const handleSubmit = async () => {
     const res = await registerUser({ ...form.value })
     type.value = 'login'
     form.value = { ...defaultForm }
-    message.success('注册成功，快来登录吧~')
+    Message.success('注册成功，快来登录吧~')
   }
 }
 // 暴露一些方法和变量给父组件使用
@@ -72,12 +72,23 @@ const rules = {
 const type = ref('login')
 /* 计算属性 */
 const title = computed(() => (type.value === 'login' ? '登录' : '注册'))
+// 表单实例
+const formRef = ref()
 /* 监听 */
 watch(
   () => type.value,
   (n: string, o: string) => {
     // console.log('watch', n)
     form.value = { ...defaultForm }
+    formRef.value.resetFields()
+  }
+)
+watch(
+  () => visible.value,
+  (n: boolean, o: boolean) => {
+    form.value = { ...defaultForm }
+    formRef.value.resetFields()
+    console.log(formRef.value)
   }
 )
 </script>
@@ -91,24 +102,25 @@ watch(
   >
     <a-form
       :model="form"
+      ref="formRef"
       :rules="rules"
-      :label-col="{ span: 5 }"
-      :wrapper-col="{ span: 17 }"
+      :label-col-props="{ span: 5 }"
+      :wrapper-col-props="{ span: 17 }"
       @submit="handleSubmit"
     >
-      <a-form-item label="手机号码">
+      <a-form-item label="手机号码" field="mobile">
         <a-input v-model:value="form.mobile" :maxlength="11" placeholder="请输入你的手机号码" />
       </a-form-item>
-      <a-form-item label="昵称" v-if="type === 'register'">
+      <a-form-item label="昵称" v-if="type === 'register'" field="nickname">
         <a-input v-model:value="form.nickname" placeholder="请输入你的昵称" />
       </a-form-item>
-      <a-form-item label="密码">
+      <a-form-item label="密码" field="password">
         <a-input-password v-model:value="form.password" placeholder="请输入你的密码" />
       </a-form-item>
-      <a-form-item label="确认密码" v-if="type === 'register'">
+      <a-form-item label="确认密码" v-if="type === 'register'" field="passwordRepeat">
         <a-input-password v-model:value="form.passwordRepeat" placeholder="请再次输入你的密码" />
       </a-form-item>
-      <a-form-item :wrapper-col="{ span: 17, offset: 5 }" style="text-align: center">
+      <a-form-item :wrapper-col-props="{ span: 17, offset: 5 }" style="text-align: center">
         <a-button type="primary" html-type="submit" style="width: 100%"> {{ title }} </a-button>
       </a-form-item>
     </a-form>

@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-24 20:34:46
- * @LastEditTime: 2022-01-08 10:35:48
+ * @LastEditTime: 2022-01-08 16:00:59
  * @Description: 
  * @FilePath: \blog-home\src\layout\nav.vue
 -->
@@ -125,6 +125,7 @@ const iconClass = ref('blog-light')
 const setTheme = (type: string) => {
   document.documentElement.setAttribute('class', `theme-${type}`)
   document.body.setAttribute('data-theme', `theme-${type}`)
+  document.body.setAttribute('arco-theme', `${type}`)
 }
 // 是否自动设置
 const getHour = () => {
@@ -168,51 +169,50 @@ const changeTheme = (type: string) => {
       </router-link>
     </nav>
     <div class="tool-bar">
-      <!-- <a-input-search placeholder="搜索内容" @search="onSearch" /> -->
       <a-auto-complete
         v-model:value="searchText"
-        :options="articleList"
+        :data="articleList"
         placeholder="搜索内容"
         @select="onSelect"
         @search="onSearchHandle"
       />
-      <PlusSquareOutlined
+      <a-button
         v-show="!route.path.includes('create')"
         @click="newArticleHandle"
         title="新建文章"
-        style="color: #fff; margin-right: 5px; margin-top: 2px; cursor: pointer"
-      />
+        class="mg-r-10 mg-l-10"
+      >
+        <template #icon>
+          <icon-plus />
+        </template>
+      </a-button>
       <!-- 主题模式 开始 -->
       <a-dropdown size="small" class="mg-l-10" :trigger="['click']">
         <span>
           <x-icon style="color: #fff" :icon="iconClass" />
         </span>
-        <template #overlay>
-          <a-menu>
-            <a-menu-item :class="theme === 'light' ? 'active' : ''" @click="changeTheme('light')">
-              <span>light</span>
-            </a-menu-item>
-            <a-menu-item :class="theme === 'dark' ? 'active' : ''" @click="changeTheme('dark')">
-              <span>dark</span>
-            </a-menu-item>
-            <a-menu-item :class="theme === 'auto' ? 'active' : ''" @click="changeTheme('auto')">
-              <span>auto</span>
-            </a-menu-item>
-          </a-menu>
+        <template #content>
+          <a-doption :class="theme === 'light' ? 'active' : ''" @click="changeTheme('light')">
+            <span>light</span>
+          </a-doption>
+          <a-doption :class="theme === 'dark' ? 'active' : ''" @click="changeTheme('dark')">
+            <span>dark</span>
+          </a-doption>
+          <a-doption :class="theme === 'auto' ? 'active' : ''" @click="changeTheme('auto')">
+            <span>auto</span>
+          </a-doption>
         </template>
       </a-dropdown>
       <!--主题模式 结束  -->
-      <a-button type="link" @click="loginHandle" v-if="!nickname">登录</a-button>
+      <a-button type="text" size="small" @click="loginHandle" v-if="!nickname">登录</a-button>
       <a-dropdown v-else>
-        <a class="ant-dropdown-link" @click.prevent>
+        <a class="arco-dropdown-link" @click.prevent>
           <a-avatar>{{ nickname }}</a-avatar>
         </a>
-        <template #overlay>
-          <a-menu>
-            <a-menu-item>
-              <a href="javascript:;" @click="logoutHandle">退出</a>
-            </a-menu-item>
-          </a-menu>
+        <template #content>
+          <a-doption>
+            <a href="javascript:;" @click="logoutHandle">退出</a>
+          </a-doption>
         </template>
       </a-dropdown>
     </div>
@@ -260,32 +260,32 @@ const changeTheme = (type: string) => {
   .tool-bar {
     display: flex;
     align-items: center;
-    .ant-input-search,
-    .ant-auto-complete {
+    .arco-input-search,
+    .arco-auto-complete {
       width: 160px;
       margin-right: 16px;
     }
-    .ant-avatar {
+    .arco-avatar {
     }
   }
   // 深度选择器两种写法
-  :deep(.ant-input-search),
-  :deep(.ant-select-selector),
-  :deep(.ant-auto-complete),
-  :deep(.ant-input),
-  :deep(.ant-avatar),
-  :deep(.ant-btn) {
+  :deep(.arco-input-search),
+  :deep(.arco-select-selector),
+  :deep(.arco-input-wrapper),
+  :deep(.arco-input),
+  :deep(.arco-avatar),
+  :deep(.arco-btn) {
     background-color: transparent !important;
     border-color: transparent !important;
     color: #fff;
   }
-  ::v-deep(.ant-input-suffix) {
+  ::v-deep(.arco-input-suffix) {
     color: #fff;
   }
 }
 
 // #app 容器外样式
-:deep(.ant-dropdown-menu-item.active) {
+:global(.arco-dropdown-option.active) {
   background-color: var(--main-color);
   color: #fff;
 }

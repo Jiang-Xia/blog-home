@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { RuleObject, ValidateErrorEntity } from 'ant-design-vue/es/form/interface'
+import { RuleObject, ValidateErrorEntity } from 'arco-design-vue/es/form/interface'
 import { reactive, ref } from 'vue'
 import { computed, onBeforeUnmount, onMounted } from 'vue'
 import { createArticle } from '@/api/article'
 import api from '@/api/index'
-import { message } from 'ant-design-vue'
+import { Message } from '@arco-design/web-vue'
 import CreateModal from './components/create-modal.vue'
 import { categoryOptions, tagsOptions, getOptions } from './common'
 import { PlusSquareOutlined } from '@ant-design/icons-vue'
@@ -81,12 +81,12 @@ const ceateOkHandle = async ({ name, type }: C) => {
   }
   if (type === '分类') {
     const res = await api.createCategory(obj)
-    message.success('添加成功！')
+    Message.success('添加成功！')
     getOptions(type)
   } else {
     const res = await api.createTag(obj)
     getOptions(type)
-    message.success('添加成功！')
+    Message.success('添加成功！')
   }
 }
 getOptions('标签')
@@ -103,7 +103,7 @@ const handleFinish = async (values: FormState) => {
   // console.log('params:', params)
   // return
   const res = await createArticle(params)
-  message.success('新建成功！')
+  Message.success('新建成功！')
   router.push('/home')
 }
 // 提交失败
