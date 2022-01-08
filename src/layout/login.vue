@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-30 16:22:00
- * @LastEditTime: 2021-12-30 11:07:38
+ * @LastEditTime: 2022-01-08 10:36:39
  * @Description: 
  * @FilePath: \blog-home\src\layout\login.vue
 -->
@@ -120,7 +120,7 @@ watch(
 
 <style lang="scss" scoped>
 .register-link {
-  @include main-color('color');
+  color: var(--main-color);
   text-decoration: underline;
   padding: 0 4px;
   cursor: pointer;

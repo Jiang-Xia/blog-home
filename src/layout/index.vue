@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-20 11:28:42
- * @LastEditTime: 2022-01-07 19:57:36
+ * @LastEditTime: 2022-01-08 10:48:46
  * @Description: 
  * @FilePath: \blog-home\src\layout\index.vue
 -->
@@ -69,12 +69,8 @@ const minHeight = computed(() => (showFooter.value ? 'calc(100vh - 48px)' : '100
     z-index: 0;
     background-image: url(@/assets/img/background/noise.png);
   }
-  @include themeify {
-    background-color: themed('main-bgc') !important;
-    color: themed('text-color') !important;
-
-    // #181c27 c4c6c9
-  }
+  background-color: var(--main-bgc) !important;
+  color: var(--text-color) !important;
 }
 .ant-layout,
 .ant-layout-footer {
@@ -88,15 +84,13 @@ const minHeight = computed(() => (showFooter.value ? 'calc(100vh - 48px)' : '100
   top: 0px;
   left: 0px;
   position: fixed;
-  box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
-  transition: all 0.5s;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+  transition: all 1s;
   background: transparent !important;
 }
 .ant-layout-header__active {
-  @include themeify {
-    background-color: themed('nav-color') !important;
-    border-color: themed('nav-color') !important;
-  }
+    background-color: var(--nav-color) !important;
+    border-color: var(--nav-color) !important;
 }
 .ant-layout-content {
   min-height: calc(100vh - 48px);

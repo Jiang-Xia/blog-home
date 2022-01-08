@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-24 20:34:46
- * @LastEditTime: 2022-01-07 09:41:24
+ * @LastEditTime: 2022-01-08 10:35:48
  * @Description: 
  * @FilePath: \blog-home\src\layout\nav.vue
 -->
@@ -252,10 +252,10 @@ const changeTheme = (type: string) => {
     color: #fff;
   }
   .router-link-active {
-    @include styles('color', 'main-color');
+    color: var(--main-color);
   }
   .router-link-item > span:hover {
-    @include styles('color', 'main-color');
+    color: var(--main-color);
   }
   .tool-bar {
     display: flex;
@@ -286,7 +286,7 @@ const changeTheme = (type: string) => {
 
 // #app 容器外样式
 :deep(.ant-dropdown-menu-item.active) {
-  background-color: themed('main-color');
+  background-color: var(--main-color);
   color: #fff;
 }
 </style>

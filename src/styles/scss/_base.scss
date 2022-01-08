@@ -104,7 +104,7 @@ div:focus {
   margin-right: 10px;
 }
 .main-color {
-  @include styles('color', 'main-color');
+  color: var(--main-color);
 }
 .block {
   display: block;

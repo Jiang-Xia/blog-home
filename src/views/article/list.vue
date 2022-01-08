@@ -227,7 +227,7 @@ const onSearchHandle = () => {
       min-height: 110px;
       margin-bottom: 20px;
       padding: 18px 20px;
-      @include styles('background-color', 'minor-bgc');
+      background-color: var(--minor-bgc);
       // box-shadow: 0 2px 6px rgba($color: #000000, $alpha: 0.26);
       border-radius: 8px;
       .line-1 {
@@ -238,7 +238,7 @@ const onSearchHandle = () => {
       .line-3 {
         font-size: 14px;
         line-height: 1.7;
-        @include styles('color', 'text-color2');
+        color: var(--text-color2);
       }
       .line-3 {
         margin-bottom: 2px;
@@ -269,7 +269,7 @@ const onSearchHandle = () => {
       margin-right: 20px;
       margin-left: 20px;
       padding: 18px 20px;
-      @include styles('background-color', 'minor-bgc');
+      background-color:var(--minor-bgc);
       // box-shadow: $box-shadow;
       border-radius: 8px;
       min-height: 310px;
@@ -277,7 +277,7 @@ const onSearchHandle = () => {
         line-height: 32px;
         font-size: 15px;
         font-weight: 600;
-        @include styles('color', 'text-color');
+        color: var(--text-color);
       }
     }
     .auth-info {
@@ -304,7 +304,7 @@ const onSearchHandle = () => {
     }
     .category-item:hover {
       // background-color: #f9f9f9;
-      @include styles('background-color', 'hover-color');
+      background-color: var(--hover-color);
     }
     .category__text {
       line-height: 1.8;

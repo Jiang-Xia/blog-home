@@ -87,14 +87,10 @@ onBeforeRouteUpdate((to) => {
   width: 70%;
   z-index: 0;
   border-radius: 18px;
-  @include styles('background-color', 'minor-bgc');
+  background-color: var(--minor-bg);
   padding: 40px 20px 20px 20px;
   @media screen and (max-width: 768px) {
     width: 95%;
-  }
-  :deep(.w-e-text-container) {
-    // @include styles('background-color', 'main-bgc');
-    // @include styles('color', 'text-color');
   }
 }
 </style>

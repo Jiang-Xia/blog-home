@@ -13,10 +13,8 @@
 }
 
 .custom-tag.active {
-  @include themeify {
-    background-color: main-color() !important;
-    border-color: main-color() !important;
-  }
+  background-color: var(--main-color);
+  border-color: var(--main-color);
   color: #fff !important;
   transform: scale(1.1);
 }
@@ -24,18 +22,18 @@
 .ant-layout-content {
   .ant-input,
   .ant-select-selector {
-    @include styles('background-color', 'main-bgc');
-    @include styles('border-color', 'main-bgc');
-    @include styles('color', 'text-color');
+    background-color: var(--main-bgc);
+    border-color: var(--main-bgc);
+    color: var(--text-color);
   }
   .tag-select .ant-select-selection-item {
-    @include styles('background-color', 'minor-bgc');
-    @include styles('border-color', 'main-bgc');
-    @include styles('color', 'text-color');
+    background-color: var(--minor-bgc);
+    border-color: var(--main-bgc);
+    color: var(--text-color);
   }
   .ant-form-item-label {
     & > label {
-      @include styles('color', 'text-color');
+      color: var(--text-color);
     }
   }
 }

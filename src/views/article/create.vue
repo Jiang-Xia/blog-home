@@ -17,7 +17,7 @@ interface FormState {
   content: string
   contentHtml?: string
   category: string
-  cover:string
+  cover: string
   tags: number[]
 }
 const defaultForm = {
@@ -26,7 +26,7 @@ const defaultForm = {
   content: '',
   contentHtml: '',
   category: '',
-  cover:"",
+  cover: '',
   tags: []
 }
 
@@ -97,7 +97,7 @@ const handleFinish = async (values: FormState) => {
   const params = {
     ...values,
     content: formState.content,
-    contentHtml: formState.contentHtml,
+    contentHtml: formState.contentHtml
     // cover: formState.cover
   }
   // console.log('params:', params)
@@ -116,8 +116,8 @@ const resetForm = () => {
 
 // 编辑器修改
 const editorConfig = {
-  placeholder:'哈喽！有什么灵感的话赶紧写下来吧~',
-  pasteFilterStyle: true,
+  placeholder: '哈喽！有什么灵感的话赶紧写下来吧~',
+  pasteFilterStyle: true
 }
 const editorChange = (params: any) => {
   const { html, json, editor } = params
@@ -183,7 +183,7 @@ const editorChange = (params: any) => {
             </a-button>
           </a-form-item>
           <a-form-item has-feedback label="内容" name="content"> </a-form-item>
-          <x-editor custom-class="x-editor" @change="editorChange" :config="editorConfig"/>
+          <x-editor custom-class="x-editor" @change="editorChange" :config="editorConfig" />
           <a-form-item :wrapper-col="{ span: 14, offset: 4 }">
             <a-button type="primary" html-type="submit">提交</a-button>
             <a-button style="margin-left: 10px" @click="resetForm">重置</a-button>
@@ -223,8 +223,7 @@ const editorChange = (params: any) => {
   z-index: 0;
   border-radius: 18px;
   // box-shadow: $box-shadow;
-  background-color: #fff;
-  @include styles('background-color', 'minor-bgc');
+  background-color: var(--minor-bgc);
   padding: 40px 20px 20px 20px;
   @media screen and (max-width: 768px) {
     width: 95%;
@@ -239,16 +238,12 @@ const editorChange = (params: any) => {
     border-radius: 4px;
     :deep(.w-e-toolbar),
     :deep(.w-e-text-container) {
-      @include themeify {
-        background-color: themed('main-bgc') !important;
-        border-color: themed('main-bgc') !important;
-        color: themed('text-color2');
-      }
+      background-color: var(--main-bgc) !important;
+      border-color: var(--main-bgc) !important;
+      color: var(--text-color2);
     }
     :deep(.w-e-text code) {
-      @include themeify {
-        background-color: themed('minor-bgc') !important;
-      }
+      background-color: var(--minor-bgc) !important;
     }
   }
 }
