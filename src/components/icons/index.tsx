@@ -1,9 +1,34 @@
-import { createFromIconfontCN } from '@ant-design/icons-vue'
-import { defineComponent } from 'vue'
-const MyIcon: any = createFromIconfontCN({
-  // 在 iconfont.cn 上生成
-  scriptUrl: '//at.alicdn.com/t/font_3114416_9dj5ycg61ne.js'
-})
+import { defineComponent, h, SetupContext } from 'vue'
+import config from '@/config'
+import './index.scss'
+interface propsState {
+  icon: string
+}
+// 加载iconfont 图标字体文件
+const createIconfont = () => {
+  const scriptUrl = config.iconfonrUrl
+  const script = document.createElement('script')
+  script.src = scriptUrl
+  document.body.appendChild(script)
+}
+createIconfont()
+
+// 创建icon 函数式组件
+const createIcon = (props: propsState, context: SetupContext) => {
+  const svg = (
+    <svg width="1em" height="1em" fill="currentColor" aria-hidden="true" focusable="false" class="">
+      <use xlinkHref={'#' + props.icon}></use>
+    </svg>
+  )
+  const html = (
+    <span class="x-icon" {...context.attrs}>
+      {svg}
+    </span>
+  )
+  return h(html, context.attrs, context.slots)
+}
+
+// 创建 XIcon组件
 export default defineComponent({
   name: 'XIcon',
   props: {
@@ -12,9 +37,7 @@ export default defineComponent({
       default: ''
     }
   },
-  setup(props: any) {
-    // console.log('props', props)
-    // console.log('props.icon', props.icon)
-    return () => <MyIcon type={props.icon} class={'x-icon'} />
+  setup(props: any, context: SetupContext) {
+    return () => createIcon(props, context)
   }
 })

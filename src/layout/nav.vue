@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-24 20:34:46
- * @LastEditTime: 2022-01-08 16:00:59
+ * @LastEditTime: 2022-01-09 17:51:59
  * @Description: 
  * @FilePath: \blog-home\src\layout\nav.vue
 -->
@@ -12,9 +12,8 @@ import { ref, computed, reactive, onMounted } from 'vue'
 import Login from './login.vue'
 import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
-import { PlusSquareOutlined } from '@ant-design/icons-vue'
 import { getArticleList } from '@/api/article'
-import XIcon from '@/components/icons/index'
+import XIcon from '@/components/icons'
 import dayjs from 'dayjs'
 const navList = ref([
   {

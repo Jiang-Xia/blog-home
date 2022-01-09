@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { RuleObject, ValidateErrorEntity } from 'arco-design-vue/es/form/interface'
+import { FieldRule, ValidatedError } from '@arco-design/web-vue/es/form/interface'
 import { reactive, ref } from 'vue'
 import { computed, onBeforeUnmount, onMounted } from 'vue'
 import { createArticle } from '@/api/article'
@@ -7,7 +7,6 @@ import api from '@/api/index'
 import { Message } from '@arco-design/web-vue'
 import CreateModal from './components/create-modal.vue'
 import { categoryOptions, tagsOptions, getOptions } from './common'
-import { PlusSquareOutlined } from '@ant-design/icons-vue'
 import { useRouter } from 'vue-router'
 import XEditor from '@/components/x-editor/index'
 
@@ -34,14 +33,14 @@ const router = useRouter()
 const formRef = ref()
 const formState: FormState = reactive({ ...defaultForm })
 // 自定义校验
-const checkTitle = async (rule: RuleObject, value: string) => {
+const checkTitle = async (rule: FieldRule, value: string) => {
   if (value === '') {
     return Promise.reject('请输入标题！')
   } else {
     return Promise.resolve()
   }
 }
-const checkDescription = async (rule: RuleObject, value: string) => {
+const checkDescription = async (rule: FieldRule, value: string) => {
   if (value === '') {
     return Promise.reject('请输入描述！')
   } else {
@@ -107,7 +106,7 @@ const handleFinish = async (values: FormState) => {
   router.push('/home')
 }
 // 提交失败
-const handleFinishFailed = (errors: ValidateErrorEntity<FormState>) => {
+const handleFinishFailed = (errors: ValidatedError) => {
   console.log(errors)
 }
 const resetForm = () => {
@@ -141,6 +140,8 @@ const editorChange = (params: any) => {
           v-bind="layout"
           @finish="handleFinish"
           @finishFailed="handleFinishFailed"
+          :label-col-props="{ span: 4, offset: 0 }"
+          :wrapper-col-props="{ span:19, offset: 0 }"
         >
           <a-form-item has-feedback label="标题" name="title">
             <a-input v-model:value="formState.title" autocomplete="off" placeholder="标题" />
@@ -162,7 +163,7 @@ const editorChange = (params: any) => {
             </a-select>
             <a-button type="text" @click="showConfirm('分类')">
               <template #icon>
-                <PlusSquareOutlined />
+                <XIcon icon="blog-plus-square" />
               </template>
             </a-button>
           </a-form-item>
@@ -172,13 +173,13 @@ const editorChange = (params: any) => {
               style="width: 50%"
               v-model:value="formState.tags"
               :options="tagsOptions"
-              mode="multiple"
+              multiple
               class="tag-select"
             >
             </a-select>
             <a-button type="text" @click="showConfirm('标签')">
               <template #icon>
-                <PlusSquareOutlined />
+                <XIcon icon="blog-plus-square" />
               </template>
             </a-button>
           </a-form-item>
@@ -229,7 +230,7 @@ const editorChange = (params: any) => {
     width: 95%;
   }
   .x-editor {
-    margin-left: 12.5%;
+    margin-left: 16.6%;
     margin-top: -56px;
     margin-bottom: 24px;
     width: 79.1%;

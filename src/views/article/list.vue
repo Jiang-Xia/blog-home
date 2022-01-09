@@ -2,12 +2,6 @@
 import { getArticleInfo, getArticleList } from '@/api/article'
 import { categoryOptions, tagsOptions, getOptions, updateLikes } from './common'
 import { onMounted, ref, reactive, unref, UnwrapRef, toRefs } from 'vue'
-import {
-  AppstoreOutlined,
-  TagOutlined,
-  SearchOutlined,
-  FilterOutlined
-} from '@ant-design/icons-vue'
 import { log } from 'console'
 interface FormState {
   id: number
@@ -33,7 +27,7 @@ const articleList = ref([])
 getOptions('标签')
 getOptions('分类')
 onMounted(async () => {
-  console.log('========',)
+  console.log('========')
   getArticleListHandle()
 })
 const queryPrams = reactive({
@@ -155,7 +149,7 @@ const onSearchHandle = () => {
     <section class="info-tool">
       <div class="card-wrap auth-info">
         <h4>
-          <FilterOutlined />
+          <XIcon icon="blog-filter" />
           关键字
         </h4>
         <a-input-search
@@ -164,13 +158,13 @@ const onSearchHandle = () => {
           @search="onSearchHandle"
         >
           <template #enterButton>
-            <a-button><SearchOutlined /></a-button>
+            <a-button><XIcon icon="blog-search" /></a-button>
           </template>
         </a-input-search>
       </div>
       <div class="card-wrap category-wrap">
         <h4>
-          <AppstoreOutlined />
+          <XIcon icon="blog-category" />
           分类
         </h4>
         <div
@@ -188,21 +182,26 @@ const onSearchHandle = () => {
             }"
           >
             <span class="category__text">{{ item['label'] }}</span>
-            <a-tag class="category__tag" :color="item['color']">{{ item['articleCount'] }}</a-tag>
+            <a-tag class="category__tag" :color="item['color']" size="small">{{
+              item['articleCount']
+            }}</a-tag>
           </div>
         </div>
       </div>
       <div class="card-wrap tag-wrap">
-        <h4><TagOutlined /> 标签</h4>
-        <a-tag
-          class="custom-tag"
-          v-for="(item, index) of tagsOptions"
-          :key="index"
-          :color="item['color']"
-          :class="item['checked'] ? 'active' : ''"
-          @click="clickTagHandle(item, '标签')"
-          >{{ item['label'] }}({{ item['articleCount'] }})</a-tag
-        >
+        <h4><XIcon icon="blog-tag" /> 标签</h4>
+        <a-space>
+          <a-tag
+            class="custom-tag"
+            v-for="(item, index) of tagsOptions"
+            :key="index"
+            :color="item['color']"
+            :class="item['checked'] ? 'active' : ''"
+            size="small"
+            @click="clickTagHandle(item, '标签')"
+            >{{ item['label'] }}({{ item['articleCount'] }})</a-tag
+          >
+        </a-space>
       </div>
     </section>
   </div>
@@ -269,7 +268,7 @@ const onSearchHandle = () => {
       margin-right: 20px;
       margin-left: 20px;
       padding: 18px 20px;
-      background-color:var(--minor-bgc);
+      background-color: var(--minor-bgc);
       // box-shadow: $box-shadow;
       border-radius: 8px;
       min-height: 310px;
@@ -294,7 +293,7 @@ const onSearchHandle = () => {
     .category__tag {
       border-radius: 11px;
       line-height: 1;
-      margin: 0;
+      height: 14px;
     }
     .category__inner {
       @include flex-between();

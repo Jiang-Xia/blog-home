@@ -13,27 +13,27 @@
 }
 
 .custom-tag.active {
-  background-color: var(--main-color);
+  background-color: var(--main-color) !important;
   border-color: var(--main-color);
   color: #fff !important;
   transform: scale(1.1);
 }
 
 .arco-layout-content {
-  .arco-input,
-  .arco-select-selector {
-    background-color: var(--main-bgc);
-    border-color: var(--main-bgc);
-    color: var(--text-color);
-  }
-  .tag-select .arco-select-selection-item {
-    background-color: var(--minor-bgc);
-    border-color: var(--main-bgc);
-    color: var(--text-color);
-  }
-  .arco-form-item-label {
-    & > label {
-      color: var(--text-color);
-    }
-  }
+  // .arco-input,
+  // .arco-select-selector {
+  //   background-color: var(--main-bgc);
+  //   border-color: var(--main-bgc);
+  //   color: var(--text-color);
+  // }
+  // .tag-select .arco-select-selection-item {
+  //   background-color: var(--minor-bgc);
+  //   border-color: var(--main-bgc);
+  //   color: var(--text-color);
+  // }
+  // .arco-form-item-label {
+  //   & > label {
+  //     color: var(--text-color);
+  //   }
+  // }
 }

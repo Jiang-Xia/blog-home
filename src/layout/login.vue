@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-30 16:22:00
- * @LastEditTime: 2022-01-08 16:25:47
+ * @LastEditTime: 2022-01-09 18:13:51
  * @Description: 
  * @FilePath: \blog-home\src\layout\login.vue
 -->
@@ -32,7 +32,7 @@ const handleOk = () => {
 const handleOpen = () => {
   visible.value = true
   form.value = { ...defaultForm }
-  console.log('handleOpen',visible.value)
+  console.log('handleOpen', visible.value)
 }
 const handleClose = () => {
   visible.value = false
@@ -109,16 +109,24 @@ watch(
       @submit="handleSubmit"
     >
       <a-form-item label="手机号码" field="mobile">
-        <a-input v-model:value="form.mobile" :maxlength="11" placeholder="请输入你的手机号码" />
+        <a-input v-model="form.mobile" :max-length="11" placeholder="请输入你的手机号码" />
       </a-form-item>
       <a-form-item label="昵称" v-if="type === 'register'" field="nickname">
-        <a-input v-model:value="form.nickname" placeholder="请输入你的昵称" />
+        <a-input v-model="form.nickname" :max-length="8" placeholder="请输入你的昵称" />
       </a-form-item>
       <a-form-item label="密码" field="password">
-        <a-input-password v-model:value="form.password" placeholder="请输入你的密码" />
+        <a-input-password
+          v-model="form.password"
+          :max-length="16"
+          placeholder="请输入你的密码"
+        />
       </a-form-item>
       <a-form-item label="确认密码" v-if="type === 'register'" field="passwordRepeat">
-        <a-input-password v-model:value="form.passwordRepeat" placeholder="请再次输入你的密码" />
+        <a-input-password
+          v-model="form.passwordRepeat"
+          :max-length="16"
+          placeholder="请再次输入你的密码"
+        />
       </a-form-item>
       <a-form-item :wrapper-col-props="{ span: 17, offset: 5 }" style="text-align: center">
         <a-button type="primary" html-type="submit" style="width: 100%"> {{ title }} </a-button>

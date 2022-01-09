@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-12 17:29:55
- * @LastEditTime: 2022-01-08 15:29:28
+ * @LastEditTime: 2022-01-09 18:01:31
  * @Description:
  * @FilePath: \blog-home\src\main.ts
  */
@@ -10,15 +10,13 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import store from './store'
 import router from './router'
-// import Antd from 'arco-design-vue'
-// import 'arco-design-vue/dist/antd.less'
 import ArcoVue from '@arco-design/web-vue'
 import '@arco-design/web-vue/dist/arco.less'
 import ArcoVueIcon from '@arco-design/web-vue/es/icon'
 import '@/styles/index.scss'
 import '@/assets/css/atom-one-dark.css'
 import axios from '@/utils/request'
-import XIcon from '@/components/icons'
+import XIcon from '@/components/icons/index'
 const app = createApp(App)
 app.component(XIcon.name, XIcon)
 app
