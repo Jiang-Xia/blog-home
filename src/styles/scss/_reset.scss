@@ -161,6 +161,7 @@ a {
 a,
 img {
   -webkit-touch-callout: none; // 禁用长按页面时的弹出菜单(iOS下有效)
+  user-select: none;
 }
 img {
   border: none;
@@ -198,4 +199,9 @@ sup {
 }
 sub {
   bottom: -0.25em;
+}
+// 选中背景和文字颜色
+::selection {
+  background: var(--main-color);
+  color: #fff;
 }

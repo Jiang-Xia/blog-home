@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-24 20:34:46
- * @LastEditTime: 2022-01-09 17:51:59
+ * @LastEditTime: 2022-01-10 00:51:10
  * @Description: 
  * @FilePath: \blog-home\src\layout\nav.vue
 -->
@@ -15,6 +15,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { getArticleList } from '@/api/article'
 import XIcon from '@/components/icons'
 import dayjs from 'dayjs'
+import { useStore2 } from '@/utils/store'
 const navList = ref([
   {
     path: '/',
@@ -46,6 +47,9 @@ const loginHandle = () => {
   reLogin.value.handleOpen()
 }
 const store = useStore()
+const store2 = useStore2()
+store2.action.updateToken('true')
+
 // 退出
 const logoutHandle = async () => {
   await store.dispatch('user/logout')
@@ -102,6 +106,17 @@ const onSelect = (v: number) => {
 }
 
 onMounted(() => {
+  let config: any = localStorage.getItem('userCongfig') || '{}'
+  if (config) {
+    config = reactive(JSON.parse(config))
+    if (config.paperFeeling) {
+      paperClass.value = 'blog-open-book'
+    } else {
+      paperClass.value = 'blog-book'
+    }
+  }
+  store.dispatch('user/userCongfig', config)
+
   const themeType = localStorage.getItem('theme')
   // console.log(themeType)
   if (themeType) {
@@ -150,7 +165,27 @@ const changeTheme = (type: string) => {
     getHour()
   }
 }
+const clickIcon = () => {
+  if (theme.value === 'light') {
+    changeTheme('dark')
+  } else {
+    changeTheme('light')
+  }
+}
 /* 切换主题 结束 */
+/* 纸感 */
+const paperClass = ref('blog-book')
+const changPaper = () => {
+  if (paperClass.value === 'blog-book') {
+    paperClass.value = 'blog-open-book'
+    store.dispatch('user/userCongfig', { paperFeeling: true })
+    store2.action.updateToken('true')
+  } else {
+    paperClass.value = 'blog-book'
+    store.dispatch('user/userCongfig', { paperFeeling: false })
+    store2.action.updateToken('false')
+  }
+}
 </script>
 <template>
   <div class="nav-container">
@@ -186,9 +221,9 @@ const changeTheme = (type: string) => {
         </template>
       </a-button>
       <!-- 主题模式 开始 -->
-      <a-dropdown size="small" class="mg-l-10" :trigger="['click']">
+      <a-dropdown size="small" class="mg-l-10" trigger="hover">
         <span>
-          <x-icon style="color: #fff" :icon="iconClass" />
+          <x-icon class="pointer" @click="clickIcon" style="color: #fff" :icon="iconClass" />
         </span>
         <template #content>
           <a-doption :class="theme === 'light' ? 'active' : ''" @click="changeTheme('light')">
@@ -202,6 +237,14 @@ const changeTheme = (type: string) => {
           </a-doption>
         </template>
       </a-dropdown>
+      <!-- 纸感 -->
+      <x-icon
+        title="纸感"
+        class="pointer mg-l-10"
+        @click="changPaper"
+        style="color: #fff"
+        :icon="paperClass"
+      />
       <!--主题模式 结束  -->
       <a-button type="text" size="small" @click="loginHandle" v-if="!nickname">登录</a-button>
       <a-dropdown v-else>

@@ -2,16 +2,18 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-20 11:28:42
- * @LastEditTime: 2022-01-08 16:00:02
+ * @LastEditTime: 2022-01-09 22:50:54
  * @Description: 
  * @FilePath: \blog-home\src\layout\index.vue
 -->
 <script setup lang="ts">
 import Nav from './nav.vue'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { onMounted, computed } from '@vue/runtime-core'
 import { throttle } from '@/utils'
 import { useRoute } from 'vue-router'
+import { useStore } from 'vuex'
+
 const scrollTop = ref(0)
 const scrollHandle = (e: any) => {
   // console.log(e.target)
@@ -34,10 +36,20 @@ const showFooter = computed(() => {
   const route = useRoute()
   return !route.path.includes('login')
 })
-const minHeight = computed(() => (showFooter.value ? 'calc(100vh - 48px)' : '100vh'))
+// const minHeight = computed(() => (showFooter.value ? 'calc(100vh - 48px)' : '100vh'))
+const store = useStore()
+const paper = computed(() => {
+  return store.getters['user/getUserCongfig'].paperFeeling
+})
+const token = computed(() => {
+  return store.state.user.token
+})
+watch(()=>token.value,()=>{
+  console.log(1)
+})
 </script>
 <template>
-  <div class="app-layout-contaier">
+  <div class="app-layout-contaier" :class="paper ? 'paper-feeling' : ''">
     <a-layout-header :class="{ 'arco-layout-header__active': scrollTop > 58 }">
       <Nav />
     </a-layout-header>
@@ -66,11 +78,17 @@ const minHeight = computed(() => (showFooter.value ? 'calc(100vh - 48px)' : '100
     height: 100%;
     content: '';
     pointer-events: none;
+    display: none;
     z-index: 0;
     background-image: url(@/assets/img/background/noise.png);
   }
   background-color: var(--main-bgc) !important;
   color: var(--text-color) !important;
+}
+.paper-feeling {
+  &::after {
+    display: block;
+  }
 }
 .arco-layout,
 .arco-layout-footer {
@@ -90,13 +108,13 @@ const minHeight = computed(() => (showFooter.value ? 'calc(100vh - 48px)' : '100
   padding: 0 1.5vw;
 }
 .arco-layout-header__active {
-    background-color: var(--nav-color) !important;
-    border-color: var(--nav-color) !important;
+  background-color: var(--nav-color) !important;
+  border-color: var(--nav-color) !important;
 }
 .arco-layout-content {
   min-height: calc(100vh - 48px);
 }
-.arco-layout-footer{
+.arco-layout-footer {
   padding: 24px 1.5vw;
 }
 </style>

@@ -1,20 +1,32 @@
 import { Module } from 'vuex'
+import { reactive } from 'vue'
 import { userLogin } from '@/api/user'
 import { setToken, setInfo, removeToken, removeInfo } from '@/utils/cookie'
 import { Message } from '@arco-design/web-vue'
 interface State {
   token: string
   userInfo: object
+  userCongfig: object
 }
 const store: Module<State, unknown> = {
   namespaced: true,
   state() {
     return {
       token: '',
-      userInfo: {}
+      userInfo: {},
+      userCongfig: {
+        // 是否开启纸感
+        paperFeeling: true
+      }
     }
   },
-  getters: {},
+  getters: {
+    getUserCongfig(state) {
+      // 直接使用localStorage获取会改变响应性 视图会不更新
+      // let local = localStorage.getItem('userCongfig')
+      return state.userCongfig
+    }
+  },
   // 只能同步
   mutations: {
     SET_TOKEN: (state, token) => {
@@ -22,6 +34,10 @@ const store: Module<State, unknown> = {
     },
     SET_USER_INFO: (state, userInfo) => {
       state.userInfo = userInfo
+    },
+    SET_USER_CONFIG: (state, userCongfig) => {
+      state.userCongfig = { ...state.userCongfig, ...userCongfig }
+      localStorage.setItem('userCongfig', JSON.stringify(userCongfig))
     }
   },
   // 支持异步,可以考虑引入API
@@ -47,6 +63,9 @@ const store: Module<State, unknown> = {
         Message.success('退出成功')
       }, 500)
       return true
+    },
+    async userCongfig({ commit }, userCongfig) {
+      commit('SET_USER_CONFIG', userCongfig)
     }
   }
 }
