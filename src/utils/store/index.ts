@@ -3,45 +3,41 @@
  */
 import { reactive, readonly } from 'vue'
 import { watch, toRaw } from 'vue'
+import { createAction } from './action'
+export interface AnyPropName {
+  [propName: string]: any
+}
+export interface XStore {
+  action: AnyPropName
+  state: AnyPropName
+}
 export interface XState {
   token: string
-  userInfo: object
-  userConfig: object
+  userInfo: AnyPropName
+  userConfig: AnyPropName
 }
+// state
 export const State: XState = reactive({
   token: '',
   userInfo: {},
-  userConfig: {}
+  userConfig: {
+    paperFeeling: true
+  }
 })
 // 创建State
 export function createState() {
   return reactive(State)
 }
 
-// 创建 action 修改 State的方法
-function updateToken(state: XState) {
-  return (token: string) => {
-    state.token = token
-  }
-}
-
-// 创建action
-export function createAction(state: XState) {
-  return {
-    updateToken: updateToken(state)
-  }
-}
-
 // 使用
 const state = createState()
 const action = createAction(state)
-export const useStore2 = () => {
-  const store = {
-    //   为了防止意外修改
+export const useStore = (): XStore => {
+  const store: XStore = {
+    // 为了防止意外修改
     state: createPersistStorage(state, 'blog'),
     action: readonly(action)
   }
-
   return store
 }
 
@@ -72,6 +68,7 @@ export function createPersistStorage<T>(state: any, rootkey = 'default'): T {
     const stateRow = toRaw(state)
     // 存储
     setItem(stateRow)
+    console.log('state', state)
   })
   return readonly(state)
 }

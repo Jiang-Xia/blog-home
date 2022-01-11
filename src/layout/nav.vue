@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-24 20:34:46
- * @LastEditTime: 2022-01-10 00:51:10
+ * @LastEditTime: 2022-01-10 16:43:34
  * @Description: 
  * @FilePath: \blog-home\src\layout\nav.vue
 -->
@@ -10,12 +10,12 @@
 <script setup lang="ts">
 import { ref, computed, reactive, onMounted } from 'vue'
 import Login from './login.vue'
-import { useStore } from 'vuex'
+import { useStore } from '@/utils/store'
 import { useRoute, useRouter } from 'vue-router'
 import { getArticleList } from '@/api/article'
 import XIcon from '@/components/icons'
 import dayjs from 'dayjs'
-import { useStore2 } from '@/utils/store'
+import { Message } from '@arco-design/web-vue'
 const navList = ref([
   {
     path: '/',
@@ -47,18 +47,17 @@ const loginHandle = () => {
   reLogin.value.handleOpen()
 }
 const store = useStore()
-const store2 = useStore2()
-store2.action.updateToken('true')
 
 // 退出
 const logoutHandle = async () => {
-  await store.dispatch('user/logout')
+  await setTimeout(() => {
+    Message.success('退出成功')
+  }, 500)
 }
 // 昵称
 const nickname = computed(() => {
-  const info = store.getters.userInfo
+  const info = store.state.userInfo
   // console.log(info, 'info')
-  // 或者 const info =  store.state.user.userInfo
   let str = info.nickname || ''
   str = str.slice(0, 1)
   return str
@@ -68,7 +67,7 @@ const router = useRouter()
 const route = useRoute()
 // 新建文章
 const newArticleHandle = () => {
-  if (store.getters.token) {
+  if (store.state.token) {
     router.push('/article/create')
   } else {
     loginHandle()
@@ -106,16 +105,12 @@ const onSelect = (v: number) => {
 }
 
 onMounted(() => {
-  let config: any = localStorage.getItem('userCongfig') || '{}'
-  if (config) {
-    config = reactive(JSON.parse(config))
-    if (config.paperFeeling) {
-      paperClass.value = 'blog-open-book'
-    } else {
-      paperClass.value = 'blog-book'
-    }
+  const paperFeeling = store.action.userConfig.paperFeeling
+  if (paperFeeling) {
+    paperClass.value = 'blog-open-book'
+  } else {
+    paperClass.value = 'blog-book'
   }
-  store.dispatch('user/userCongfig', config)
 
   const themeType = localStorage.getItem('theme')
   // console.log(themeType)
@@ -178,12 +173,10 @@ const paperClass = ref('blog-book')
 const changPaper = () => {
   if (paperClass.value === 'blog-book') {
     paperClass.value = 'blog-open-book'
-    store.dispatch('user/userCongfig', { paperFeeling: true })
-    store2.action.updateToken('true')
+    store.action.updateUserConfig({ paperFeeling: true })
   } else {
     paperClass.value = 'blog-book'
-    store.dispatch('user/userCongfig', { paperFeeling: false })
-    store2.action.updateToken('false')
+    store.action.updateUserConfig({ paperFeeling: false })
   }
 }
 </script>

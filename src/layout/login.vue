@@ -2,15 +2,15 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-30 16:22:00
- * @LastEditTime: 2022-01-09 18:13:51
+ * @LastEditTime: 2022-01-10 16:39:16
  * @Description: 
  * @FilePath: \blog-home\src\layout\login.vue
 -->
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { watch, watchEffect } from 'vue'
-import { useStore } from 'vuex'
-import { registerUser } from '@/api/user'
+import { useStore } from '@/utils/store'
+import { registerUser, userLogin } from '@/api/user'
 import { Message } from '@arco-design/web-vue'
 // 定义props属性
 const props = defineProps({
@@ -42,7 +42,12 @@ const store = useStore()
 const handleSubmit = async () => {
   console.log(type.value)
   if (type.value === 'login') {
-    await store.dispatch('user/login', { ...form.value })
+    const res = await userLogin({ ...form.value })
+    const user = res.info.user
+    const token = res.info.token
+    store.action.updateToken('Bearer ' + token)
+    store.action.updateUserInfo(user)
+    Message.success('登录成功')
     handleClose()
   } else if (type.value === 'register') {
     const res = await registerUser({ ...form.value })
@@ -115,11 +120,7 @@ watch(
         <a-input v-model="form.nickname" :max-length="8" placeholder="请输入你的昵称" />
       </a-form-item>
       <a-form-item label="密码" field="password">
-        <a-input-password
-          v-model="form.password"
-          :max-length="16"
-          placeholder="请输入你的密码"
-        />
+        <a-input-password v-model="form.password" :max-length="16" placeholder="请输入你的密码" />
       </a-form-item>
       <a-form-item label="确认密码" v-if="type === 'register'" field="passwordRepeat">
         <a-input-password

@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-17 16:26:53
- * @LastEditTime: 2022-01-08 14:28:40
+ * @LastEditTime: 2022-01-10 16:43:04
  * @Description:
  * @FilePath: \blog-home\src\utils\request.ts
  */
@@ -12,6 +12,7 @@ import { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { getToken, removeToken, removeInfo } from '@/utils/cookie'
 // import { getCode } from '@/utils/common'
 // import showXiaLogin from '@/components/xia-login/main'
+import { useStore } from '@/utils/store'
 
 import { Message } from '@arco-design/web-vue'
 interface MessageConfig {
@@ -29,7 +30,8 @@ const $axios = axios.create({
 $axios.interceptors.request.use(
   (config: AxiosRequestConfig) => {
     // openLoading()
-    const token = getToken()
+    const token = useStore().state.toekn
+    // const token = getToken()
     config.headers = {}
     config.baseURL = 'http://localhost:5000'
     // if (config.method === 'get') {
