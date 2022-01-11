@@ -9,12 +9,15 @@ interface FormState {
   title?: string
   description?: string
   content?: string
+  cover?: string
+  // [propName:string]:any
 }
 const defaultForm = {
   title: '',
   description: '',
   content: '',
-  contentHtml: ''
+  contentHtml: '',
+  cover: ''
 }
 const route = reactive(useRoute())
 // 获取到的html内容
@@ -31,6 +34,12 @@ const getArticleInfoHandle = async (to?: any) => {
   ArticleInfo.title = res.info.title
   ArticleInfo.content = res.info.content
   ArticleInfo.contentHtml = res.info.contentHtml
+  ArticleInfo.cover = res.info.cover
+  // Object.keys(defaultForm).forEach((v: string) => {
+  //   if (typeof res.info[v]) {
+  //     ArticleInfo[v] = res.info[v]
+  //   }
+  // })
   isEditorShow.value = true
   updateViews(route.query.id)
 }
@@ -45,7 +54,7 @@ onBeforeRouteUpdate((to) => {
 <template>
   <div>
     <section class="banner-container">
-      <div class="banner-content">
+      <div class="banner-content" :style="{ 'background-image': ArticleInfo.cover }">
         <!-- <div>文章详情</div> -->
         <p>{{ ArticleInfo.title }}</p>
       </div>

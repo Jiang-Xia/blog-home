@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-24 20:34:46
- * @LastEditTime: 2022-01-11 21:48:48
+ * @LastEditTime: 2022-01-11 22:38:54
  * @Description: 
  * @FilePath: \blog-home\src\layout\nav.vue
 -->
@@ -51,8 +51,10 @@ const store = useStore()
 // 退出
 const logoutHandle = async () => {
   await setTimeout(() => {
+    store.action.updateToken('')
+    store.action.updateUserInfo({})
     Message.success('退出成功')
-  }, 500)
+  }, 200)
 }
 // 昵称
 const nickname = computed(() => {

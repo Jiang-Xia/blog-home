@@ -24,19 +24,21 @@
   --main-color: #00adb5;
   --nav-color: rgba(49, 66, 84, 0.72);
   --box-shadow: 0 4px 12px #000026;
-  --main-bgc: #eeeeee;
+  --main-bgc: #f2f3f5;
   --minor-bgc: #ffffff;
   --text-color: #364f6b;
   --text-color2: rgba(54, 79, 107, 0.65);
   --hover-color: #f9f9f9;
+  --border-radius: 4px;
 }
 :root.theme-dark {
   --main-color: #00adb5;
-  --nav-color: #314254;
+  --nav-color: #222831;
   --box-shadow: 0 4px 12px #000026;
   --main-bgc: #222831;
   --minor-bgc: rgb(57, 62, 70);
   --text-color: rgba(255, 255, 255, 0.85);
   --text-color2: rgba(255, 255, 255, 0.65);
   --hover-color: rgba(255, 255, 255, 0.08);
+  --border-radius: 4px;
 }

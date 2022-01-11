@@ -72,3 +72,5 @@ export function createPersistStorage<T>(state: any, rootkey = 'default'): T {
   })
   return readonly(state)
 }
+
+export default useStore

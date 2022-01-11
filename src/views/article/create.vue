@@ -32,29 +32,27 @@ const defaultForm = {
 const router = useRouter()
 const formRef = ref()
 const formState: FormState = reactive({ ...defaultForm })
-// 自定义校验
-const checkTitle = async (rule: FieldRule, value: string) => {
-  if (value === '') {
-    return Promise.reject('请输入标题！')
-  } else {
-    return Promise.resolve()
+// 自定义异步校验
+const checkTitle = async (value: string, cb: (error?: string) => void) => {
+  console.log(value)
+  if (!value) {
+    cb('请输入标题！')
   }
+  Promise.resolve()
 }
-const checkDescription = async (rule: FieldRule, value: string) => {
-  if (value === '') {
-    return Promise.reject('请输入描述！')
-  } else {
-    return Promise.resolve()
+const checkDescription = async (value: string, cb: (error?: string) => void) => {
+  if (!value) {
+    cb('请输入描述！')
   }
+  Promise.resolve()
 }
 const rules = {
   title: [{ required: true, validator: checkTitle, trigger: 'blur' }],
   description: [{ required: true, validator: checkDescription, trigger: 'blur' }],
+  category: [{ required: true, message: '请选择分类！', trigger: 'change' }],
+  tags: [{ required: true, message: '请选择标签！' , trigger: 'change' }],
+  cover: [{ required: true, message: '封面为必填！' , trigger: 'blur' }],
   content: [{ required: true, trigger: 'change' }]
-}
-const layout = {
-  labelCol: { span: 3 },
-  wrapperCol: { span: 19 }
 }
 
 const visibale = ref(false)
@@ -93,6 +91,7 @@ getOptions('分类')
 
 // 提交成功
 const handleFinish = async (values: FormState) => {
+  // console.log('values', values)
   const params = {
     ...values,
     content: formState.content,
@@ -137,29 +136,28 @@ const editorChange = (params: any) => {
           ref="formRef"
           :model="formState"
           :rules="rules"
-          v-bind="layout"
-          @finish="handleFinish"
-          @finishFailed="handleFinishFailed"
-          :label-col-props="{ span: 4, offset: 0 }"
-          :wrapper-col-props="{ span:19, offset: 0 }"
+          @submit-success="handleFinish"
+          @submit-failed="handleFinishFailed"
+          :label-col-props="{ span: 3, offset: 0 }"
+          :wrapper-col-props="{ span: 20, offset: 0 }"
         >
-          <a-form-item has-feedback label="标题" name="title">
-            <a-input v-model:value="formState.title" autocomplete="off" placeholder="标题" />
+          <a-form-item label="标题" name="title" field="title">
+            <a-input v-model="formState.title" autocomplete="off" placeholder="标题" />
           </a-form-item>
-          <a-form-item has-feedback label="描述" name="description">
+          <a-form-item label="描述" name="description" field="description" placeholder="描述">
             <a-textarea
-              v-model:value="formState.description"
+              v-model="formState.description"
               placeholder="描述"
               :auto-size="{ minRows: 2, maxRows: 10 }"
             />
           </a-form-item>
 
-          <a-form-item has-feedback label="分类" name="category">
-            <a-select
-              style="width: 50%"
-              v-model:value="formState.category"
-              :options="categoryOptions"
-            >
+          <a-form-item label="封面" name="cover" field="cover">
+            <a-input v-model="formState.cover" autocomplete="off" placeholder="封面" />
+          </a-form-item>
+
+          <a-form-item label="分类" name="category" field="category">
+            <a-select style="width: 50%" v-model="formState.category" :options="categoryOptions" placeholder="选择一种分类">
             </a-select>
             <a-button type="text" @click="showConfirm('分类')">
               <template #icon>
@@ -168,10 +166,10 @@ const editorChange = (params: any) => {
             </a-button>
           </a-form-item>
 
-          <a-form-item has-feedback label="标签" name="tags">
+          <a-form-item label="标签" name="tags" field="tags" placeholder="选择标签 ">
             <a-select
               style="width: 50%"
-              v-model:value="formState.tags"
+              v-model="formState.tags"
               :options="tagsOptions"
               multiple
               class="tag-select"
@@ -183,9 +181,9 @@ const editorChange = (params: any) => {
               </template>
             </a-button>
           </a-form-item>
-          <a-form-item has-feedback label="内容" name="content"> </a-form-item>
+          <a-form-item label="内容" name="content" field="content"> </a-form-item>
           <x-editor custom-class="x-editor" @change="editorChange" :config="editorConfig" />
-          <a-form-item :wrapper-col="{ span: 14, offset: 4 }">
+          <a-form-item :wrapper-col-props="{ span: 13, offset: 7 }">
             <a-button type="primary" html-type="submit">提交</a-button>
             <a-button style="margin-left: 10px" @click="resetForm">重置</a-button>
           </a-form-item>
@@ -230,10 +228,10 @@ const editorChange = (params: any) => {
     width: 95%;
   }
   .x-editor {
-    margin-left: 16.6%;
+    margin-left: 12.5%;
     margin-top: -56px;
     margin-bottom: 24px;
-    width: 79.1%;
+    width: 83.3%;
 
     border-color: transparent !important;
     border-radius: 4px;

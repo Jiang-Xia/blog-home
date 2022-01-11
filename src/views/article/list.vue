@@ -101,35 +101,40 @@ const onSearchHandle = () => {
 
 <template>
   <div class="article-list-container">
-    <section class="article-item">
+    <section class="main-article-wrap">
       <transition-group name="list" tag="div">
-        <div class="card-wrap" v-for="(item, index) in articleList" :key="index">
-          <router-link class="line-1" :to="'/article/info?id=' + item['id']">
-            {{ item['title'] }}
-          </router-link>
-          <div class="line-2 ellipsis">
-            {{ item['description'] }}
+        <div class="card-wrap article-item" v-for="(item, index) in articleList" :key="index">
+          <div class="card-content">
+            <router-link class="line-1" :to="'/article/info?id=' + item['id']">
+              {{ item['title'] }}
+            </router-link>
+            <div class="line-2 ellipsis">
+              {{ item['description'] }}
+            </div>
+            <div class="line-3">更新于 {{ item['uTime'] }}</div>
+            <div class="line-4">
+              <!-- 分类 -->
+              <span class="mg-r-10" :style="{ color: item['category']['color'] }">
+                <x-icon icon="blog-category"></x-icon>
+                {{ item['category']['label'] }}
+              </span>
+              <!-- 标签 -->
+              <span class="mg-r-10" :style="{ color: item['tags'][0]['color'] }">
+                <x-icon icon="blog-tag"></x-icon>
+                {{ getTagLabel(item['tags']) }}
+              </span>
+              <!-- 阅读量 -->
+              <span class="mg-r-10 pointer"
+                ><x-icon icon="blog-view"></x-icon>{{ item['views'] }}</span
+              >
+              <!-- 点赞数 -->
+              <span class="mg-r-10 pointer blog-like" @click="updateLikes(item['id'])"
+                ><x-icon icon="blog-like"></x-icon>{{ item['likes'] }}</span
+              >
+            </div>
           </div>
-          <div class="line-3">更新于 {{ item['uTime'] }}</div>
-          <div class="line-4">
-            <!-- 分类 -->
-            <span class="mg-r-10" :style="{ color: item['category']['color'] }">
-              <x-icon icon="blog-category"></x-icon>
-              {{ item['category']['label'] }}
-            </span>
-            <!-- 标签 -->
-            <span class="mg-r-10" :style="{ color: item['tags'][0]['color'] }">
-              <x-icon icon="blog-tag"></x-icon>
-              {{ getTagLabel(item['tags']) }}
-            </span>
-            <!-- 阅读量 -->
-            <span class="mg-r-10 pointer"
-              ><x-icon icon="blog-view"></x-icon>{{ item['views'] }}</span
-            >
-            <!-- 点赞数 -->
-            <span class="mg-r-10 pointer blog-like" @click="updateLikes(item['id'])"
-              ><x-icon icon="blog-like"></x-icon>{{ item['likes'] }}</span
-            >
+          <div class="cover-wrap">
+            <img src="./img/create.webp" alt="" />
           </div>
         </div>
       </transition-group>
@@ -218,7 +223,7 @@ const onSearchHandle = () => {
   .arco-pagination {
     margin-top: 8vh;
   }
-  .article-item {
+  .main-article-wrap {
     margin-right: 340px;
     transition: all 0.5s;
     // 文章列表
@@ -252,6 +257,22 @@ const onSearchHandle = () => {
         .blog-like:hover {
           color: $main-color;
         }
+      }
+    }
+    .article-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .card-content{
+      min-width: 60%;
+    }
+    .cover-wrap {
+      height: 100%;
+      & > img {
+        max-height: 100px;
+        max-width: 150px;
+        border-radius: var(--border-radius);
       }
     }
   }
@@ -314,17 +335,24 @@ const onSearchHandle = () => {
       min-height: 470px;
     }
   }
-  .article-item,
+  .main-article-wrap,
   .info-tool {
     min-height: 50vh;
   }
   @media screen and (max-width: 992px) {
-    .article-item {
+    .main-article-wrap {
       margin-right: 0;
       padding-right: 20px;
     }
     .info-tool {
       transform: translate(300%);
+    }
+  }
+  @media screen and (max-width: 992px) {
+    .main-article-wrap {
+      .cover-wrap {
+        display: none;
+      }
     }
   }
 }

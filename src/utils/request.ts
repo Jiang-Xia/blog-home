@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-17 16:26:53
- * @LastEditTime: 2022-01-10 16:43:04
+ * @LastEditTime: 2022-01-11 22:23:21
  * @Description:
  * @FilePath: \blog-home\src\utils\request.ts
  */
@@ -30,7 +30,7 @@ const $axios = axios.create({
 $axios.interceptors.request.use(
   (config: AxiosRequestConfig) => {
     // openLoading()
-    const token = useStore().state.toekn
+    const token = useStore().state.token
     // const token = getToken()
     config.headers = {}
     config.baseURL = 'http://localhost:5000'

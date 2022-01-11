@@ -16,14 +16,13 @@
     color: hsla(0, 0%, 54.9%, 0.8);
     transition: color 0.1s;
   }
-  --bg-code: #f5f5f5;
   pre {
     position: relative;
     max-height: 400px;
     padding-top: 30px;
     border-radius: 5px;
     margin: 10px 0;
-    background-color: var(--bg-code);
+    background-color: var(--main-bgc);
     font-size: 1em;
     &::before {
       position: absolute;

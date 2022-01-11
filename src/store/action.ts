@@ -9,7 +9,7 @@ function updateToken(state: XState) {
 // 更新userInfo
 function updateUserInfo(state: XState) {
   return (userInfo: any) => {
-    state.userInfo = { ...state.userInfo, ...userInfo }
+    state.userInfo = userInfo
   }
 }
 
