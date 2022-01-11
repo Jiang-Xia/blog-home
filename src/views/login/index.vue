@@ -1,7 +1,6 @@
 <script setup lang="ts"></script>
 <template>
   <div class="login-container">
-    <vue-particles id="bg-particles" :clickEffect="true" :options="particlesOpts" />
   </div>
 </template>
 

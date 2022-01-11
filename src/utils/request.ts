@@ -12,7 +12,7 @@ import { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { getToken, removeToken, removeInfo } from '@/utils/cookie'
 // import { getCode } from '@/utils/common'
 // import showXiaLogin from '@/components/xia-login/main'
-import { useStore } from '@/utils/store'
+import { useStore } from '@/store'
 
 import { Message } from '@arco-design/web-vue'
 interface MessageConfig {

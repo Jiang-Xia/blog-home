@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-24 20:34:46
- * @LastEditTime: 2022-01-10 16:43:34
+ * @LastEditTime: 2022-01-11 21:48:48
  * @Description: 
  * @FilePath: \blog-home\src\layout\nav.vue
 -->
@@ -10,7 +10,7 @@
 <script setup lang="ts">
 import { ref, computed, reactive, onMounted } from 'vue'
 import Login from './login.vue'
-import { useStore } from '@/utils/store'
+import { useStore } from '@/store'
 import { useRoute, useRouter } from 'vue-router'
 import { getArticleList } from '@/api/article'
 import XIcon from '@/components/icons'
@@ -105,7 +105,7 @@ const onSelect = (v: number) => {
 }
 
 onMounted(() => {
-  const paperFeeling = store.action.userConfig.paperFeeling
+  const paperFeeling = store.state.userConfig.paperFeeling
   if (paperFeeling) {
     paperClass.value = 'blog-open-book'
   } else {

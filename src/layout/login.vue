@@ -9,7 +9,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { watch, watchEffect } from 'vue'
-import { useStore } from '@/utils/store'
+import { useStore } from '@/store'
 import { registerUser, userLogin } from '@/api/user'
 import { Message } from '@arco-design/web-vue'
 // 定义props属性

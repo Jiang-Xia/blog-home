@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-20 11:28:42
- * @LastEditTime: 2022-01-10 16:47:40
+ * @LastEditTime: 2022-01-11 21:51:16
  * @Description: 
  * @FilePath: \blog-home\src\layout\index.vue
 -->
@@ -12,7 +12,7 @@ import { ref, watch } from 'vue'
 import { onMounted, computed } from '@vue/runtime-core'
 import { throttle } from '@/utils'
 import { useRoute } from 'vue-router'
-import { useStore } from '@/utils/store'
+import { useStore } from '@/store'
 
 const scrollTop = ref(0)
 const scrollHandle = (e: any) => {
@@ -39,7 +39,6 @@ const showFooter = computed(() => {
 // const minHeight = computed(() => (showFooter.value ? 'calc(100vh - 48px)' : '100vh'))
 const store = useStore()
 const paper = computed(() => {
-  console.log9()
   return store.state.userConfig.paperFeeling
 })
 </script>
@@ -50,11 +49,12 @@ const paper = computed(() => {
     </a-layout-header>
     <a-layout-content>
       <router-view v-slot="{ Component }">
-        <keep-alive>
+        <component :is="Component" />
+        <!-- <keep-alive>
           <transition name="fade">
             <component :is="Component" />
           </transition>
-        </keep-alive>
+        </keep-alive> -->
       </router-view>
     </a-layout-content>
     <a-layout-footer v-if="showFooter"></a-layout-footer>
