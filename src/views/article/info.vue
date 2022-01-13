@@ -5,6 +5,7 @@ import { updateViews } from './common'
 import { computed, onBeforeUnmount } from 'vue'
 import { useRoute, onBeforeRouteUpdate } from 'vue-router'
 import XMarkdownReader from '@/components/x-markdown-reader'
+import defaultImg from './img/create.webp'
 interface FormState {
   title?: string
   description?: string
@@ -55,8 +56,11 @@ onBeforeRouteUpdate((to) => {
   <div>
     <section class="banner-container">
       <div class="banner-content" :style="{ 'background-image': ArticleInfo.cover }">
+        <img :src="ArticleInfo.cover || defaultImg" alt="" />
         <!-- <div>文章详情</div> -->
-        <p>{{ ArticleInfo.title }}</p>
+        <div class="article-header">
+          <p>{{ ArticleInfo.title }}</p>
+        </div>
       </div>
     </section>
     <section class="article-info">
@@ -69,35 +73,41 @@ onBeforeRouteUpdate((to) => {
 .banner-container {
   height: 40vh;
   .banner-content {
-    background-image: url(./img/create.webp);
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-    backdrop-filter: blur(2px);
-    font-size: 32px;
-    text-shadow: 3px 3px steelblue;
-    letter-spacing: 25px;
-    text-align: center;
-    line-height: 1.1;
-    flex-wrap: wrap;
-    & > div {
+    position: relative;
+    overflow: hidden;
+    & > img {
       width: 100%;
+      height: 100%;
+      filter: blur(8px) brightness(0.95);
+      transform: scale(1.1);
+      background-color: var(--nav-color);
     }
   }
 }
+.article-header {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  color: #fff;
+  backdrop-filter: blur(2px);
+  font-size: 32px;
+  text-shadow: 3px 3px steelblue;
+  letter-spacing: 25px;
+  text-align: center;
+  line-height: 1.1;
+}
 .article-info {
   position: relative;
-  margin: -40px auto 0;
+  margin: 20px auto 0;
   min-height: 100vh;
   min-width: 40%;
   width: 70%;
   z-index: 0;
   border-radius: 18px;
-  background-color: var(--minor-bg);
-  padding: 40px 20px 20px 20px;
+  background-color: var(--minor-bgc);
+  padding: 20px 20px 20px 20px;
   @media screen and (max-width: 768px) {
     width: 95%;
   }

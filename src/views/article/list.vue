@@ -195,7 +195,7 @@ const onSearchHandle = () => {
       </div>
       <div class="card-wrap tag-wrap">
         <h4><XIcon icon="blog-tag" /> 标签</h4>
-        <a-space>
+        <a-space :wrap="true">
           <a-tag
             class="custom-tag"
             v-for="(item, index) of tagsOptions"
