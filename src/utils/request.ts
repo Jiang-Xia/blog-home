@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-17 16:26:53
- * @LastEditTime: 2022-01-11 22:23:21
+ * @LastEditTime: 2022-01-14 14:58:53
  * @Description:
  * @FilePath: \blog-home\src\utils\request.ts
  */
@@ -13,7 +13,7 @@ import { getToken, removeToken, removeInfo } from '@/utils/cookie'
 // import { getCode } from '@/utils/common'
 // import showXiaLogin from '@/components/xia-login/main'
 import { useStore } from '@/store'
-
+import { baseUrl } from '@/config'
 import { Message } from '@arco-design/web-vue'
 interface MessageConfig {
   message: string
@@ -33,7 +33,7 @@ $axios.interceptors.request.use(
     const token = useStore().state.token
     // const token = getToken()
     config.headers = {}
-    config.baseURL = 'http://localhost:5000'
+    config.baseURL = baseUrl
     // if (config.method === 'get') {
     //   // 解决get请求axios不能设置Content-Type
     //   config.data = true
