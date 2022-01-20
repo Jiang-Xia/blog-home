@@ -48,7 +48,7 @@ const handleOk = () => {
     @ok="handleOk"
     @cancel="emit('update:value', false)"
   >
-    <a-input v-model:value="name" :placeholder="'请输入' + type + '名'"></a-input>
+    <a-input v-model="name" :placeholder="'请输入' + type + '名'"></a-input>
   </a-modal>
 </template>
 <style lang="scss" scoped></style>
