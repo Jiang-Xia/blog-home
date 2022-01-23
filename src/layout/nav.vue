@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-24 20:34:46
- * @LastEditTime: 2022-01-11 22:38:54
+ * @LastEditTime: 2022-01-23 18:41:55
  * @Description: 
  * @FilePath: \blog-home\src\layout\nav.vue
 -->
@@ -23,8 +23,8 @@ const navList = ref([
     icon: ''
   },
   {
-    path: '/category',
-    title: '分类',
+    path: '/archives',
+    title: '归档',
     icon: ''
   },
   {
@@ -267,6 +267,7 @@ const changPaper = () => {
   xxl: '1600px',
  */
 .nav-container {
+  height: 100%;
   @media (max-width: 768px) {
     .nav {
       display: none;
@@ -297,6 +298,8 @@ const changPaper = () => {
   .tool-bar {
     display: flex;
     align-items: center;
+    justify-content: flex-start;
+    line-height: 1;
     .arco-input-search,
     .arco-auto-complete {
       width: 160px;

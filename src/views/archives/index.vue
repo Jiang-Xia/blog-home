@@ -1,7 +1,7 @@
 <script setup lang="ts">
 </script>
 <template>
-  <div class="category-container">
+  <div class="archives-container">
     <section class="banner-container">
       <div class="banner-content">
         <img src="@/assets/img/background/uglydolls.jpg" alt="" />
@@ -24,7 +24,7 @@
     }
   }
 }
-.category-container{
+.archives-container{
   min-height: 100%;
 }
 </style>

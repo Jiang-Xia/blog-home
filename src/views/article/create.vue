@@ -121,6 +121,7 @@ const editorChange = (params: any) => {
   const { html, json, editor } = params
   formState.contentHtml = html
   formState.content = JSON.stringify(json)
+  // JSON.stringify(json)
   // console.log('change 之后最新的 html', html)
 }
 </script>

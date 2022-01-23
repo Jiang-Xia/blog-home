@@ -4,7 +4,7 @@
     margin-left: 20px;
   }
   .copy-btn:hover {
-    color: #fff;
+    color: var(--main-color);
   }
   .code-left-bar {
     position: absolute;
@@ -16,12 +16,16 @@
     color: hsla(0, 0%, 54.9%, 0.8);
     transition: color 0.1s;
   }
+  img {
+    max-width: 100%;
+  }
   pre {
     position: relative;
     max-height: 400px;
     padding-top: 30px;
     border-radius: 5px;
     margin: 10px 0;
+    overflow: auto;
     background-color: var(--main-bgc);
     font-size: 1em;
     &::before {
@@ -43,13 +47,13 @@
     padding: 12px 10px;
     padding-top: 9px;
     border-radius: 0;
-    color: #333333;
+    // color: var(--text-color);
     background-color: var(--bg-code);
     overflow: auto;
     overscroll-behavior: contain;
     // font-size: 12px;
     margin: 0;
-    white-space: pre-wrap;
+    // white-space: normal;
 
     @at-root pre {
       overflow: hidden;

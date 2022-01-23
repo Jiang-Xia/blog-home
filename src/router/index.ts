@@ -11,10 +11,10 @@ export const constantRoutes = [
     meta: {}
   },
   {
-    path: '/category',
-    component: () => import('@/views/category/index.vue'),
-    name: 'Category',
-    title: '分类',
+    path: '/archives',
+    component: () => import('@/views/archives/index.vue'),
+    name: 'Archives',
+    title: '归档',
     meta: {}
   },
   {

@@ -1,7 +1,7 @@
 import { defineComponent, onMounted, ref } from 'vue'
 import './index.scss'
-import hljs from 'highlight.js'
-import dayjs from 'dayjs'
+// import hljs from 'highlight.js'
+// import dayjs from 'dayjs'
 import { copy } from '@/utils/index'
 export default defineComponent({
   name: 'XMarkdownReader',
