@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-12 17:29:55
- * @LastEditTime: 2022-01-23 18:57:51
+ * @LastEditTime: 2022-01-23 19:18:12
  * @Description:
  * @FilePath: \blog-home\src\main.ts
  */
@@ -14,6 +14,7 @@ import '@arco-design/web-vue/dist/arco.less'
 import ArcoVueIcon from '@arco-design/web-vue/es/icon'
 import '@/styles/index.scss'
 import '@/assets/css/atom-one-dark.css'
+import 'animate.css'
 import axios from '@/utils/request'
 import XIcon from '@/components/icons/index'
 const app = createApp(App)

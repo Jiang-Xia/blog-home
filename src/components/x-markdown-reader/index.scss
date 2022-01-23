@@ -25,7 +25,7 @@
     padding-top: 30px;
     border-radius: 5px;
     margin: 10px 0;
-    overflow: auto;
+    // overflow: auto;
     background-color: var(--main-bgc);
     font-size: 1em;
     &::before {
@@ -50,10 +50,12 @@
     // color: var(--text-color);
     background-color: var(--bg-code);
     overflow: auto;
-    overscroll-behavior: contain;
+    // overscroll-behavior: contain;
     // font-size: 12px;
     margin: 0;
     // white-space: normal;
+    word-wrap: break-word;
+    word-break: break-all;
 
     @at-root pre {
       overflow: hidden;
