@@ -67,7 +67,7 @@ refreshTime()
 
 .home-content {
   position: relative;
-  margin: 40px auto 0;
+  margin: 20px auto 0;
   width: 70vw;
   min-height: 150vh;
   min-width: 40%;

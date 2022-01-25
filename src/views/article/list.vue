@@ -3,6 +3,7 @@ import { getArticleInfo, getArticleList } from '@/api/article'
 import { categoryOptions, tagsOptions, getOptions, updateLikes } from './common'
 import { onMounted, ref, reactive, unref, UnwrapRef, toRefs } from 'vue'
 import { log } from 'console'
+import router from '@/router'
 interface FormState {
   id: number
   title: string
@@ -97,17 +98,26 @@ const onSearchHandle = () => {
   // queryPrams.content = searchText.value
   getArticleListHandle(1)
 }
+const gotoDetail = (item: any) => {
+  console.log(11)
+  router.push('/article/info?id=' + item.id)
+}
 </script>
 
 <template>
   <div class="article-list-container">
     <section class="main-article-wrap">
-      <transition-group name="list" tag="div">
-        <div class="card-wrap article-item" v-for="(item, index) in articleList" :key="index">
+      <transition-group name="list">
+        <div
+          class="card-wrap article-item pointer"
+          v-for="(item, index) in articleList"
+          :key="index"
+          @click="gotoDetail(item)"
+        >
           <div class="card-content">
-            <router-link class="line-1" :to="'/article/info?id=' + item['id']">
+            <h1 class="line-1">
               {{ item['title'] }}
-            </router-link>
+            </h1>
             <div class="line-2 ellipsis">
               {{ item['description'] }}
             </div>
@@ -215,6 +225,7 @@ const onSearchHandle = () => {
 <style lang="scss" scoped>
 .article-list-container {
   position: relative;
+  padding-top: 20px;
   :deep(.arco-empty) {
     margin-bottom: 10vh;
     transition: all 1s;
@@ -226,6 +237,7 @@ const onSearchHandle = () => {
   .main-article-wrap {
     margin-right: 340px;
     transition: all 0.5s;
+    padding: 0 20px;
     // 文章列表
     .card-wrap {
       min-height: 110px;
@@ -263,8 +275,13 @@ const onSearchHandle = () => {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      transition: all 0.5s;
     }
-    .card-content{
+    .article-item:hover {
+      transform: scale(1.02) translateY(-3px);
+      box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+    }
+    .card-content {
       min-width: 60%;
     }
     .cover-wrap {
@@ -280,7 +297,7 @@ const onSearchHandle = () => {
   .info-tool {
     position: absolute;
     right: 0;
-    top: 0;
+    top: 20px;
     width: 340px;
     transition: all 0.5s;
     // 作者信息
@@ -323,7 +340,6 @@ const onSearchHandle = () => {
       transition: all 0.5s;
     }
     .category-item:hover {
-      // background-color: #f9f9f9;
       background-color: var(--hover-color);
     }
     .category__text {
