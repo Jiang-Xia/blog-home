@@ -55,7 +55,7 @@ export const updateViews = async (data: any) => {
 // 更新点赞数
 export const updateLikes = async (data: any) => {
   const res = await request({
-    url: '/article/likes',
+    url: '/like',
     method: 'post',
     data
   })

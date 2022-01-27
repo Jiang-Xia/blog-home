@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-20 11:28:42
- * @LastEditTime: 2022-01-11 21:51:16
+ * @LastEditTime: 2022-01-27 10:54:32
  * @Description: 
  * @FilePath: \blog-home\src\layout\index.vue
 -->
@@ -13,7 +13,8 @@ import { onMounted, computed } from '@vue/runtime-core'
 import { throttle } from '@/utils'
 import { useRoute } from 'vue-router'
 import { useStore } from '@/store'
-
+import Cookies from 'js-cookie'
+import dayjs from 'dayjs'
 const scrollTop = ref(0)
 const scrollHandle = (e: any) => {
   // console.log(e.target)
@@ -31,6 +32,11 @@ onMounted(() => {
     造成错位不好看。这里的滚动对象是 document.documentElement
   */
   window.addEventListener('scroll', throttle(scrollHandle, 100), true)
+  // 写入一个cookie，用于判断用户是否点过赞
+  if (!Cookies.get('browserId')) {
+    // 存个当前时间戳
+    Cookies.set('browserId', dayjs().valueOf().toString(), { expires: 7 })
+  }
 })
 const showFooter = computed(() => {
   const route = useRoute()

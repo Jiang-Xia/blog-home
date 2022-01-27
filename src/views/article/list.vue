@@ -2,8 +2,9 @@
 import { getArticleInfo, getArticleList } from '@/api/article'
 import { categoryOptions, tagsOptions, getOptions, updateLikes } from './common'
 import { onMounted, ref, reactive, unref, UnwrapRef, toRefs } from 'vue'
-import { log } from 'console'
 import router from '@/router'
+import { useStore } from '@/store'
+
 interface FormState {
   id: number
   title: string
@@ -98,9 +99,19 @@ const onSearchHandle = () => {
   // queryPrams.content = searchText.value
   getArticleListHandle(1)
 }
+// 文章详情
 const gotoDetail = (item: any) => {
-  console.log(11)
   router.push('/article/info?id=' + item.id)
+}
+const store = useStore()
+const updateLikesHandle = async (item: any) => {
+  const send = {
+    articleId: item.id,
+    uid: store.state.userInfo.id,
+    status: 1
+  }
+  const res = await updateLikes(send)
+  item.likes = ++item.likes
 }
 </script>
 
@@ -138,7 +149,7 @@ const gotoDetail = (item: any) => {
                 ><x-icon icon="blog-view"></x-icon>{{ item['views'] }}</span
               >
               <!-- 点赞数 -->
-              <span class="mg-r-10 pointer blog-like" @click="updateLikes(item['id'])"
+              <span class="mg-r-10 pointer blog-like" @click.stop="updateLikesHandle(item)"
                 ><x-icon icon="blog-like"></x-icon>{{ item['likes'] }}</span
               >
             </div>

@@ -52,6 +52,6 @@ export { categoryOptions, tagsOptions, getOptions, colors, getRandomClor }
 export const updateViews = async (id: LocationQueryValue | LocationQueryValue[]) => {
   await api.updateViews({ id })
 }
-export const updateLikes = async (id: string) => {
-  await api.updateLikes({ id, type: 'like' })
+export const updateLikes = async (data: any) => {
+  return await api.updateLikes(data)
 }
