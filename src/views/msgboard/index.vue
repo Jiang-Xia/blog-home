@@ -4,7 +4,7 @@
   <div class="msgboard-container">
     <section class="banner-container">
       <div class="banner-content">
-        <img src="@/assets/img/background/spaceship.jpg" alt="" />
+        <img src="@/assets/img/background/msgboard.jpg" alt="" />
       </div>
     </section>
   </div>

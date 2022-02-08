@@ -4,7 +4,7 @@
   <div class="archives-container">
     <section class="banner-container">
       <div class="banner-content">
-        <img src="@/assets/img/background/uglydolls.jpg" alt="" />
+        <img src="@/assets/img/background/archives.jpg" alt="" />
       </div>
     </section>
   </div>

@@ -4,7 +4,7 @@
   <div class="about-container">
     <section class="banner-container">
       <div class="banner-content">
-        <img src="@/assets/img/background/abstract.jpg" alt="" />
+        <img src="@/assets/img/background/about.jpg" alt="" />
       </div>
     </section>
   </div>
