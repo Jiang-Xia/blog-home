@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { dailyImage } from '@/api/article'
 import dayjs from 'dayjs'
 import { ref } from 'vue'
 import ArticleList from '../article/list.vue'
@@ -11,12 +12,17 @@ const refreshTime = () => {
   }, 1000)
 }
 refreshTime()
+const bgUrl = ref('')
+dailyImage(7).then((res) => {
+  bgUrl.value = 'https://cn.bing.com'
+  bgUrl.value += res.images[0].url
+})
 </script>
 <template>
   <div>
     <section class="banner-container">
       <div class="banner-content">
-        <img src="@/assets/img/background/girl.jpg" alt="" />
+        <img :src="bgUrl" alt="背景图片" />
         <div class="text-wrap">
           <h1 class="animate__animated animate__bounce">{{ date }}</h1>
         </div>

@@ -10,6 +10,6 @@ if (mode === 'production') {
 } else {
   baseUrl = 'http://localhost:5000'
   // baseUrl = 'http://42.192.145.236:5000'
-  // baseUrl = 'http://jiang-xia.top'
+  // baseUrl = 'http://jiang-xia.top/'
 }
 export default config

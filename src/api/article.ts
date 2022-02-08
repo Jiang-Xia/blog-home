@@ -61,3 +61,13 @@ export const updateLikes = async (data: any) => {
   })
   return res.data
 }
+
+// 必应每日一图
+export const dailyImage = async (n?: number) => {
+  const res = await request({
+    url: '/resources/daily-img',
+    method: 'get',
+    params: { n }
+  })
+  return res.data
+}
