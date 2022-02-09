@@ -12,11 +12,8 @@ const refreshTime = () => {
   }, 1000)
 }
 refreshTime()
-const bgUrl = ref('')
 const images = ref([])
 dailyImage(7).then((res) => {
-  bgUrl.value = 'https://cn.bing.com'
-  bgUrl.value += res.images[0].url
   images.value = res.images.map((v: any) => 'https://cn.bing.com' + v.url)
 })
 </script>

@@ -4,6 +4,7 @@ import { categoryOptions, tagsOptions, getOptions, updateLikes } from './common'
 import { onMounted, ref, reactive, unref, UnwrapRef, toRefs } from 'vue'
 import router from '@/router'
 import { useStore } from '@/store'
+import { Message } from '@arco-design/web-vue'
 
 interface FormState {
   id: number
@@ -25,6 +26,8 @@ interface itemState {
   checked: boolean
   [x: string]: string | boolean
 }
+const store = useStore()
+
 const articleList = ref([])
 getOptions('标签')
 getOptions('分类')
@@ -40,7 +43,8 @@ const queryPrams = reactive({
   total: 0,
   title: '',
   description: '',
-  content: ''
+  content: '',
+  uid: store.state.userInfo.id
 })
 const getArticleListHandle = async (val: number = 1) => {
   queryPrams.page = val
@@ -103,15 +107,29 @@ const onSearchHandle = () => {
 const gotoDetail = (item: any) => {
   router.push('/article/info?id=' + item.id)
 }
-const store = useStore()
 const updateLikesHandle = async (item: any) => {
+  if (!store.state.token) {
+    Message.warning('请先登录！')
+    return
+  }
   const send = {
     articleId: item.id,
     uid: store.state.userInfo.id,
     status: 1
   }
+  if (item.checked) {
+    send.status = 0
+  } else {
+    send.status = 1
+  }
   const res = await updateLikes(send)
-  item.likes = ++item.likes
+  if (item.checked) {
+    item.likes = --item.likes
+    item.checked = 0
+  } else {
+    item.likes = ++item.likes
+    item.checked = 1
+  }
 }
 </script>
 
@@ -149,9 +167,10 @@ const updateLikesHandle = async (item: any) => {
                 ><x-icon icon="blog-view"></x-icon>{{ item['views'] }}</span
               >
               <!-- 点赞数 -->
-              <span class="mg-r-10 pointer blog-like" @click.stop="updateLikesHandle(item)"
-                ><x-icon icon="blog-like"></x-icon>{{ item['likes'] }}</span
-              >
+              <span class="mg-r-10 pointer blog-like" @click.stop="updateLikesHandle(item)">
+                <x-icon :icon="item['checked'] ? 'blog-like-solid' : 'blog-like'"> </x-icon
+                >{{ item['likes'] }}
+              </span>
             </div>
           </div>
           <div class="cover-wrap">
