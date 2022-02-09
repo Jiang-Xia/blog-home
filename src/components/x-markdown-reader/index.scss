@@ -2,6 +2,7 @@
   // 代码回显样式
   .copy-btn {
     margin-left: 20px;
+    font-style: normal;
   }
   .copy-btn:hover {
     color: var(--main-color);
@@ -42,23 +43,45 @@
     }
   }
   code {
-    display: block;
+    display: inline-block;
     max-height: 370px;
-    padding: 12px 10px;
-    padding-top: 9px;
-    border-radius: 0;
-    // color: var(--text-color);
-    background-color: var(--bg-code);
-    overflow: auto;
-    // overscroll-behavior: contain;
-    // font-size: 12px;
+    border-radius: 3px;
+    padding: 3px 5px;
+    margin: 0 3px;
+    color: var(--text-color);
+    background-color: var(--main-bgc);
     margin: 0;
-    // white-space: normal;
     word-wrap: break-word;
     word-break: break-all;
 
     @at-root pre {
       overflow: hidden;
     }
+  }
+
+  blockquote {
+    display: block;
+    border-left: 8px solid var(--main-color);
+    padding: 5px 10px;
+    margin: 10px 0;
+    line-height: 1.4;
+    font-size: 100%;
+    background-color: var(--main-bgc);
+  }
+  p,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  table,
+  pre {
+    margin: 10px 0;
+    line-height: 1.5;
+  }
+  
+  a {
+    color: #2a6496;
+    text-decoration: underline;
   }
 }

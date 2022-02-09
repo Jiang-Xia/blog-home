@@ -248,13 +248,14 @@ const gotoDetail = (item: any) => {
     .card-wrap {
       min-height: 110px;
       margin-bottom: 20px;
-      padding: 18px 20px;
+      padding: 6px 16px;
       background-color: var(--minor-bgc);
       // box-shadow: 0 2px 6px rgba($color: #000000, $alpha: 0.26);
       border-radius: 8px;
       .line-1 {
         font-size: 20px;
         line-height: 1.2;
+        margin: 0;
       }
       .line-2,
       .line-3 {
