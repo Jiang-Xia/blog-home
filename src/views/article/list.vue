@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { getArticleInfo, getArticleList } from '@/api/article'
-import { categoryOptions, tagsOptions, getOptions, updateLikes } from './common'
+import { categoryOptions, tagsOptions, getOptions, updateLikesHandle } from './common'
 import { onMounted, ref, reactive, unref, UnwrapRef, toRefs } from 'vue'
 import router from '@/router'
 import { useStore } from '@/store'
@@ -106,30 +106,6 @@ const onSearchHandle = () => {
 // 文章详情
 const gotoDetail = (item: any) => {
   router.push('/article/info?id=' + item.id)
-}
-const updateLikesHandle = async (item: any) => {
-  if (!store.state.token) {
-    Message.warning('请先登录！')
-    return
-  }
-  const send = {
-    articleId: item.id,
-    uid: store.state.userInfo.id,
-    status: 1
-  }
-  if (item.checked) {
-    send.status = 0
-  } else {
-    send.status = 1
-  }
-  const res = await updateLikes(send)
-  if (item.checked) {
-    item.likes = --item.likes
-    item.checked = 0
-  } else {
-    item.likes = ++item.likes
-    item.checked = 1
-  }
 }
 </script>
 

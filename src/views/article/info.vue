@@ -5,20 +5,26 @@ import { updateViews } from './common'
 import { computed, onBeforeUnmount } from 'vue'
 import { useRoute, onBeforeRouteUpdate } from 'vue-router'
 import XMarkdownReader from '@/components/x-markdown-reader'
+import { updateLikesHandle } from './common'
+
 import defaultImg from './img/create.webp'
 interface FormState {
-  title?: string
-  description?: string
-  content?: string
-  cover?: string
-  // [propName:string]:any
+  [propName: string]: any
 }
-const defaultForm = {
+const defaultForm: FormState = {
+  id: '',
   title: '',
   description: '',
   content: '',
   contentHtml: '',
-  cover: ''
+  cover: '',
+  category: {
+    label: ''
+  },
+  tags: [],
+  views: 0,
+  checked: 0,
+  likes: 0
 }
 const route = reactive(useRoute())
 // 获取到的html内容
@@ -32,17 +38,17 @@ const getArticleInfoHandle = async (to?: any) => {
   }
   isEditorShow.value = false
   const res = await getArticleInfo(query)
-  ArticleInfo.title = res.info.title
-  ArticleInfo.content = res.info.content
-  ArticleInfo.contentHtml = res.info.contentHtml
-  ArticleInfo.cover = res.info.cover
-  // Object.keys(defaultForm).forEach((v: string) => {
-  //   if (typeof res.info[v]) {
-  //     ArticleInfo[v] = res.info[v]
-  //   }
-  // })
+  Object.keys(defaultForm).forEach((v: string) => {
+    if (typeof res.info[v]) {
+      ArticleInfo[v] = res.info[v]
+    }
+  })
   isEditorShow.value = true
   updateViews(route.query.id)
+}
+const getTagLabel = (arr: any): string => {
+  let text = arr.map((v: any) => v.label).join()
+  return text
 }
 onMounted(() => {
   getArticleInfoHandle()
@@ -50,6 +56,9 @@ onMounted(() => {
 // 路由变化钩子
 onBeforeRouteUpdate((to) => {
   getArticleInfoHandle(to)
+})
+const tagLabel = computed(() => {
+  return getTagLabel(ArticleInfo.tags)
 })
 </script>
 <template>
@@ -59,7 +68,25 @@ onBeforeRouteUpdate((to) => {
         <img :src="ArticleInfo.cover || defaultImg" alt="" />
         <!-- <div>文章详情</div> -->
         <div class="article-header">
-          <p>{{ ArticleInfo.title }}</p>
+          <p class="title">{{ ArticleInfo.title }}</p>
+          <p class="detail">
+            <x-icon icon="blog-category"></x-icon>
+            {{ ArticleInfo['category']['label'] }}
+            <x-icon class="mg-l-10" icon="blog-tag"></x-icon>
+            {{ tagLabel }}
+          </p>
+          <p class="detail">
+            <!-- 阅读量 -->
+            <span class="mg-r-10 pointer">
+              <x-icon icon="blog-view"></x-icon>
+              {{ ArticleInfo['views'] }}
+            </span>
+            <!-- 点赞数 -->
+            <span class="mg-r-10 pointer blog-like" @click.stop="updateLikesHandle(ArticleInfo)">
+              <x-icon :icon="ArticleInfo['checked'] ? 'blog-like-solid' : 'blog-like'"></x-icon>
+              {{ ArticleInfo['likes'] }}
+            </span>
+          </p>
         </div>
       </div>
     </section>
@@ -90,13 +117,25 @@ onBeforeRouteUpdate((to) => {
   top: 50%;
   transform: translate(-50%, -50%);
   z-index: 2;
-  color: #fff;
-  backdrop-filter: blur(2px);
-  font-size: 32px;
-  text-shadow: 3px 3px steelblue;
-  letter-spacing: 25px;
+  font-size: 13px;
   text-align: center;
-  line-height: 1.1;
+  .title {
+    color: #fff;
+    backdrop-filter: blur(2px);
+    font-size: 32px;
+    text-shadow: 3px 3px steelblue;
+    letter-spacing: 8px;
+    text-align: center;
+    line-height: 1.1;
+  }
+  .detail {
+    font-size: 12px;
+    text-align: center;
+    margin-top: 10px;
+  }
+  .x-icon {
+    font-size: 16px;
+  }
 }
 .article-info {
   position: relative;
