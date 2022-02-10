@@ -8,6 +8,8 @@ import XMarkdownReader from '@/components/x-markdown-reader'
 import { updateLikesHandle } from './common'
 
 import defaultImg from './img/create.webp'
+import { makeToc, tocInter } from '@/utils'
+import Catalogue from './components/catalogue.vue'
 interface FormState {
   [propName: string]: any
 }
@@ -30,6 +32,9 @@ const route = reactive(useRoute())
 // 获取到的html内容
 const html = ref('')
 const isEditorShow = ref(false)
+// 先定义默认数组类型
+const topicsDefault: tocInter[] = []
+const topics = ref(topicsDefault)
 let ArticleInfo = reactive({ ...defaultForm })
 const getArticleInfoHandle = async (to?: any) => {
   let query = route.query
@@ -43,6 +48,8 @@ const getArticleInfoHandle = async (to?: any) => {
       ArticleInfo[v] = res.info[v]
     }
   })
+  topics.value = makeToc(ArticleInfo.contentHtml)
+  // console.log(JSON.parse(ArticleInfo.content))
   isEditorShow.value = true
   updateViews(route.query.id)
 }
@@ -93,6 +100,7 @@ const tagLabel = computed(() => {
     <section class="article-info">
       <!-- <div v-if="isEditorShow" v-html="ArticleInfo.contentHtml"></div> -->
       <x-markdown-reader v-if="isEditorShow" :content="ArticleInfo.contentHtml" />
+      <Catalogue :topics="topics" />
     </section>
   </div>
 </template>

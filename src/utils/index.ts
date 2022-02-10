@@ -37,3 +37,19 @@ export function copy(text: string) {
   Message.success('copy!')
   return _copy(text)
 }
+
+// 生成目录
+export function makeToc(html: string): tocInter[] {
+  const reg = /<h([\d]) id="([^<]+)">([^<]+)<\/h([\d])>/gi
+  let ret = null
+  const toc: tocInter[] = []
+  while ((ret = reg.exec(html)) !== null) {
+    toc.push({ level: ret[1], id: ret[2], text: ret[3] })
+  }
+  return toc
+}
+export interface tocInter {
+  level: string
+  id: string
+  text: string
+}

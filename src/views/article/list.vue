@@ -4,7 +4,6 @@ import { categoryOptions, tagsOptions, getOptions, updateLikesHandle } from './c
 import { onMounted, ref, reactive, unref, UnwrapRef, toRefs } from 'vue'
 import router from '@/router'
 import { useStore } from '@/store'
-import { Message } from '@arco-design/web-vue'
 
 interface FormState {
   id: number
@@ -27,8 +26,9 @@ interface itemState {
   [x: string]: string | boolean
 }
 const store = useStore()
-
-const articleList = ref([])
+// 文章列表中的每一项item都为any
+const articleListDefault:any[] = []
+const articleList = ref(articleListDefault)
 getOptions('标签')
 getOptions('分类')
 onMounted(async () => {
@@ -121,10 +121,10 @@ const gotoDetail = (item: any) => {
         >
           <div class="card-content">
             <h1 class="line-1">
-              {{ item['title'] }}
+              {{ item.title }}
             </h1>
             <div class="line-2 ellipsis">
-              {{ item['description'] }}
+              {{ item.description }}
             </div>
             <div class="line-3">更新于 {{ item['uTime'] }}</div>
             <div class="line-4">
