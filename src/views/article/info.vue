@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { getArticleInfo } from '@/api/article'
+import { delArticle, getArticleInfo } from '@/api/article'
 import { onMounted, ref, reactive, UnwrapRef, watch } from 'vue'
 import { updateViews } from './common'
 import { computed, onBeforeUnmount } from 'vue'
-import { useRoute, onBeforeRouteUpdate } from 'vue-router'
+import { useRoute, useRouter, onBeforeRouteUpdate } from 'vue-router'
 import { useStore } from '@/store'
 import XMarkdownReader from '@/components/x-markdown-reader'
 import { updateLikesHandle } from './common'
@@ -11,6 +11,7 @@ import { updateLikesHandle } from './common'
 import defaultImg from './img/create.webp'
 import { makeToc, tocInter } from '@/utils'
 import Catalogue from './components/catalogue.vue'
+import { Message, Modal } from '@arco-design/web-vue'
 interface FormState {
   [propName: string]: any
 }
@@ -73,6 +74,22 @@ const store = useStore()
 const showEditor = computed(() => {
   return store.state.userInfo.id === ArticleInfo.uid
 })
+const canDel = computed(() => {
+  return store.state.userInfo.role === 'admin'
+})
+
+const router = useRouter()
+const delArticleHandle = async () => {
+  Modal.confirm({
+    title: '删除文章',
+    content: '确定删除该文章嘛？',
+    onOk: async () => {
+      const res = await delArticle({ id: route.query.id })
+      Message.success('删除成功')
+      router.push('/')
+    }
+  })
+}
 </script>
 <template>
   <div>
@@ -104,9 +121,14 @@ const showEditor = computed(() => {
       </div>
     </section>
     <section class="article-info">
-      <router-link :to="'/article/create?id=' + route.query.id">
-      <a-button v-if="showEditor" type="text" size="mini">编辑</a-button>
-      </router-link>
+      <div class="clearfix">
+        <router-link :to="'/article/create?id=' + route.query.id">
+          <a-button v-if="showEditor" type="text" size="mini">编辑</a-button>
+        </router-link>
+        <a-button v-if="canDel" class="fr" type="text" size="mini" @click="delArticleHandle"
+          >删除</a-button
+        >
+      </div>
       <x-markdown-reader v-if="isEditorShow" :content="ArticleInfo.contentHtml" />
       <Catalogue :topics="topics" />
     </section>

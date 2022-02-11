@@ -36,7 +36,7 @@ export const editArticle = async (data: any) => {
 export const delArticle = async (params: any) => {
   const res = await request({
     url: '/article/delete',
-    method: 'get',
+    method: 'delete',
     params
   })
   return res.data
