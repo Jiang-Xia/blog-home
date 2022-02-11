@@ -25,11 +25,11 @@ export const createArticle = async (data: any) => {
   return res.data
 }
 
-export const addArticle = async (params: any) => {
+export const editArticle = async (data: any) => {
   const res = await request({
-    url: '/article/create',
-    method: 'get',
-    params
+    url: '/article/edit',
+    method: 'post',
+    data
   })
   return res.data
 }

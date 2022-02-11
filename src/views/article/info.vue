@@ -4,6 +4,7 @@ import { onMounted, ref, reactive, UnwrapRef, watch } from 'vue'
 import { updateViews } from './common'
 import { computed, onBeforeUnmount } from 'vue'
 import { useRoute, onBeforeRouteUpdate } from 'vue-router'
+import { useStore } from '@/store'
 import XMarkdownReader from '@/components/x-markdown-reader'
 import { updateLikesHandle } from './common'
 
@@ -26,7 +27,8 @@ const defaultForm: FormState = {
   tags: [],
   views: 0,
   checked: 0,
-  likes: 0
+  likes: 0,
+  uid: 0
 }
 const route = reactive(useRoute())
 // 获取到的html内容
@@ -67,6 +69,10 @@ onBeforeRouteUpdate((to) => {
 const tagLabel = computed(() => {
   return getTagLabel(ArticleInfo.tags)
 })
+const store = useStore()
+const showEditor = computed(() => {
+  return store.state.userInfo.id === ArticleInfo.uid
+})
 </script>
 <template>
   <div>
@@ -98,7 +104,9 @@ const tagLabel = computed(() => {
       </div>
     </section>
     <section class="article-info">
-      <!-- <div v-if="isEditorShow" v-html="ArticleInfo.contentHtml"></div> -->
+      <router-link :to="'/article/create?id=' + route.query.id">
+      <a-button v-if="showEditor" type="text" size="mini">编辑</a-button>
+      </router-link>
       <x-markdown-reader v-if="isEditorShow" :content="ArticleInfo.contentHtml" />
       <Catalogue :topics="topics" />
     </section>
@@ -154,7 +162,7 @@ const tagLabel = computed(() => {
   z-index: 0;
   border-radius: 18px;
   background-color: var(--minor-bgc);
-  padding: 20px 20px 20px 20px;
+  padding: 10px 20px 20px 20px;
   @media screen and (max-width: 768px) {
     width: 95%;
   }
