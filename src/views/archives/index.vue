@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { getArchives } from '@/api/article'
 import dayjs from 'dayjs'
+import { AnyPropName } from 'types/custom-types';
 import { ref } from 'vue'
 
-const archivesInfo = ref({})
+const infoDefault:AnyPropName =  {}
+const archivesInfo = ref(infoDefault)
 
 // 默认展开当前年
 const activeArr: string[] = [String(dayjs().year())]
