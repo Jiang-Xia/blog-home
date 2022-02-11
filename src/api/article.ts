@@ -71,3 +71,12 @@ export const dailyImage = async (n?: number) => {
   })
   return res.data
 }
+
+// 获取文章归档
+export const getArchives = async () => {
+  const res = await request({
+    url: '/article/archives',
+    method: 'get'
+  })
+  return res.data
+}
