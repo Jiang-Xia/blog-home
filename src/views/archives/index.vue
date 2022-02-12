@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { getArchives } from '@/api/article'
+import { AnyPropName } from '@/store';
 import dayjs from 'dayjs'
-import { AnyPropName } from 'types/custom-types';
 import { ref } from 'vue'
 
 const infoDefault:AnyPropName =  {}
