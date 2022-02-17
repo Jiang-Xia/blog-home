@@ -26,7 +26,7 @@ const vitePlugins = [
 ]
 
 // 开启打包分析工具
-const isOpenVisualizer = true
+const isOpenVisualizer = false
 if (isOpenVisualizer) {
   vitePlugins.push(
     visualizer({
@@ -58,7 +58,7 @@ export default defineConfig({
         externalGlobals({
           vue: 'Vue',
           'vue-router': 'VueRouter',
-          wangeditor: 'WangEditor',
+          // wangeditor: 'WangEditor',
           axios: 'axios',
           'highlight.js': 'highlight.js',
           'copy-to-clipboard': 'copy-to-clipboard',
