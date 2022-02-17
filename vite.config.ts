@@ -45,25 +45,25 @@ export default defineConfig({
     rollupOptions: {
       // dayjs arcoui打包用到不能排除
       external: [
-        'vue',
-        'vue-router',
+        // 'vue',
+        // 'vue-router',
         // 'wangeditor',
-        'axios',
+        // 'axios',
         // 'highlight.js',
         // 'copy-to-clipboard',
-        'js-cookie',
-        'animate.css'
+        // 'js-cookie',
+        // 'animate.css'
       ],
       plugins: [
         externalGlobals({
-          vue: 'Vue',
-          'vue-router': 'VueRouter',
+          // vue: 'Vue',
+          // 'vue-router': 'VueRouter',
           // wangeditor: 'WangEditor',
-          axios: 'axios',
+          // axios: 'axios',
           // 'highlight.js': 'highlight.js',
           // 'copy-to-clipboard': 'copy-to-clipboard',
-          'js-cookie': 'js-cookie',
-          'animate.css': 'animate.css'
+          // 'js-cookie': 'js-cookie',
+          // 'animate.css': 'animate.css'
         })
       ]
     }
