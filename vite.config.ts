@@ -61,7 +61,7 @@ export default defineConfig({
           // wangeditor: 'WangEditor',
           axios: 'axios',
           // 'highlight.js': 'highlight.js',
-          'copy-to-clipboard': 'copy-to-clipboard',
+          // 'copy-to-clipboard': 'copy-to-clipboard',
           'js-cookie': 'js-cookie',
           'animate.css': 'animate.css'
         })
