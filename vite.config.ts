@@ -56,13 +56,13 @@ export default defineConfig({
       ],
       plugins: [
         externalGlobals({
-          vue: 'Vue',
-          'vue-router': 'VueRouter',
+          // vue: 'Vue',
+          // 'vue-router': 'VueRouter',
           // wangeditor: 'WangEditor',
-          axios: 'axios',
+          // axios: 'axios',
           // 'highlight.js': 'highlight.js',
           // 'copy-to-clipboard': 'copy-to-clipboard',
-          'js-cookie': 'js-cookie',
+          // 'js-cookie': 'js-cookie',
           'animate.css': 'animate.css'
         })
       ]
