@@ -47,22 +47,22 @@ export default defineConfig({
       external: [
         'vue',
         'vue-router',
-        'wangeditor',
+        // 'wangeditor',
         'axios',
-        'highlight.js',
-        'copy-to-clipboard',
+        // 'highlight.js',
+        // 'copy-to-clipboard',
         'js-cookie',
         'animate.css'
       ],
       plugins: [
         externalGlobals({
-          // vue: 'Vue',
-          // 'vue-router': 'VueRouter',
+          vue: 'Vue',
+          'vue-router': 'VueRouter',
           // wangeditor: 'WangEditor',
-          // axios: 'axios',
+          axios: 'axios',
           // 'highlight.js': 'highlight.js',
           // 'copy-to-clipboard': 'copy-to-clipboard',
-          // 'js-cookie': 'js-cookie',
+          'js-cookie': 'js-cookie',
           'animate.css': 'animate.css'
         })
       ]
