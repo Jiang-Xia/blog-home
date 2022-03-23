@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { getArticleInfo, getArticleList } from '@/api/article'
-import { categoryOptions, tagsOptions, getOptions, updateLikes } from './common'
+import { categoryOptions, tagsOptions, getOptions, updateLikesHandle } from './common'
 import { onMounted, ref, reactive, unref, UnwrapRef, toRefs } from 'vue'
 import router from '@/router'
 import { useStore } from '@/store'
@@ -25,7 +25,10 @@ interface itemState {
   checked: boolean
   [x: string]: string | boolean
 }
-const articleList = ref([])
+const store = useStore()
+// 文章列表中的每一项item都为any
+const articleListDefault:any[] = []
+const articleList = ref(articleListDefault)
 getOptions('标签')
 getOptions('分类')
 onMounted(async () => {
@@ -40,7 +43,8 @@ const queryPrams = reactive({
   total: 0,
   title: '',
   description: '',
-  content: ''
+  content: '',
+  uid: store.state.userInfo.id
 })
 const getArticleListHandle = async (val: number = 1) => {
   queryPrams.page = val
@@ -103,16 +107,6 @@ const onSearchHandle = () => {
 const gotoDetail = (item: any) => {
   router.push('/article/info?id=' + item.id)
 }
-const store = useStore()
-const updateLikesHandle = async (item: any) => {
-  const send = {
-    articleId: item.id,
-    uid: store.state.userInfo.id,
-    status: 1
-  }
-  const res = await updateLikes(send)
-  item.likes = ++item.likes
-}
 </script>
 
 <template>
@@ -127,10 +121,10 @@ const updateLikesHandle = async (item: any) => {
         >
           <div class="card-content">
             <h1 class="line-1">
-              {{ item['title'] }}
+              {{ item.title }}
             </h1>
             <div class="line-2 ellipsis">
-              {{ item['description'] }}
+              {{ item.description }}
             </div>
             <div class="line-3">更新于 {{ item['uTime'] }}</div>
             <div class="line-4">
@@ -149,9 +143,10 @@ const updateLikesHandle = async (item: any) => {
                 ><x-icon icon="blog-view"></x-icon>{{ item['views'] }}</span
               >
               <!-- 点赞数 -->
-              <span class="mg-r-10 pointer blog-like" @click.stop="updateLikesHandle(item)"
-                ><x-icon icon="blog-like"></x-icon>{{ item['likes'] }}</span
-              >
+              <span class="mg-r-10 pointer blog-like" @click.stop="updateLikesHandle(item)">
+                <x-icon :icon="item['checked'] ? 'blog-like-solid' : 'blog-like'"> </x-icon
+                >{{ item['likes'] }}
+              </span>
             </div>
           </div>
           <div class="cover-wrap">
@@ -253,13 +248,14 @@ const updateLikesHandle = async (item: any) => {
     .card-wrap {
       min-height: 110px;
       margin-bottom: 20px;
-      padding: 18px 20px;
+      padding: 6px 16px;
       background-color: var(--minor-bgc);
       // box-shadow: 0 2px 6px rgba($color: #000000, $alpha: 0.26);
       border-radius: 8px;
       .line-1 {
         font-size: 20px;
         line-height: 1.2;
+        margin: 0;
       }
       .line-2,
       .line-3 {

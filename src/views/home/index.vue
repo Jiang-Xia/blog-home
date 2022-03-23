@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { dailyImage } from '@/api/article'
 import dayjs from 'dayjs'
 import { ref } from 'vue'
 import ArticleList from '../article/list.vue'
@@ -11,15 +12,39 @@ const refreshTime = () => {
   }, 1000)
 }
 refreshTime()
+const images = ref([])
+dailyImage(7).then((res) => {
+  images.value = res.images.map((v: any) => 'https://cn.bing.com' + v.url)
+})
 </script>
 <template>
   <div>
     <section class="banner-container">
       <div class="banner-content">
-        <img src="@/assets/img/background/girl.jpg" alt="" />
+        <!-- <img :src="bgUrl" alt="背景图片" /> -->
         <div class="text-wrap">
           <h1 class="animate__animated animate__bounce">{{ date }}</h1>
         </div>
+        <a-carousel
+          :auto-play="{interval:60000}"
+          animation-name="fade"
+          indicator-position="left"
+          indicator-type="line"
+          show-arrow="never"
+          :style="{
+            width: '100%',
+            height: '100%'
+          }"
+        >
+          <a-carousel-item v-for="image in images">
+            <img
+              :src="image"
+              :style="{
+                width: '100%'
+              }"
+            />
+          </a-carousel-item>
+        </a-carousel>
       </div>
     </section>
     <section class="home-content">
@@ -54,6 +79,7 @@ refreshTime()
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
+      z-index: 2;
       h1 {
         color: #fff;
         font-size: 56px;

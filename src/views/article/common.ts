@@ -1,6 +1,8 @@
 import { ref } from 'vue'
 import api from '@/api/index'
 import { LocationQueryValue } from 'vue-router'
+import { useStore } from '@/store'
+import { Message } from '@arco-design/web-vue'
 
 // 分类
 const categoryOptions = ref([])
@@ -54,4 +56,32 @@ export const updateViews = async (id: LocationQueryValue | LocationQueryValue[])
 }
 export const updateLikes = async (data: any) => {
   return await api.updateLikes(data)
+}
+
+const store = useStore()
+
+// 更新点赞数
+export const updateLikesHandle = async (item: any) => {
+  if (!store.state.token) {
+    Message.warning('请先登录！')
+    return
+  }
+  const send = {
+    articleId: item.id,
+    uid: store.state.userInfo.id,
+    status: 1
+  }
+  if (item.checked) {
+    send.status = 0
+  } else {
+    send.status = 1
+  }
+  const res = await updateLikes(send)
+  if (item.checked) {
+    item.likes = --item.likes
+    item.checked = 0
+  } else {
+    item.likes = ++item.likes
+    item.checked = 1
+  }
 }

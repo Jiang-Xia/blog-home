@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-20 11:28:42
- * @LastEditTime: 2022-01-27 10:54:32
+ * @LastEditTime: 2022-02-08 13:45:19
  * @Description: 
  * @FilePath: \blog-home\src\layout\index.vue
 -->
@@ -63,7 +63,10 @@ const paper = computed(() => {
         </keep-alive> -->
       </router-view>
     </a-layout-content>
-    <a-layout-footer v-if="showFooter"></a-layout-footer>
+    <a-layout-footer v-if="showFooter" >
+    <p>桂ICP备2022001119号-1</p>
+    <p>Powered By Typescript & Vue3 & Vite & Arco-design & Node.js & NestJS</p>
+    </a-layout-footer>
   </div>
 </template>
 
@@ -117,6 +120,9 @@ const paper = computed(() => {
 }
 .arco-layout-footer {
   padding: 24px 1.5vw;
+  text-align: center;
+  line-height: 1.7;
+  color: var(--text-color2);
 }
 </style>
 <style lang="scss">

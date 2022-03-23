@@ -2,13 +2,14 @@
 import { FieldRule, ValidatedError } from '@arco-design/web-vue/es/form/interface'
 import { reactive, ref } from 'vue'
 import { computed, onBeforeUnmount, onMounted } from 'vue'
-import { createArticle } from '@/api/article'
+import { createArticle, editArticle, getArticleInfo } from '@/api/article'
 import api from '@/api/index'
 import { Message } from '@arco-design/web-vue'
 import CreateModal from './components/create-modal.vue'
 import { categoryOptions, tagsOptions, getOptions } from './common'
 import { useRouter } from 'vue-router'
 import XEditor from '@/components/x-editor/index'
+import { useRoute } from 'vue-router'
 
 interface FormState {
   title: string
@@ -50,8 +51,8 @@ const rules = {
   title: [{ required: true, validator: checkTitle, trigger: 'blur' }],
   description: [{ required: true, validator: checkDescription, trigger: 'blur' }],
   category: [{ required: true, message: '请选择分类！', trigger: 'change' }],
-  tags: [{ required: true, message: '请选择标签！' , trigger: 'change' }],
-  cover: [{ required: true, message: '封面为必填！' , trigger: 'blur' }],
+  tags: [{ required: true, message: '请选择标签！', trigger: 'change' }],
+  cover: [{ required: true, message: '封面为必填！', trigger: 'blur' }],
   content: [{ required: true, trigger: 'change' }]
 }
 
@@ -95,13 +96,22 @@ const handleFinish = async (values: FormState) => {
   const params = {
     ...values,
     content: formState.content,
-    contentHtml: formState.contentHtml
+    contentHtml: formState.contentHtml,
+    id:0
     // cover: formState.cover
   }
   // console.log('params:', params)
   // return
-  const res = await createArticle(params)
-  Message.success('新建成功！')
+  if (route.query.id) {
+    // 编辑
+    params.id = Number(route.query.id)
+    const res = await editArticle(params)
+    Message.success('修改成功！')
+  } else {
+    // 新建
+    const res = await createArticle(params)
+    Message.success('新建成功！')
+  }
   router.push('/home')
 }
 // 提交失败
@@ -124,11 +134,45 @@ const editorChange = (params: any) => {
   // JSON.stringify(json)
   // console.log('change 之后最新的 html', html)
 }
+const createdHandle = (editor: any) => {
+  console.log('已创建', editor)
+  if (route.query.id) {
+    getArticleInfoHandle(editor)
+  }
+}
+
+const ArticleInfo = ref({})
+const route = useRoute()
+// 文章编辑
+const getArticleInfoHandle = async (editor: any) => {
+  let query = route.query
+  let res = await getArticleInfo(query)
+  res = res.info
+  formState.title = res.title
+  formState.description = res.description
+  formState.content = res.content
+  formState.contentHtml = res.contentHtml
+  formState.category = res.category.id
+  formState.cover = res.cover
+  formState.tags = res.tags.map((v: any) => v.id)
+  // console.log(formState)
+  // console.log(editor)
+  if (editor) {
+    // 使用html渲染效率比较高
+    editor.txt.html(res.contentHtml)
+    // 使用json数据也可以渲染
+    // editor.txt.setJSON(JSON.parse(res.content))
+
+  }
+}
 </script>
 <template>
   <div>
     <section class="banner-container">
-      <div class="banner-content">新建文章</div>
+      <div class="banner-content">
+        {{ route.query.id ? '编辑' : '新建' }}
+        文章
+      </div>
     </section>
     <section class="create-container">
       <div class="create-content">
@@ -158,7 +202,12 @@ const editorChange = (params: any) => {
           </a-form-item>
 
           <a-form-item label="分类" name="category" field="category">
-            <a-select style="width: 50%" v-model="formState.category" :options="categoryOptions" placeholder="选择一种分类">
+            <a-select
+              style="width: 50%"
+              v-model="formState.category"
+              :options="categoryOptions"
+              placeholder="选择一种分类"
+            >
             </a-select>
             <a-button type="text" @click="showConfirm('分类')">
               <template #icon>
@@ -183,7 +232,12 @@ const editorChange = (params: any) => {
             </a-button>
           </a-form-item>
           <a-form-item label="内容" name="content" field="content"> </a-form-item>
-          <x-editor custom-class="x-editor" @change="editorChange" :config="editorConfig" />
+          <x-editor
+            custom-class="x-editor"
+            @change="editorChange"
+            @created="createdHandle"
+            :config="editorConfig"
+          />
           <a-form-item :wrapper-col-props="{ span: 13, offset: 7 }">
             <a-button type="primary" html-type="submit">提交</a-button>
             <a-button style="margin-left: 10px" @click="resetForm">重置</a-button>

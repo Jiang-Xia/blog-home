@@ -14,7 +14,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const markdownRef = ref()
     onMounted(() => {
-      console.log(markdownRef.value)
+      // console.log(markdownRef.value)
       if (!markdownRef.value) {
         return
       }
