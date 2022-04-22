@@ -27,9 +27,9 @@ const goTopicItem = (item: tocInter) => {
     <div class="catalogue-wrap">
       <p class="heading">目录</p>
       <div
-        class="topic-item"
         v-for="(item, index) in topics"
         :key="index"
+        class="topic-item"
         :style="{
           textIndent: 8 * Number(item.level) + 'px'
         }"

@@ -16,9 +16,9 @@ interface queryState {
   tags: string[]
   pageSize: number
   total: number
-  title?: ''
-  description?: ''
-  content?: ''
+  title?: string
+  description?: string
+  content?: string
 }
 interface itemState {
   id: string
@@ -35,7 +35,7 @@ onMounted(async () => {
   console.log('========')
   getArticleListHandle()
 })
-const queryPrams = reactive({
+const queryPrams: queryState = reactive({
   page: 1,
   category: '',
   tags: [],

@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-24 20:34:46
- * @LastEditTime: 2022-01-23 18:41:55
+ * @LastEditTime: 2022-04-22 16:05:37
  * @Description: 
  * @FilePath: \blog-home\src\layout\nav.vue
 -->
@@ -16,6 +16,14 @@ import { getArticleList } from '@/api/article'
 import XIcon from '@/components/icons'
 import dayjs from 'dayjs'
 import { Message } from '@arco-design/web-vue'
+
+interface queryState {
+  page: number
+  pageSize: number
+  title: string
+  description: string
+  content: string
+}
 const navList = ref([
   {
     path: '/',
@@ -77,7 +85,7 @@ const newArticleHandle = () => {
 }
 
 // 搜索文章
-const queryPrams = reactive({
+const queryPrams = reactive<queryState>({
   page: 1,
   pageSize: 20,
   title: '',
@@ -189,9 +197,9 @@ const changPaper = () => {
     </div>
     <nav class="nav">
       <router-link
-        class="router-link-item"
         v-for="(item, index) in navList"
         :key="index"
+        class="router-link-item"
         :to="item.path"
       >
         <span>{{ item.title }}</span>
@@ -207,9 +215,9 @@ const changPaper = () => {
       />
       <a-button
         v-show="!route.path.includes('create')"
-        @click="newArticleHandle"
         title="新建文章"
         class="mg-r-10 mg-l-10"
+        @click="newArticleHandle"
       >
         <template #icon>
           <icon-plus />
@@ -218,7 +226,7 @@ const changPaper = () => {
       <!-- 主题模式 开始 -->
       <a-dropdown size="small" class="mg-l-10" trigger="hover">
         <span>
-          <x-icon class="pointer" @click="clickIcon" style="color: #fff" :icon="iconClass" />
+          <x-icon class="pointer" style="color: #fff" :icon="iconClass" @click="clickIcon" />
         </span>
         <template #content>
           <a-doption :class="theme === 'light' ? 'active' : ''" @click="changeTheme('light')">
@@ -236,12 +244,12 @@ const changPaper = () => {
       <x-icon
         title="纸感"
         class="pointer mg-l-10"
-        @click="changPaper"
         style="color: #fff"
         :icon="paperClass"
+        @click="changPaper"
       />
       <!--主题模式 结束  -->
-      <a-button type="text" size="small" @click="loginHandle" v-if="!nickname">登录</a-button>
+      <a-button v-if="!nickname" type="text" size="small" @click="loginHandle">登录</a-button>
       <a-dropdown v-else>
         <a class="arco-dropdown-link" @click.prevent>
           <a-avatar>{{ nickname }}</a-avatar>
