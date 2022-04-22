@@ -1,14 +1,13 @@
-<script setup lang='ts'>
-import {reactive, ref } from 'vue'
+<script setup lang="ts">
+import { reactive, ref } from 'vue'
 import layout from '@/layout/index.vue'
-
 </script>
 <template>
-<!-- 根路由中渲染再其他路由(比如渲染文章中有子路由的) -->
-  <router-view class="gloabal-view"  name="gView" v-if="$route.path.includes('login')"/>
+  <!-- 根路由中渲染再其他路由(比如渲染文章中有子路由的) -->
+  <router-view v-if="$route.path.includes('login')" class="gloabal-view" name="gView" />
 </template>
-<style lang='scss' scoped>
-.gloabal-view{
+<style lang="scss" scoped>
+.gloabal-view {
   z-index: 9999;
   background-color: rgba(238, 255, 0, 1);
   // position: fixed;

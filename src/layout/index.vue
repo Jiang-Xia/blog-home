@@ -63,9 +63,9 @@ const paper = computed(() => {
         </keep-alive> -->
       </router-view>
     </a-layout-content>
-    <a-layout-footer v-if="showFooter" >
-    <p>桂ICP备2022001119号-1</p>
-    <p>Powered By Typescript & Vue3 & Vite & Arco-design & Node.js & NestJS</p>
+    <a-layout-footer v-if="showFooter">
+      <p>桂ICP备2022001119号-1</p>
+      <p>Powered By Typescript & Vue3 & Vite & Arco-design & Node.js & NestJS</p>
     </a-layout-footer>
   </div>
 </template>

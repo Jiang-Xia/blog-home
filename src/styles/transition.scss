@@ -111,7 +111,6 @@
   left: 0;
 }
 
-
 // 组合过渡
 .scale-slide-enter-active,
 .scale-slide-leave-active {
@@ -134,7 +133,6 @@
 .scale-slide-leave-to {
   transform: scale(0.8);
 }
-
 
 // 列表过度 v-for
 .list-item {

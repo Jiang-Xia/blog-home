@@ -5,12 +5,12 @@ import { onMounted, ref, reactive, unref, UnwrapRef, toRefs } from 'vue'
 import router from '@/router'
 import { useStore } from '@/store'
 
-interface FormState {
-  id: number
-  title: string
-  description: string
-}
-interface queryPrams {
+// interface FormState {
+//   id: number
+//   title: string
+//   description: string
+// }
+interface queryState {
   page: number
   category: string
   tags: string[]
@@ -27,7 +27,7 @@ interface itemState {
 }
 const store = useStore()
 // 文章列表中的每一项item都为any
-const articleListDefault:any[] = []
+const articleListDefault: any[] = []
 const articleList = ref(articleListDefault)
 getOptions('标签')
 getOptions('分类')
@@ -46,7 +46,7 @@ const queryPrams = reactive({
   content: '',
   uid: store.state.userInfo.id
 })
-const getArticleListHandle = async (val: number = 1) => {
+const getArticleListHandle = async (val = 1) => {
   queryPrams.page = val
   const res = await getArticleList(queryPrams)
   articleList.value = res.list
@@ -114,9 +114,9 @@ const gotoDetail = (item: any) => {
     <section class="main-article-wrap">
       <transition-group name="list">
         <div
-          class="card-wrap article-item pointer"
           v-for="(item, index) in articleList"
           :key="index"
+          class="card-wrap article-item pointer"
           @click="gotoDetail(item)"
         >
           <div class="card-content">
@@ -162,7 +162,7 @@ const gotoDetail = (item: any) => {
       <!-- 分页 -->
       <a-pagination
         v-model:current="current"
-        :pageSize="queryPrams.pageSize"
+        :page-size="queryPrams.pageSize"
         :total="queryPrams.total"
         @change="currentChangeHandle"
       />
@@ -189,9 +189,9 @@ const gotoDetail = (item: any) => {
           分类
         </h4>
         <div
-          class="category-item"
           v-for="(item, index) of categoryOptions"
           :key="index"
+          class="category-item"
           :color="item['color']"
           :class="item['id'] === queryPrams.category ? 'active' : ''"
           @click="clickTagHandle(item, '分类')"
@@ -213,9 +213,9 @@ const gotoDetail = (item: any) => {
         <h4><XIcon icon="blog-tag" /> 标签</h4>
         <a-space :wrap="true">
           <a-tag
-            class="custom-tag"
             v-for="(item, index) of tagsOptions"
             :key="index"
+            class="custom-tag"
             :color="item['color']"
             :class="item['checked'] ? 'active' : ''"
             size="small"

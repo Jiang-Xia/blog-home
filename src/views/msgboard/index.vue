@@ -7,7 +7,7 @@
       </div>
     </section>
     <section class="msgboard-info">
-      <a-empty description="没有啥子留言"/>
+      <a-empty description="没有啥子留言" />
     </section>
   </div>
 </template>

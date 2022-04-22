@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { FieldRule, ValidatedError } from '@arco-design/web-vue/es/form/interface'
+import { ValidatedError } from '@arco-design/web-vue/es/form/interface'
 import { reactive, ref } from 'vue'
-import { computed, onBeforeUnmount, onMounted } from 'vue'
+// import { computed, onBeforeUnmount, onMounted } from 'vue'
 import { createArticle, editArticle, getArticleInfo } from '@/api/article'
 import api from '@/api/index'
 import { Message } from '@arco-design/web-vue'
@@ -78,11 +78,11 @@ const ceateOkHandle = async ({ name, type }: C) => {
     value: name
   }
   if (type === '分类') {
-    const res = await api.createCategory(obj)
+    await api.createCategory(obj)
     Message.success('添加成功！')
     getOptions(type)
   } else {
-    const res = await api.createTag(obj)
+    await api.createTag(obj)
     getOptions(type)
     Message.success('添加成功！')
   }
@@ -97,7 +97,7 @@ const handleFinish = async (values: FormState) => {
     ...values,
     content: formState.content,
     contentHtml: formState.contentHtml,
-    id:0
+    id: 0
     // cover: formState.cover
   }
   // console.log('params:', params)
@@ -141,7 +141,7 @@ const createdHandle = (editor: any) => {
   }
 }
 
-const ArticleInfo = ref({})
+// const ArticleInfo = ref({})
 const route = useRoute()
 // 文章编辑
 const getArticleInfoHandle = async (editor: any) => {
@@ -162,7 +162,6 @@ const getArticleInfoHandle = async (editor: any) => {
     editor.txt.html(res.contentHtml)
     // 使用json数据也可以渲染
     // editor.txt.setJSON(JSON.parse(res.content))
-
   }
 }
 </script>
@@ -177,14 +176,14 @@ const getArticleInfoHandle = async (editor: any) => {
     <section class="create-container">
       <div class="create-content">
         <a-form
-          name="custom-validation"
           ref="formRef"
+          name="custom-validation"
           :model="formState"
           :rules="rules"
-          @submit-success="handleFinish"
-          @submit-failed="handleFinishFailed"
           :label-col-props="{ span: 3, offset: 0 }"
           :wrapper-col-props="{ span: 20, offset: 0 }"
+          @submit-success="handleFinish"
+          @submit-failed="handleFinishFailed"
         >
           <a-form-item label="标题" name="title" field="title">
             <a-input v-model="formState.title" autocomplete="off" placeholder="标题" />
@@ -203,8 +202,8 @@ const getArticleInfoHandle = async (editor: any) => {
 
           <a-form-item label="分类" name="category" field="category">
             <a-select
-              style="width: 50%"
               v-model="formState.category"
+              style="width: 50%"
               :options="categoryOptions"
               placeholder="选择一种分类"
             >
@@ -218,8 +217,8 @@ const getArticleInfoHandle = async (editor: any) => {
 
           <a-form-item label="标签" name="tags" field="tags" placeholder="选择标签 ">
             <a-select
-              style="width: 50%"
               v-model="formState.tags"
+              style="width: 50%"
               :options="tagsOptions"
               multiple
               class="tag-select"
@@ -234,9 +233,9 @@ const getArticleInfoHandle = async (editor: any) => {
           <a-form-item label="内容" name="content" field="content"> </a-form-item>
           <x-editor
             custom-class="x-editor"
+            :config="editorConfig"
             @change="editorChange"
             @created="createdHandle"
-            :config="editorConfig"
           />
           <a-form-item :wrapper-col-props="{ span: 13, offset: 7 }">
             <a-button type="primary" html-type="submit">提交</a-button>

@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { getArchives } from '@/api/article'
-import { AnyPropName } from '@/store';
+import { AnyPropName } from '@/store'
 import dayjs from 'dayjs'
 import { ref } from 'vue'
 
-const infoDefault:AnyPropName =  {}
+const infoDefault: AnyPropName = {}
 const archivesInfo = ref(infoDefault)
 
 // 默认展开当前年
@@ -84,7 +84,7 @@ getArchivesHandle()
     background-color: var(--minor-bgc);
     padding: 10px 20px 20px 20px;
   }
-  .month{
+  .month {
     color: var(--text-color);
     font-weight: normal;
     font-size: 16px;

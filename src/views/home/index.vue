@@ -26,7 +26,7 @@ dailyImage(7).then((res) => {
           <h1 class="animate__animated animate__bounce">{{ date }}</h1>
         </div>
         <a-carousel
-          :auto-play="{interval:60000}"
+          :auto-play="{ interval: 60000 }"
           animation-name="fade"
           indicator-position="left"
           indicator-type="line"
@@ -36,7 +36,7 @@ dailyImage(7).then((res) => {
             height: '100%'
           }"
         >
-          <a-carousel-item v-for="image in images">
+          <a-carousel-item v-for="(image, index) in images" :key="index">
             <img
               :src="image"
               :style="{
