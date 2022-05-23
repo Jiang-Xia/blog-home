@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-30 16:22:00
- * @LastEditTime: 2022-01-11 22:41:31
+ * @LastEditTime: 2022-05-23 16:50:13
  * @Description: 
  * @FilePath: \blog-home\src\layout\login.vue
 -->
@@ -106,8 +106,8 @@ watch(
     @cancel="handleClose"
   >
     <a-form
-      :model="form"
       ref="formRef"
+      :model="form"
       :rules="rules"
       :label-col-props="{ span: 5 }"
       :wrapper-col-props="{ span: 17 }"
@@ -116,13 +116,13 @@ watch(
       <a-form-item label="手机号码" field="mobile">
         <a-input v-model="form.mobile" :max-length="11" placeholder="请输入你的手机号码" />
       </a-form-item>
-      <a-form-item label="昵称" v-if="type === 'register'" field="nickname">
+      <a-form-item v-if="type === 'register'" label="昵称" field="nickname">
         <a-input v-model="form.nickname" :max-length="8" placeholder="请输入你的昵称" />
       </a-form-item>
       <a-form-item label="密码" field="password">
         <a-input-password v-model="form.password" :max-length="16" placeholder="请输入你的密码" />
       </a-form-item>
-      <a-form-item label="确认密码" v-if="type === 'register'" field="passwordRepeat">
+      <a-form-item v-if="type === 'register'" label="确认密码" field="passwordRepeat">
         <a-input-password
           v-model="form.passwordRepeat"
           :max-length="16"

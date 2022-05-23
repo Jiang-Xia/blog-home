@@ -101,6 +101,12 @@ export default defineConfig({
     // open: true,
     port: 5001,
     /* 使用代理 */
-    proxy: {}
+    proxy: {
+      // '/article/list': {
+      //   target: 'http://localhost:5000'
+      //   // changeOrigin: true
+      //   // rewrite: (path) => path.replace(/^\/api/, '')
+      // }
+    }
   }
 })
