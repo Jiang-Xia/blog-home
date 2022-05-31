@@ -72,10 +72,12 @@ const tagLabel = computed(() => {
 })
 const store = useStore()
 const showEditor = computed(() => {
-  return store.state.userInfo.id === ArticleInfo.uid
+  const { id } = store.state.userInfo
+  return id === ArticleInfo.uid
 })
 const canDel = computed(() => {
-  return store.state.userInfo.role === 'admin'
+  const { id } = store.state.userInfo
+  return id === ArticleInfo.uid
 })
 
 const router = useRouter()

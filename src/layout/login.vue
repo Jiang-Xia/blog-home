@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-30 16:22:00
- * @LastEditTime: 2022-05-23 16:50:13
+ * @LastEditTime: 2022-05-31 15:23:56
  * @Description: 
  * @FilePath: \blog-home\src\layout\login.vue
 -->
@@ -13,12 +13,12 @@ import { useStore } from '@/store'
 import { registerUser, userLogin } from '@/api/user'
 import { Message } from '@arco-design/web-vue'
 // 定义props属性
-const props = defineProps({
-  type: {
-    type: String,
-    default: 'login'
-  }
-})
+// const props = defineProps({
+//   type: {
+//     type: String,
+//     default: 'login'
+//   }
+// })
 // console.log(props, 'props')
 // 定义emit事件
 const emit = defineEmits({

@@ -21,10 +21,9 @@ dailyImage(7).then((res) => {
   <div>
     <section class="banner-container">
       <div class="banner-content">
-        <!-- <img :src="bgUrl" alt="背景图片" /> -->
-        <div class="text-wrap">
+        <!-- <div class="text-wrap">
           <h1 class="animate__animated animate__bounce">{{ date }}</h1>
-        </div>
+        </div> -->
         <a-carousel
           :auto-play="{ interval: 60000 }"
           animation-name="fade"
