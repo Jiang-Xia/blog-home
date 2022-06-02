@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { delArticle, getArticleInfo } from '@/api/article'
+import { delArticle, getArticleInfo, getComment } from '@/api/article'
 import { onMounted, ref, reactive, UnwrapRef, watch } from 'vue'
 import { updateViews } from './common'
 import { computed, onBeforeUnmount } from 'vue'
@@ -11,6 +11,8 @@ import { updateLikesHandle } from './common'
 import defaultImg from './img/create.webp'
 import { makeToc, tocInter } from '@/utils'
 import Catalogue from './components/catalogue.vue'
+import Comment from './components/comment.vue'
+
 import { Message, Modal } from '@arco-design/web-vue'
 interface FormState {
   [propName: string]: any
@@ -47,7 +49,7 @@ const getArticleInfoHandle = async (to?: any) => {
   isEditorShow.value = false
   const res = await getArticleInfo(query)
   Object.keys(defaultForm).forEach((v: string) => {
-    if (typeof res.info[v]) {
+    if (res.info[v]) {
       ArticleInfo[v] = res.info[v]
     }
   })
@@ -62,6 +64,7 @@ const getTagLabel = (arr: any): string => {
 }
 onMounted(() => {
   getArticleInfoHandle()
+  getCommentHandle()
 })
 // 路由变化钩子
 onBeforeRouteUpdate((to) => {
@@ -91,6 +94,13 @@ const delArticleHandle = async () => {
       router.push('/')
     }
   })
+}
+1
+// 获取文章评论
+const getCommentHandle = async () => {
+  const id: string = route.query.id as string
+  const res = await getComment(id)
+  console.log('res', res)
 }
 </script>
 <template>
@@ -132,7 +142,10 @@ const delArticleHandle = async () => {
         >
       </div>
       <x-markdown-reader v-if="isEditorShow" :content="ArticleInfo.contentHtml" />
+      <!-- 目录 -->
       <Catalogue :topics="topics" />
+      <!-- 评论 -->
+      <!-- <Comment /> -->
     </section>
   </div>
 </template>

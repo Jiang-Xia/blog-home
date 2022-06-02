@@ -80,3 +80,15 @@ export const getArchives = async () => {
   })
   return res.data
 }
+
+// 获取文章评论
+export const getComment = async (id: string) => {
+  const res = await request({
+    url: '/comment/findAll',
+    method: 'get',
+    params: {
+      articleId: id
+    }
+  })
+  return res.data
+}
