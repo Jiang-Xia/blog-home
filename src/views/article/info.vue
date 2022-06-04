@@ -31,8 +31,7 @@ const defaultForm: FormState = {
   views: 0,
   checked: 0,
   likes: 0,
-  uid: 0,
-  comments: []
+  uid: 0
 }
 const route = reactive(useRoute())
 // 获取到的html内容
@@ -65,6 +64,7 @@ const getTagLabel = (arr: any): string => {
 }
 onMounted(() => {
   getArticleInfoHandle()
+  getCommentHandle()
 })
 // 路由变化钩子
 onBeforeRouteUpdate((to) => {
@@ -94,6 +94,13 @@ const delArticleHandle = async () => {
       router.push('/')
     }
   })
+}
+
+const comments = ref([])
+const getCommentHandle = async () => {
+  const id: string = route.query.id as string
+  const res = await getComment(id)
+  comments.value = res
 }
 </script>
 <template>
@@ -139,7 +146,7 @@ const delArticleHandle = async () => {
       <Catalogue :topics="topics" />
     </section>
     <!-- 评论 -->
-    <Comment class="module-wrap__detail comment-module" :comments="ArticleInfo.comments" />
+    <Comment class="module-wrap__detail comment-module" :comments="comments" />
   </div>
 </template>
 <style lang="scss" scoped>
@@ -200,5 +207,6 @@ const delArticleHandle = async () => {
 .article-info {
 }
 .comment-module {
+  min-height: 30vh;
 }
 </style>
