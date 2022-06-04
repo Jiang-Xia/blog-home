@@ -97,10 +97,13 @@ const delArticleHandle = async () => {
 }
 
 const comments = ref([])
+const commentTotal = ref(0)
+
 const getCommentHandle = async () => {
   const id: string = route.query.id as string
   const res = await getComment(id)
-  comments.value = res
+  comments.value = res.list
+  commentTotal.value = res.pagination.total
 }
 </script>
 <template>
@@ -146,7 +149,12 @@ const getCommentHandle = async () => {
       <Catalogue :topics="topics" />
     </section>
     <!-- 评论 -->
-    <Comment class="module-wrap__detail comment-module" :comments="comments" />
+    <Comment
+      class="module-wrap__detail comment-module"
+      :comments="comments"
+      :total="commentTotal"
+      @commented="getCommentHandle"
+    />
   </div>
 </template>
 <style lang="scss" scoped>

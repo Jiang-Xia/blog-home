@@ -92,3 +92,23 @@ export const getComment = async (id: string) => {
   })
   return res.data
 }
+// 新增评论
+export const addComment = async (data: any) => {
+  const res = await request({
+    url: '/comment/create',
+    method: 'post',
+    data
+  })
+  return res.data
+}
+// 删除评论
+export const delComment = async (id: string) => {
+  const res = await request({
+    url: '/comment/delete',
+    method: 'delete',
+    params: {
+      id
+    }
+  })
+  return res.data
+}

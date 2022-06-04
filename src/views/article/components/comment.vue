@@ -1,34 +1,78 @@
 <script setup lang="ts">
-import { PropType, reactive, ref } from 'vue'
+import { computed, PropType, reactive, ref } from 'vue'
 import { IconHeart, IconMessage, IconStar } from '@arco-design/web-vue/es/icon'
 import dayjs from 'dayjs'
 import { beforeTimeNow } from '@/utils'
+import { Message } from '@arco-design/web-vue'
+import { addComment, delComment } from '@/api/article'
+import { useStore } from '@/store'
+import { useRoute } from 'vue-router'
+
 const props = defineProps({
   comments: {
     type: Array as PropType<any[]>,
     default: () => []
+  },
+  total: {
+    type: Number,
+    default: 0
   }
 })
+const emits = defineEmits(['commented'])
+const store = useStore()
+const route = useRoute()
 const formactTime = (item: any) => {
   let time = new Date(item.createTime).getTime()
   return beforeTimeNow(time)
 }
+const inputContent = ref('')
+const addCommentHandle = async () => {
+  if (inputContent.value) {
+    Message.warning('请输入你的评论！')
+  }
+  const params = {
+    uid: store.state.userInfo.id,
+    content: inputContent.value,
+    articleId: route.query.id
+  }
+  const res = await addComment(params)
+  Message.success('评论成功')
+  emits('commented')
+  inputContent.value = ''
+}
+const delCommentHandle = async (id: string) => {
+  const res = await delComment(id)
+  Message.success('删除成功')
+  emits('commented')
+}
+const uid = computed(() => {
+  const { id } = store.state.userInfo
+  return id
+})
 </script>
 <template>
   <div class="comment-container">
-    <h4>评论</h4>
-    <!-- <a-comment
-      v-for="item in comments"
-      :key="item.id"
-      align="right"
-      author="Balzac"
-      :content="item.content"
-    >
-      <template #actions>
-        <span class="action"> <IconMessage /> Reply </span>
-      </template>
-      {{ formactTime(item) }}
-    </a-comment> -->
+    <a-textarea
+      v-model="inputContent"
+      placeholder="动动你的双手吧~"
+      :max-length="100"
+      allow-clear
+      show-word-limit
+      :auto-size="{
+        minRows: 4,
+        maxRows: 4
+      }"
+    />
+    <div class="tool-bar">
+      <h4>全部评论({{ total }})</h4>
+      <a-button size="small" :disabled="!inputContent" @click="addCommentHandle">
+        <template #icon>
+          <icon-send />
+        </template>
+        <template #default>确认</template>
+      </a-button>
+    </div>
+
     <a-comment
       v-for="item in comments"
       :key="item.id"
@@ -37,7 +81,24 @@ const formactTime = (item: any) => {
       :datetime="formactTime(item)"
     >
       <template #actions>
-        <span key="reply" class="action"> <IconMessage />回复 </span>
+        <a-button size="mini" type="text" class="action">
+          <template #icon>
+            <IconMessage />
+          </template>
+          <template #default>回复</template>
+        </a-button>
+        <a-button
+          v-if="uid === item.uid"
+          size="mini"
+          type="text"
+          class="action"
+          @click="delCommentHandle(item.id)"
+        >
+          <template #icon>
+            <icon-delete />
+          </template>
+          <template #default>删除</template>
+        </a-button>
       </template>
       <template #avatar>
         <a-avatar :size="32"> <IconUser /></a-avatar>
@@ -82,13 +143,18 @@ const formactTime = (item: any) => {
 .comment-container {
   h4 {
     text-align: center;
-    margin: 10px 0;
+    letter-spacing: 0.5em;
   }
   // padding-left: 10% !important;
   .reply-wrap {
     background-color: var(--main-bgc);
     border-radius: var(--layout-border-radius);
     padding: 16px;
+  }
+  .tool-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
   :deep(.arco-comment) {
     .arco-comment-avatar {
@@ -108,19 +174,13 @@ const formactTime = (item: any) => {
     .arco-comment-author {
       font-size: 12px;
     }
+    .arco-comment-content {
+    }
   }
 }
+
 .action {
-  display: inline-block;
-  padding: 0 4px;
-  color: var(--color-text-1);
-  // line-height: 24px;
-  background: transparent;
-  border-radius: 2px;
-  cursor: pointer;
-  transition: all 0.1s ease;
-  font-size: 12px;
-  vertical-align: middle;
+  color: var(--text-color);
 }
 .action:hover {
   background: var(--color-fill-3);
