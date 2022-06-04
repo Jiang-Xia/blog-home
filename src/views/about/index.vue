@@ -37,7 +37,7 @@ const contentHtml =
     min-width: 40%;
     width: 70%;
     z-index: 0;
-    border-radius: 18px;
+    border-radius: var(--layout-border-radius);
     background-color: var(--minor-bgc);
     padding: 10px 20px 20px 20px;
   }

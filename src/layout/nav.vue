@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-24 20:34:46
- * @LastEditTime: 2022-04-22 16:05:37
+ * @LastEditTime: 2022-06-04 16:52:53
  * @Description: 
  * @FilePath: \blog-home\src\layout\nav.vue
 -->
@@ -192,7 +192,7 @@ const changPaper = () => {
 </script>
 <template>
   <div class="nav-container">
-    <div class="logo" @click="$router.push('/')">
+    <div class="logo flex-between" @click="$router.push('/')">
       <img src="@/assets/img/logo/favicon-32x32.png" alt="logo" />
     </div>
     <nav class="nav">
@@ -286,7 +286,6 @@ const changPaper = () => {
   transition: all 0.3s;
   .logo {
     min-width: 50px;
-    @include flex-between();
   }
   .nav {
     flex: 1;

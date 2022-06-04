@@ -31,7 +31,8 @@ const defaultForm: FormState = {
   views: 0,
   checked: 0,
   likes: 0,
-  uid: 0
+  uid: 0,
+  comments: []
 }
 const route = reactive(useRoute())
 // 获取到的html内容
@@ -64,7 +65,6 @@ const getTagLabel = (arr: any): string => {
 }
 onMounted(() => {
   getArticleInfoHandle()
-  getCommentHandle()
 })
 // 路由变化钩子
 onBeforeRouteUpdate((to) => {
@@ -94,13 +94,6 @@ const delArticleHandle = async () => {
       router.push('/')
     }
   })
-}
-1
-// 获取文章评论
-const getCommentHandle = async () => {
-  const id: string = route.query.id as string
-  const res = await getComment(id)
-  console.log('res', res)
 }
 </script>
 <template>
@@ -132,7 +125,7 @@ const getCommentHandle = async () => {
         </div>
       </div>
     </section>
-    <section class="article-info">
+    <section class="module-wrap__detail article-info">
       <div class="clearfix">
         <router-link :to="'/article/create?id=' + route.query.id">
           <a-button v-if="showEditor" type="text" size="mini">编辑</a-button>
@@ -144,9 +137,9 @@ const getCommentHandle = async () => {
       <x-markdown-reader v-if="isEditorShow" :content="ArticleInfo.contentHtml" />
       <!-- 目录 -->
       <Catalogue :topics="topics" />
-      <!-- 评论 -->
-      <!-- <Comment /> -->
     </section>
+    <!-- 评论 -->
+    <Comment class="module-wrap__detail comment-module" :comments="ArticleInfo.comments" />
   </div>
 </template>
 <style lang="scss" scoped>
@@ -190,18 +183,22 @@ const getCommentHandle = async () => {
     font-size: 16px;
   }
 }
-.article-info {
+.module-wrap__detail {
   position: relative;
   margin: 20px auto 0;
-  min-height: 100vh;
+  min-height: 40vh;
   min-width: 40%;
   width: 70%;
   z-index: 0;
-  border-radius: 18px;
+  border-radius: var(--layout-border-radius);
   background-color: var(--minor-bgc);
   padding: 10px 20px 20px 20px;
   @media screen and (max-width: 768px) {
     width: 95%;
   }
+}
+.article-info {
+}
+.comment-module {
 }
 </style>

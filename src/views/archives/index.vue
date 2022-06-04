@@ -29,11 +29,11 @@ getArchivesHandle()
       <a-empty v-if="!Object.keys(archivesInfo).length" />
 
       <a-collapse
-        :default-active-key="defaultActiveKey"
         v-if="Object.keys(archivesInfo).length"
+        :default-active-key="defaultActiveKey"
         expand-icon-position="right"
       >
-        <a-collapse-item v-for="(value, key) in archivesInfo" :header="key" :key="key">
+        <a-collapse-item v-for="(value, key) in archivesInfo" :key="key" :header="key">
           <div v-for="(value2, key2) in value" :key="key2">
             <h4 class="month">{{ key2 }}</h4>
             <a-timeline label-position="relative">
@@ -80,7 +80,7 @@ getArchivesHandle()
     min-width: 40%;
     width: 70%;
     z-index: 0;
-    border-radius: 18px;
+    border-radius: var(--layout-border-radius);
     background-color: var(--minor-bgc);
     padding: 10px 20px 20px 20px;
   }

@@ -197,7 +197,7 @@ const gotoDetail = (item: any) => {
           @click="clickTagHandle(item, '分类')"
         >
           <div
-            class="category__inner"
+            class="category__inner flex-between"
             :style="{
               borderColor: item['id'] === queryPrams.category ? item['color'] : ''
             }"
@@ -274,7 +274,7 @@ const gotoDetail = (item: any) => {
           margin-right: 3px;
         }
         .blog-like:hover {
-          color: $main-color;
+          color: var(--main-color);
         }
       }
     }
@@ -341,7 +341,6 @@ const gotoDetail = (item: any) => {
       height: 14px;
     }
     .category__inner {
-      @include flex-between();
       cursor: pointer;
       border-bottom: 2px solid #eee;
       transition: all 0.5s;

@@ -85,7 +85,7 @@ export default defineConfig({
     preprocessorOptions: {
       // 天坑！！！element-plus scss文件变量命名有旧版本启用的，和设置全局scss变量有冲突
       scss: {
-        additionalData: '@import "@/styles/scss/_mixins.scss";'
+        // additionalData: '@import "@/styles/scss/_mixins.scss";'
       },
       less: {
         // 定制ant-design-vue主题

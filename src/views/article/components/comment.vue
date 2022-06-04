@@ -1,34 +1,26 @@
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { PropType, reactive, ref } from 'vue'
 import { IconHeart, IconMessage, IconStar } from '@arco-design/web-vue/es/icon'
+const props = defineProps({
+  comments: {
+    type: Array as PropType<any[]>,
+    default: () => []
+  }
+})
 </script>
 <template>
-  <a-comment
+  <!-- <a-comment
+    v-for="item in comments"
+    :key="item.id"
     align="right"
     author="Balzac"
-    avatar="https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/3ee5f13fb09879ecb5185e440cef6eb9.png~tplv-uwbnlip3yd-webp.webp"
-    content="A design is a plan or specification for the construction of an object
-          or system or for the implementation of an activity or process, or the
-          result of that plan or specification in the form of a prototype,
-          product or process."
-    datetime="1 hour"
+    :content="item.content"
   >
     <template #actions>
       <span class="action"> <IconMessage /> Reply </span>
     </template>
-    <a-comment
-      align="right"
-      avatar="https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/3ee5f13fb09879ecb5185e440cef6eb9.png~tplv-uwbnlip3yd-webp.webp"
-    >
-      <template #actions>
-        <a-button key="0" type="secondary"> Cancel </a-button>
-        <a-button key="1" type="primary"> Reply </a-button>
-      </template>
-      <template #content>
-        <a-input placeholder="Here is you content." />
-      </template>
-    </a-comment>
-  </a-comment>
+  </a-comment> -->
+  <div>1111</div>
 </template>
 <style scoped>
 .action {
