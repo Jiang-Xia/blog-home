@@ -112,3 +112,24 @@ export const delComment = async (id: string) => {
   })
   return res.data
 }
+
+// 新增回复
+export const addReply = async (data: any) => {
+  const res = await request({
+    url: '/reply/create',
+    method: 'post',
+    data
+  })
+  return res.data
+}
+// 删除回复
+export const delReply = async (id: string) => {
+  const res = await request({
+    url: '/reply/delete',
+    method: 'delete',
+    params: {
+      id
+    }
+  })
+  return res.data
+}
