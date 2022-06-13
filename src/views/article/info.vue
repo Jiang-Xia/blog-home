@@ -103,7 +103,9 @@ const getCommentHandle = async () => {
   const id: string = route.query.id as string
   const res = await getComment(id)
   comments.value = res.list
-  commentTotal.value = res.pagination.total
+  let total = res.pagination.total
+  res.list.map((v: any) => (total += v.allReplyCount))
+  commentTotal.value = total
 }
 </script>
 <template>

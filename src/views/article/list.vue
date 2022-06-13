@@ -147,6 +147,11 @@ const gotoDetail = (item: any) => {
                 <x-icon :icon="item['checked'] ? 'blog-like-solid' : 'blog-like'"> </x-icon
                 >{{ item['likes'] }}
               </span>
+              <!-- 评论数 -->
+              <span class="">
+                <x-icon icon="blog-pinglun"></x-icon>
+                {{ item.commentCount }}
+              </span>
             </div>
           </div>
           <div class="cover-wrap">

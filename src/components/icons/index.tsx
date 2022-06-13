@@ -1,6 +1,8 @@
 import { defineComponent, h, SetupContext } from 'vue'
 import config from '@/config'
 import './index.scss'
+// 本地引入 阿里云图标库不能更新url了
+import '../../assets/font/iconfont.js'
 interface propsState {
   icon: string
 }

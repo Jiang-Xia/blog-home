@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-17 16:26:53
- * @LastEditTime: 2022-01-14 14:58:53
+ * @LastEditTime: 2022-06-13 13:13:10
  * @Description:
  * @FilePath: \blog-home\src\utils\request.ts
  */
@@ -77,7 +77,7 @@ $axios.interceptors.response.use(
       const data = error.response && error.response.data
       switch (error.response.status) {
         case 401:
-          errorMsg('权限不足')
+          errorMsg(data.message || '权限不足')
           removeToken()
           removeInfo()
           break

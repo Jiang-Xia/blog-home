@@ -28,7 +28,7 @@ const formactTime = (item: any) => {
 /* 评论功能 开始*/
 const inputContent = ref('')
 const addCommentHandle = async () => {
-  if (inputContent.value) {
+  if (!inputContent.value) {
     Message.warning('请输入你的评论！')
   }
   const params = {
@@ -83,6 +83,10 @@ const targetUsername = computed(() => {
   const { nickname } = targetUser.value
   return nickname
 })
+// 回复输入框实例
+const commentRefs = ref([])
+const replyRefs = ref([])
+
 const addReplytHandle = async (content: string) => {
   console.log(targetUser.value)
   if (inputContent.value) {
@@ -133,19 +137,19 @@ const replyedHandle = (content: string) => {
       </a-button>
     </div>
     <a-comment
-      v-for="item in comments"
-      :key="item.id"
-      :author="item.userInfo && item.userInfo.nickname"
-      :content="item.content"
-      :datetime="formactTime(item)"
+      v-for="commentItem in comments"
+      :key="commentItem.id"
+      :author="commentItem.userInfo && commentItem.userInfo.nickname"
+      :content="commentItem.content"
+      :datetime="formactTime(commentItem)"
     >
       <template #actions>
         <a-button
-          v-show="item.id !== currentReplyBoxId"
+          v-show="commentItem.id !== currentReplyBoxId"
           size="mini"
           type="text"
           class="action"
-          @click="clickReplyHandle('comment', item)"
+          @click="clickReplyHandle('comment', commentItem)"
         >
           <template #icon>
             <IconMessage />
@@ -153,7 +157,7 @@ const replyedHandle = (content: string) => {
           <template #default>回复</template>
         </a-button>
         <a-button
-          v-if="item.id === currentReplyBoxId"
+          v-if="commentItem.id === currentReplyBoxId"
           size="mini"
           type="text"
           class="action"
@@ -162,11 +166,11 @@ const replyedHandle = (content: string) => {
           取消回复
         </a-button>
         <a-button
-          v-if="uid === item.uid"
+          v-if="uid === commentItem.uid"
           size="mini"
           type="text"
           class="action"
-          @click="delCommentHandle(item.id)"
+          @click="delCommentHandle(commentItem.id)"
         >
           <template #icon>
             <icon-delete />
@@ -175,26 +179,36 @@ const replyedHandle = (content: string) => {
         </a-button>
       </template>
       <!-- 回复输入框  -->
-      <Reply v-if="item.id === currentReplyBoxId" :name="targetUsername" @replyed="replyedHandle" />
+      <Reply
+        v-if="commentItem.id === currentReplyBoxId"
+        ref="commentRefs"
+        :name="targetUsername"
+        @replyed="replyedHandle"
+      />
       <template #avatar>
         <a-avatar :size="32"> <IconUser /></a-avatar>
       </template>
       <!-- 回复框 -->
-      <div v-if="item.replys && item.replys.length" class="reply-wrap">
+      <div v-if="commentItem.replys && commentItem.replys.length" class="reply-wrap">
         <a-comment
-          v-for="item2 in item.replys"
-          :key="item2.id"
-          :author="item.userInfo && item2.userInfo.nickname"
-          :content="item2.content"
-          :datetime="formactTime(item2)"
+          v-for="replyItem in commentItem.replys"
+          :key="replyItem.id"
+          :content="replyItem.content"
+          :datetime="formactTime(replyItem)"
         >
+          <template #author>
+            {{
+              commentItem.userInfo &&
+              replyItem.userInfo.nickname + ' @ ' + replyItem.tUserInfo.nickname
+            }}
+          </template>
           <template #actions>
             <a-button
-              v-show="item.id !== currentReplyBoxId"
+              v-show="replyItem.id !== currentReplyBoxId"
               size="mini"
               type="text"
               class="action"
-              @click="clickReplyHandle('reply', item2, item.id)"
+              @click="clickReplyHandle('reply', replyItem, commentItem.id)"
             >
               <template #icon>
                 <IconMessage />
@@ -202,7 +216,7 @@ const replyedHandle = (content: string) => {
               <template #default>回复</template>
             </a-button>
             <a-button
-              v-if="item.id === currentReplyBoxId"
+              v-if="replyItem.id === currentReplyBoxId"
               size="mini"
               type="text"
               class="action"
@@ -211,11 +225,11 @@ const replyedHandle = (content: string) => {
               取消回复
             </a-button>
             <a-button
-              v-if="uid === item.uid"
+              v-if="uid === replyItem.uid"
               size="mini"
               type="text"
               class="action"
-              @click="delReplytHandle(item.id)"
+              @click="delReplytHandle(replyItem.id)"
             >
               <template #icon>
                 <icon-delete />
@@ -225,7 +239,8 @@ const replyedHandle = (content: string) => {
           </template>
           <!-- 回复输入框  -->
           <Reply
-            v-if="item.id === currentReplyBoxId"
+            v-if="replyItem.id === currentReplyBoxId"
+            ref="replyRefs"
             :name="targetUsername"
             @replyed="replyedHandle"
           />
@@ -244,7 +259,7 @@ const replyedHandle = (content: string) => {
   .reply-wrap {
     background-color: var(--main-bgc);
     border-radius: var(--layout-border-radius);
-    padding: 16px;
+    padding: 8px 10px;
   }
   .tool-bar {
     display: flex;
@@ -257,6 +272,9 @@ const replyedHandle = (content: string) => {
     }
     .arco-comment-actions {
       margin-top: 4px;
+      .arco-btn {
+        color: var(--text-color2);
+      }
     }
     .arco-comment-inner-comment {
       margin-top: 8px;
@@ -270,6 +288,10 @@ const replyedHandle = (content: string) => {
       font-size: 12px;
     }
     .arco-comment-content {
+      color: var(--text-color);
+    }
+    .arco-comment-author {
+      color: var(--text-color2);
     }
   }
 }
