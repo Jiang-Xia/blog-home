@@ -4,7 +4,8 @@ import { categoryOptions, tagsOptions, getOptions, updateLikesHandle } from './c
 import { onMounted, ref, reactive, unref, UnwrapRef, toRefs } from 'vue'
 import router from '@/router'
 import { useStore } from '@/store'
-
+import defaultCover from './img/create.webp'
+import { isTrueCoverLink } from '@/utils'
 // interface FormState {
 //   id: number
 //   title: string
@@ -155,7 +156,7 @@ const gotoDetail = (item: any) => {
             </div>
           </div>
           <div class="cover-wrap">
-            <img src="./img/create.webp" alt="" />
+            <img alt="封面" :src="isTrueCoverLink(item.cover) || defaultCover" />
           </div>
         </div>
       </transition-group>

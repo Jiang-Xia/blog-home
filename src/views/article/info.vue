@@ -9,7 +9,7 @@ import XMarkdownReader from '@/components/x-markdown-reader'
 import { updateLikesHandle } from './common'
 
 import defaultImg from './img/create.webp'
-import { makeToc, tocInter } from '@/utils'
+import { makeToc, tocInter, isTrueCoverLink } from '@/utils'
 import Catalogue from './components/catalogue.vue'
 import Comment from './components/comment.vue'
 
@@ -112,7 +112,7 @@ const getCommentHandle = async () => {
   <div>
     <section class="banner-container">
       <div class="banner-content" :style="{ 'background-image': ArticleInfo.cover }">
-        <img :src="ArticleInfo.cover || defaultImg" alt="" />
+        <img :src="isTrueCoverLink(ArticleInfo.cover) || defaultImg" alt="" />
         <!-- <div>文章详情</div> -->
         <div class="article-header">
           <p class="title">{{ ArticleInfo.title }}</p>

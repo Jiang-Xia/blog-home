@@ -94,3 +94,12 @@ export function beforeTimeNow(updateTime: number) {
     return '刚刚'
   }
 }
+// 判断封面中是否为url链接或者base64
+export function isTrueCoverLink(str = '') {
+  if (!str) return
+  const urlRegex = /(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/g
+  // console.log(str.includes('base64'))
+  if (urlRegex.test(str) || str.includes('base64')) {
+    return str
+  }
+}

@@ -197,7 +197,11 @@ const getArticleInfoHandle = async (editor: any) => {
           </a-form-item>
 
           <a-form-item label="封面" name="cover" field="cover">
-            <a-input v-model="formState.cover" autocomplete="off" placeholder="封面" />
+            <a-input
+              v-model="formState.cover"
+              autocomplete="off"
+              placeholder="封面支持外链url或者base64(1M以内)"
+            />
           </a-form-item>
 
           <a-form-item label="分类" name="category" field="category">

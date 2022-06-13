@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-20 11:28:42
- * @LastEditTime: 2022-02-08 13:45:19
+ * @LastEditTime: 2022-06-13 21:18:25
  * @Description: 
  * @FilePath: \blog-home\src\layout\index.vue
 -->
@@ -67,6 +67,12 @@ const paper = computed(() => {
       <p>桂ICP备2022001119号-1</p>
       <p>Powered By Typescript & Vue3 & Vite & Arco-design & Node.js & NestJS</p>
     </a-layout-footer>
+    <!-- 源码默认就是 docuementDom-->
+    <a-back-top>
+      <a-button type="primary" shape="circle">
+        <icon-up />
+      </a-button>
+    </a-back-top>
   </div>
 </template>
 
