@@ -1,7 +1,11 @@
 // 自定义字体
 // @font-face {
 //   font-family: Ubuntu;
-//   src: url(../../assets/font/UbuntuMono-R-12.ttf);
+//   src: url(@/assets/font/UbuntuMono-R-12.ttf);
+// }
+// @font-face {
+//   font-family: FiraCode;
+//   src: url(@/assets/font/FiraCode-Regular.woff2);
 // }
 
 body {

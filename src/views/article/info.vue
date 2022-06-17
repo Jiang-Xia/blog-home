@@ -161,7 +161,7 @@ const getCommentHandle = async () => {
 </template>
 <style lang="scss" scoped>
 .banner-container {
-  height: 40vh;
+  height: 60vh;
   .banner-content {
     position: relative;
     overflow: hidden;
