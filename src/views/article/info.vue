@@ -205,6 +205,7 @@ const getCommentHandle = async () => {
   margin: 20px auto 0;
   min-height: 40vh;
   min-width: 40%;
+  max-width: 1200px;
   width: 70%;
   z-index: 0;
   border-radius: var(--layout-border-radius);
