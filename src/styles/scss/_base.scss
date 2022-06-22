@@ -3,17 +3,19 @@
 //   font-family: Ubuntu;
 //   src: url(@/assets/font/UbuntuMono-R-12.ttf);
 // }
+
 // @font-face {
-//   font-family: FiraCode;
-//   src: url(@/assets/font/FiraCode-Regular.woff2);
+//   font-family: FangZhengKaiTi;
+//   src: url(@/assets/font/FangZhengKaiTi-GBK-1.ttf);
 // }
 
+// cursive 宋体
 body {
   min-height: 100%;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  font-family: -apple-system, Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB,
+  font-family:  cursive,-apple-system, Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB,
     Microsoft YaHei, Arial, sans-serif;
 }
 // 选中背景和文字颜色
