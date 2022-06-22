@@ -36,7 +36,7 @@ Blog Home  是一个基于 Vue3、Vite、TypeScript、Arco Design UI 的个人�
 
 ## 代码仓库
 
-- [gitee](https://gitee.com/jiang-xia/blog-home)
+- [gitee-blog-home](https://gitee.com/jiang-xia/blog-home)
 
 <!-- ## 项目示例图 -->
 
