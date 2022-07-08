@@ -5,7 +5,6 @@ let arr = [
   { id: 4, name: '部门4', pid: 3 },
   { id: 5, name: '部门5', pid: 4 }
 ]
-
 // 递归
 // const getChildren = (data, result, pid) => {
 //   for (const item of data) {
