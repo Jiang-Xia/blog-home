@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-30 16:22:00
- * @LastEditTime: 2022-05-31 15:23:56
+ * @LastEditTime: 2022-07-19 23:38:07
  * @Description: 
  * @FilePath: \blog-home\src\layout\login.vue
 -->
@@ -98,13 +98,7 @@ watch(
 )
 </script>
 <template>
-  <a-modal
-    v-model:visible="visible"
-    :title="title"
-    :footer="null"
-    @ok="handleOk"
-    @cancel="handleClose"
-  >
+  <a-modal v-model:visible="visible" :title="title" @ok="handleOk" @cancel="handleClose">
     <a-form
       ref="formRef"
       :model="form"

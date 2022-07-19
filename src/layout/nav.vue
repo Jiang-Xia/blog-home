@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-24 20:34:46
- * @LastEditTime: 2022-06-04 16:52:53
+ * @LastEditTime: 2022-07-19 23:37:25
  * @Description: 
  * @FilePath: \blog-home\src\layout\nav.vue
 -->
@@ -110,7 +110,7 @@ const onSearchHandle = () => {
   queryPrams.content = searchText.value
   getArticleListHandle()
 }
-const onSelect = (v: number) => {
+const onSelect: any = (v: number) => {
   router.replace('/article/info?id=' + v)
 }
 

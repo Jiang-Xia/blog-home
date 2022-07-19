@@ -33,7 +33,11 @@ getArchivesHandle()
         :default-active-key="defaultActiveKey"
         expand-icon-position="right"
       >
-        <a-collapse-item v-for="(value, key) in archivesInfo" :key="key" :header="key">
+        <a-collapse-item
+          v-for="(value, key) in archivesInfo"
+          :key="String(key)"
+          :header="String(key)"
+        >
           <div v-for="(value2, key2) in value" :key="key2">
             <h4 class="month">{{ key2 }}</h4>
             <a-timeline label-position="relative">

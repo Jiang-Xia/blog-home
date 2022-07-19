@@ -91,7 +91,7 @@ getOptions('标签')
 getOptions('分类')
 
 // 提交成功
-const handleFinish = async (values: FormState) => {
+const handleFinish: any = async (values: FormState) => {
   // console.log('values', values)
   const params = {
     ...values,
@@ -115,7 +115,7 @@ const handleFinish = async (values: FormState) => {
   router.push('/home')
 }
 // 提交失败
-const handleFinishFailed = (errors: ValidatedError) => {
+const handleFinishFailed: any = (errors: ValidatedError) => {
   console.log(errors)
 }
 const resetForm = () => {

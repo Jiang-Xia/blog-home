@@ -5,7 +5,7 @@ import { reactive, readonly } from 'vue'
 import { watch, toRaw } from 'vue'
 import { createAction } from './action'
 export interface AnyPropName {
-  [propName: string]: any
+  [propName: string | number]: any
 }
 export interface XStore {
   action: AnyPropName
