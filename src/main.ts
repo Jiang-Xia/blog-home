@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-12 17:29:55
- * @LastEditTime: 2022-06-02 15:41:23
+ * @LastEditTime: 2022-07-19 22:44:21
  * @Description:
  * @FilePath: \blog-home\src\main.ts
  */
@@ -17,6 +17,7 @@ import '@/assets/css/atom-one-dark.css'
 import 'animate.css'
 import axios from '@/utils/request'
 import XIcon from '@/components/icons/index'
+import 'md-editor-v3/lib/style.css'
 const app = createApp(App)
 app.component(XIcon.name, XIcon)
 app

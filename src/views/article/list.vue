@@ -135,7 +135,7 @@ const gotoDetail = (item: any) => {
                 {{ item['category']['label'] }}
               </span>
               <!-- 标签 -->
-              <span class="mg-r-10" :style="{ color: item['tags'][0]['color'] }">
+              <span class="mg-r-10" :style="{ color: item.tags?.color }">
                 <x-icon icon="blog-tag"></x-icon>
                 {{ getTagLabel(item['tags']) }}
               </span>

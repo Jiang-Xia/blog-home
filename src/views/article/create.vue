@@ -8,13 +8,13 @@ import { Message } from '@arco-design/web-vue'
 import CreateModal from './components/create-modal.vue'
 import { categoryOptions, tagsOptions, getOptions } from './common'
 import { useRouter } from 'vue-router'
-import XEditor from '@/components/x-editor/index'
 import { useRoute } from 'vue-router'
+import MdEditor from 'md-editor-v3'
 
 interface FormState {
   title: string
   description: string
-  content: string
+  // content: string
   contentHtml?: string
   category: string
   cover: string
@@ -23,7 +23,7 @@ interface FormState {
 const defaultForm = {
   title: '',
   description: '',
-  content: '',
+  // content: '',
   contentHtml: '',
   category: '',
   cover: '',
@@ -53,7 +53,7 @@ const rules = {
   category: [{ required: true, message: '请选择分类！', trigger: 'change' }],
   tags: [{ required: true, message: '请选择标签！', trigger: 'change' }],
   cover: [{ required: true, message: '封面为必填！', trigger: 'blur' }],
-  content: [{ required: true, trigger: 'change' }]
+  contentHtml: [{ required: true, trigger: 'change' }]
 }
 
 const visibale = ref(false)
@@ -95,7 +95,7 @@ const handleFinish = async (values: FormState) => {
   // console.log('values', values)
   const params = {
     ...values,
-    content: formState.content,
+    // content: formState.content,
     contentHtml: formState.contentHtml,
     id: 0
     // cover: formState.cover
@@ -122,47 +122,23 @@ const resetForm = () => {
   formRef.value.resetFields()
 }
 
-// 编辑器修改
-const editorConfig = {
-  placeholder: '哈喽！有什么灵感的话赶紧写下来吧~',
-  pasteFilterStyle: true
-}
-const editorChange = (params: any) => {
-  const { html, json, editor } = params
-  formState.contentHtml = html
-  formState.content = JSON.stringify(json)
-  // JSON.stringify(json)
-  // console.log('change 之后最新的 html', html)
-}
-const createdHandle = (editor: any) => {
-  console.log('已创建', editor)
-  if (route.query.id) {
-    getArticleInfoHandle(editor)
-  }
-}
-
 // const ArticleInfo = ref({})
 const route = useRoute()
 // 文章编辑
-const getArticleInfoHandle = async (editor: any) => {
+const getArticleInfoHandle = async () => {
   let query = route.query
   let res = await getArticleInfo(query)
   res = res.info
   formState.title = res.title
   formState.description = res.description
-  formState.content = res.content
+  // formState.content = res.content
   formState.contentHtml = res.contentHtml
   formState.category = res.category.id
   formState.cover = res.cover
   formState.tags = res.tags.map((v: any) => v.id)
-  // console.log(formState)
-  // console.log(editor)
-  if (editor) {
-    // 使用html渲染效率比较高
-    editor.txt.html(res.contentHtml)
-    // 使用json数据也可以渲染
-    // editor.txt.setJSON(JSON.parse(res.content))
-  }
+}
+if (route.query.id) {
+  getArticleInfoHandle()
 }
 </script>
 <template>
@@ -234,13 +210,10 @@ const getArticleInfoHandle = async (editor: any) => {
               </template>
             </a-button>
           </a-form-item>
-          <a-form-item label="内容" name="content" field="content"> </a-form-item>
-          <x-editor
-            custom-class="x-editor"
-            :config="editorConfig"
-            @change="editorChange"
-            @created="createdHandle"
-          />
+          <a-form-item label="内容" name="contentHtml" field="contentHtml">
+            <md-editor v-model="formState.contentHtml" class="x-md-editor" />
+          </a-form-item>
+
           <a-form-item :wrapper-col-props="{ span: 13, offset: 7 }">
             <a-button type="primary" html-type="submit">提交</a-button>
             <a-button style="margin-left: 10px" @click="resetForm">重置</a-button>
@@ -285,23 +258,10 @@ const getArticleInfoHandle = async (editor: any) => {
   @media screen and (max-width: 768px) {
     width: 95%;
   }
-  .x-editor {
-    margin-left: 12.5%;
-    margin-top: -56px;
-    margin-bottom: 24px;
-    width: 83.3%;
-
-    border-color: transparent !important;
+  .x-md-editor {
+    border-color: var(--color-fill-2) !important;
     border-radius: 4px;
-    :deep(.w-e-toolbar),
-    :deep(.w-e-text-container) {
-      background-color: var(--main-bgc) !important;
-      border-color: var(--main-bgc) !important;
-      color: var(--text-color2);
-    }
-    :deep(.w-e-text code) {
-      background-color: var(--minor-bgc) !important;
-    }
+    background-color: var(--color-fill-2) !important;
   }
 }
 </style>

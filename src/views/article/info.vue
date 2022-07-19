@@ -5,13 +5,13 @@ import { updateViews } from './common'
 import { computed, onBeforeUnmount } from 'vue'
 import { useRoute, useRouter, onBeforeRouteUpdate } from 'vue-router'
 import { useStore } from '@/store'
-import XMarkdownReader from '@/components/x-markdown-reader'
 import { updateLikesHandle } from './common'
 
 import defaultImg from './img/create.webp'
 import { makeToc, tocInter, isTrueCoverLink } from '@/utils'
 import Catalogue from './components/catalogue.vue'
 import Comment from './components/comment.vue'
+import MdEditor from 'md-editor-v3'
 
 import { Message, Modal } from '@arco-design/web-vue'
 interface FormState {
@@ -146,7 +146,14 @@ const getCommentHandle = async () => {
           >删除</a-button
         >
       </div>
-      <x-markdown-reader v-if="isEditorShow" :content="ArticleInfo.contentHtml" />
+
+      <md-editor
+        v-if="isEditorShow"
+        v-model="ArticleInfo.contentHtml"
+        class="x-md-editor"
+        preview-only
+      />
+
       <!-- 目录 -->
       <Catalogue :topics="topics" />
     </section>
