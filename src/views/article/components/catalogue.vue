@@ -47,7 +47,7 @@ const goTopicItem = (item: tocInter) => {
   right: -5px;
   transform: translateX(100%);
   height: 100%;
-  transition: all 1s ease-in;
+  transition: all 0.8s ease-in;
   @media screen and (max-width: 768px) {
     right: -100%;
   }
