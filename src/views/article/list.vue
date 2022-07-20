@@ -97,11 +97,12 @@ const currentChangeHandle = (val: number) => {
 const searchText = ref('')
 const onSearchHandle = () => {
   queryPrams.page = 1
-  // queryPrams.category = ''
-  // queryPrams.tags = []
+  queryPrams.category = ''
+  queryPrams.tags = []
   queryPrams.title = searchText.value
   queryPrams.description = searchText.value
-  // queryPrams.content = searchText.value
+  queryPrams.content = searchText.value
+  console.log(queryPrams)
   getArticleListHandle(1)
 }
 // 文章详情
@@ -180,9 +181,10 @@ const gotoDetail = (item: any) => {
           关键字
         </h4>
         <a-input-search
-          v-model:value="searchText"
+          v-model="searchText"
           placeholder="输入标签或者摘要"
           @search="onSearchHandle"
+          @press-enter="onSearchHandle"
         >
           <template #enterButton>
             <a-button><XIcon icon="blog-search" /></a-button>

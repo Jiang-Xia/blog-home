@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-24 20:34:46
- * @LastEditTime: 2022-07-20 17:37:06
+ * @LastEditTime: 2022-07-20 22:07:07
  * @Description: 
  * @FilePath: \blog-home\src\layout\nav.vue
 -->
@@ -45,9 +45,6 @@ const navList = ref([
     icon: ''
   }
 ])
-const onSearch = () => {
-  console.log('search')
-}
 // 获取到login组件实例，并且调用
 const reLogin = ref<any>(null)
 const loginHandle = () => {
@@ -97,20 +94,26 @@ const getArticleListHandle = async () => {
   const res = await getArticleList(queryPrams)
   articleList.value = res.list.map((v: any) => {
     return {
-      value: String(v.id),
-      label: v.title
+      value: v.title,
+      label: v.title,
+      id: v.id
     }
   })
 }
-const onSearchHandle = () => {
-  queryPrams.page = 1
-  queryPrams.title = searchText.value
-  queryPrams.description = searchText.value
-  queryPrams.content = searchText.value
-  getArticleListHandle()
+const onSearchHandle = (value: string) => {
+  if (value) {
+    queryPrams.page = 1
+    queryPrams.title = searchText.value
+    queryPrams.description = searchText.value
+    queryPrams.content = searchText.value
+    getArticleListHandle()
+  } else {
+    articleList.value = []
+  }
 }
-const onSelect: any = (v: number) => {
-  router.replace('/article/info?id=' + v)
+const onSelect: any = (v: any) => {
+  v = articleList.value.find((v2: any) => v2.value === v)
+  router.replace('/article/info?id=' + v.id)
 }
 
 onMounted(() => {
@@ -207,7 +210,7 @@ const changPaper = () => {
     </nav>
     <div class="tool-bar">
       <a-auto-complete
-        v-model:value="searchText"
+        v-model="searchText"
         :data="articleList"
         placeholder="搜索内容"
         @select="onSelect"
