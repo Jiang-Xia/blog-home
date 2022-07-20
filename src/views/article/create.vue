@@ -250,7 +250,8 @@ if (route.query.id) {
   min-height: 100vh;
   min-width: 40%;
   width: 70%;
-  z-index: 0;
+  // 如果父级设置了z-index，子元素设置z-index基于父级的z-index层级内进行设置的。css拼爹！
+  // z-index: 10;
   border-radius: var(--layout-border-radius);
   // box-shadow: $box-shadow;
   background-color: var(--minor-bgc);

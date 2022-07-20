@@ -53,7 +53,6 @@ const getArticleInfoHandle = async (to?: any) => {
       ArticleInfo[v] = res.info[v]
     }
   })
-  topics.value = makeToc(ArticleInfo.contentHtml)
   // console.log(JSON.parse(ArticleInfo.content))
   isEditorShow.value = true
   updateViews(route.query.id)
@@ -107,6 +106,14 @@ const getCommentHandle = async () => {
   res.list.map((v: any) => (total += v.allReplyCount))
   commentTotal.value = total
 }
+
+// 获取文章目录
+const onGetCatalogHandle = (list: any) => {
+  topics.value = list.map((v: any) => {
+    v.id = v.text
+    return v
+  })
+}
 </script>
 <template>
   <div>
@@ -153,6 +160,7 @@ const getCommentHandle = async () => {
         class="x-md-editor"
         preview-only
         :theme="editorTheme"
+        @onGetCatalog="onGetCatalogHandle"
       />
 
       <!-- 目录 -->
@@ -187,7 +195,7 @@ const getCommentHandle = async () => {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  z-index: 2;
+  z-index: 20;
   font-size: 13px;
   text-align: center;
   .title {
@@ -215,7 +223,7 @@ const getCommentHandle = async () => {
   min-width: 40%;
   max-width: 1200px;
   width: 70%;
-  z-index: 0;
+  z-index: 10;
   border-radius: var(--layout-border-radius);
   background-color: var(--minor-bgc);
   padding: 10px 20px 20px 20px;

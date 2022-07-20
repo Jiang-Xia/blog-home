@@ -54,12 +54,12 @@ dailyImage(7).then((res) => {
 
 <style lang="scss" scoped>
 .banner-container {
-  position: relative;
-  top: 0;
-  left: 0;
-  width: 100%;
+  // position: relative;
+  // top: 0;
+  // left: 0;
+  // width: 100%;
   height: calc(100vh + 100px);
-  z-index: 0;
+  // z-index: 10;
   @media screen and (max-width: 768px) {
     height: 60vh;
   }
@@ -78,7 +78,7 @@ dailyImage(7).then((res) => {
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      z-index: 2;
+      z-index: 20;
       h1 {
         color: #fff;
         font-size: 56px;
@@ -100,7 +100,7 @@ dailyImage(7).then((res) => {
   @media screen and (max-width: 768px) {
     width: 90%;
   }
-  z-index: 0;
+  z-index: 10;
   // background-color: #f4f4f4;
   // background-color: #252d38;
   padding: 0 0 20px 0;

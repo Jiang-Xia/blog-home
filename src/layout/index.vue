@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-20 11:28:42
- * @LastEditTime: 2022-06-13 21:18:25
+ * @LastEditTime: 2022-07-20 17:46:01
  * @Description: 
  * @FilePath: \blog-home\src\layout\index.vue
 -->
@@ -89,7 +89,7 @@ const paper = computed(() => {
     content: '';
     pointer-events: none;
     display: none;
-    z-index: 0;
+    z-index: 200;
     background-image: url(@/assets/img/background/noise.png);
   }
   background-color: var(--main-bgc) !important;
@@ -108,7 +108,7 @@ const paper = computed(() => {
   height: 58px;
   line-height: 58px;
   width: 100%;
-  z-index: 2;
+  z-index: 20;
   top: 0px;
   left: 0px;
   position: fixed;
@@ -133,13 +133,13 @@ const paper = computed(() => {
 </style>
 <style lang="scss">
 .banner-container {
-  position: relative;
-  top: 0;
-  left: 0;
-  width: 100%;
+  // position: relative;
+  // top: 0;
+  // left: 0;
+  // width: 100%;
   height: 40vh;
   min-height: 260px;
-  z-index: 0;
+  // z-index: 10;
   .banner-content {
     position: relative;
     height: 100%;

@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-24 20:34:46
- * @LastEditTime: 2022-07-20 15:04:37
+ * @LastEditTime: 2022-07-20 17:37:06
  * @Description: 
  * @FilePath: \blog-home\src\layout\nav.vue
 -->
@@ -186,6 +186,7 @@ const changPaper = () => {
     store.action.updateUserConfig({ paperFeeling: true })
   } else {
     paperClass.value = 'blog-book'
+    store.action.updateUserConfig({ paperFeeling: false })
   }
 }
 </script>
