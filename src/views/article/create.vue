@@ -6,7 +6,7 @@ import { createArticle, editArticle, getArticleInfo } from '@/api/article'
 import api from '@/api/index'
 import { Message } from '@arco-design/web-vue'
 import CreateModal from './components/create-modal.vue'
-import { categoryOptions, tagsOptions, getOptions } from './common'
+import { categoryOptions, tagsOptions, getOptions, editorTheme } from './common'
 import { useRouter } from 'vue-router'
 import { useRoute } from 'vue-router'
 import MdEditor from 'md-editor-v3'
@@ -211,7 +211,7 @@ if (route.query.id) {
             </a-button>
           </a-form-item>
           <a-form-item label="内容" name="contentHtml" field="contentHtml">
-            <md-editor v-model="formState.contentHtml" class="x-md-editor" />
+            <md-editor v-model="formState.contentHtml" class="x-md-editor" :theme="editorTheme" />
           </a-form-item>
 
           <a-form-item :wrapper-col-props="{ span: 13, offset: 7 }">
@@ -259,9 +259,9 @@ if (route.query.id) {
     width: 95%;
   }
   .x-md-editor {
-    border-color: var(--color-fill-2) !important;
-    border-radius: 4px;
-    background-color: var(--color-fill-2) !important;
+    // border-color: var(--color-fill-2) !important;
+    // border-radius: 4px;
+    // background-color: var(--color-fill-2) !important;
   }
 }
 </style>

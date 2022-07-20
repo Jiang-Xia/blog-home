@@ -5,7 +5,7 @@ import { updateViews } from './common'
 import { computed, onBeforeUnmount } from 'vue'
 import { useRoute, useRouter, onBeforeRouteUpdate } from 'vue-router'
 import { useStore } from '@/store'
-import { updateLikesHandle } from './common'
+import { updateLikesHandle, editorTheme } from './common'
 
 import defaultImg from './img/create.webp'
 import { makeToc, tocInter, isTrueCoverLink } from '@/utils'
@@ -152,6 +152,7 @@ const getCommentHandle = async () => {
         v-model="ArticleInfo.contentHtml"
         class="x-md-editor"
         preview-only
+        :theme="editorTheme"
       />
 
       <!-- 目录 -->

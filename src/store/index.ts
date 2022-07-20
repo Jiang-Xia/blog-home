@@ -21,7 +21,8 @@ export const State: XState = reactive({
   token: '',
   userInfo: {},
   userConfig: {
-    paperFeeling: true
+    paperFeeling: true,
+    theme: 'light'
   }
 })
 // 创建State

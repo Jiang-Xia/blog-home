@@ -46,3 +46,9 @@
   --border-radius: 4px;
   --scrollbar-bgc: #393e46;
 }
+
+// 覆盖编辑器的样式
+.md {
+  border-radius: 4px;
+  background-color: var(--minor-bgc);
+}

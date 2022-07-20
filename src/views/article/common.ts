@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import api from '@/api/index'
 import { LocationQueryValue } from 'vue-router'
 import { useStore } from '@/store'
@@ -85,3 +85,8 @@ export const updateLikesHandle = async (item: any) => {
     item.checked = 1
   }
 }
+
+// 編輯器主題
+export const editorTheme = computed(() => {
+  return store.state.userConfig.theme
+})

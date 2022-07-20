@@ -2,7 +2,7 @@
  * @Author: 酱
  * @LastEditors: 酱
  * @Date: 2021-11-24 20:34:46
- * @LastEditTime: 2022-07-19 23:37:25
+ * @LastEditTime: 2022-07-20 15:04:37
  * @Description: 
  * @FilePath: \blog-home\src\layout\nav.vue
 -->
@@ -16,7 +16,6 @@ import { getArticleList } from '@/api/article'
 import XIcon from '@/components/icons'
 import dayjs from 'dayjs'
 import { Message } from '@arco-design/web-vue'
-
 interface queryState {
   page: number
   pageSize: number
@@ -145,6 +144,7 @@ const setTheme = (type: string) => {
   document.documentElement.setAttribute('class', `theme-${type}`)
   document.body.setAttribute('data-theme', `theme-${type}`)
   document.body.setAttribute('arco-theme', `${type}`)
+  store.action.updateUserConfig({ theme: type })
 }
 // 是否自动设置
 const getHour = () => {
@@ -186,7 +186,6 @@ const changPaper = () => {
     store.action.updateUserConfig({ paperFeeling: true })
   } else {
     paperClass.value = 'blog-book'
-    store.action.updateUserConfig({ paperFeeling: false })
   }
 }
 </script>
