@@ -52,7 +52,7 @@ export function resetRouter() {
 }
 const router = createRouter({
   // history: createWebHashHistory(),
-  history: createWebHistory(),
+  history: createWebHistory('/admin/home'),
   routes: constantRoutes,
   // 路由切换滚动条行为
   scrollBehavior() {

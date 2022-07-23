@@ -40,6 +40,7 @@ if (isOpenVisualizer) {
 }
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: './',
   build: {
     // cdn配置
     rollupOptions: {
